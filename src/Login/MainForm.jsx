@@ -1,6 +1,4 @@
 import React, {useState} from 'react'
-import Login from './Login'
-import Signup from './Signup'
 
 export default function MainForm() {
   const [mode, setMode] = useState(0)
