@@ -21,7 +21,7 @@ export default function Nav() {
                 <a className="nav-link" href="/contact">Contact</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link disabled" aria-disabled="true">Interacive Features</a>
+                <a className="nav-link disabled" aria-disabled="true" href="/interactive">Interactive Features</a>
               </li>
             </ul>
           </div>
