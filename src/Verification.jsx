@@ -1,9 +1,15 @@
 import React from 'react'
+import Login from './Login/MainForm'
 
 export default function Verification() {
   return (
     <div>
-      <h1>Verification</h1>
+      {localStorage.token != "" || sessionStorage.token != ""? <Login />: (
+      <div>
+        <h1>Verification</h1>
+      </div>
+      )}
+      
     </div>
   )
 }

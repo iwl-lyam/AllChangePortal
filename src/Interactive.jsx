@@ -1,9 +1,15 @@
 import React from 'react'
+import Login from './Login/MainForm'
 
-export default function Interactive() {
+export default function Interactives() {
   return (
     <div>
-      <h1>Interactive Features</h1>
+      {localStorage.token != "" || sessionStorage.token != ""? <Login />: (
+      <div>
+        <h1>Interactive features</h1>
+      </div>
+      )}
+      
     </div>
   )
 }
