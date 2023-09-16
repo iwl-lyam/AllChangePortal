@@ -7,14 +7,84 @@ import {ObjectId} from 'mongodb'
 const con = new Mongo()
 
 const schema = buildSchema(`
-    type User {
-        value: String
-        _id: String
-        type: String
-    }
-    type Query {
-        name(_id: String): User
-    }
+    type User{
+\t_id: String
+\tclearance: Clearance
+\tusername: String
+\tdisc_username: String
+}
+
+enum Clearance{
+\tSTANDARD
+\tSUPERVISOR
+\tDEVELOPER
+\tMANAGER
+\tEXECUTIVE
+\tADMIN
+}
+
+interface Post{
+\ttitle: String
+\t_id: String
+\tauthor: User
+\tlikes: Int
+\tdescription: String
+\ttimestamp: Int
+}
+
+type BugReport implements Post{
+\ttitle: String
+\t_id: String
+\tauthor: User
+\tlikes: Int
+\tdescription: String
+\ttimestamp: Int
+\tdepartment: Departments
+}
+
+enum Departments{
+\tSUPERVISOR
+\tMODELLING
+\tWEB
+\tPROGRAMMING
+\tGRAPHICS
+\tDESIGN
+}
+
+type Suggestion implements Post{
+\ttitle: String
+\t_id: String
+\tauthor: User
+\tlikes: Int
+\tdescription: String
+\ttimestamp: Int
+\tdepartment: Departments
+}
+
+type Query{
+\tSuggestion(
+\t\tid: String
+\t): Suggestion
+\tBugReport(
+\t\tid: String
+\t): BugReport
+\tUser(
+\t\tid: String
+\t): User
+}
+
+mutation Mutation {
+\tCreateSuggestion(su: Suggestion) {
+\t\ttitle
+\t\tauthor
+\t\tlikes
+\t\tdescription
+\t\ttimestamp
+\t\tdepartment
+\t}
+}
+
+
 `)
 
 const app = express()
