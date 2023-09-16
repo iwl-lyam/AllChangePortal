@@ -12,6 +12,7 @@ type User{
 \tclearance: Clearance
 \tusername: String
 \tdisc_username: String
+\taccount_id: String
 }
 
 enum Clearance{
@@ -84,15 +85,37 @@ input PostInput{
 \tdepartment: Departments
 \tauthorID: String
 \ttimestamp: String
+\t_id: String
 }
 
 type Mutation{
 \tCreateSuggestion(
 \t\tsu: PostInput
 \t): Suggestion
+
 \tCreateBugReport(
 \t\tbr: PostInput
 \t): BugReport
+
+\tRegisterLoginAccount(
+\t\tacc: AccountInput
+\t): Account
+}
+
+type Account{
+\tpassword: String
+\tuser: User
+\ttoken: String
+\t_id: String
+\tsalt: String
+}
+
+input AccountInput{
+\tusername: String
+\tpassword: String
+\tnews: Boolean
+\texists: Boolean
+\t_id: String
 }
 `)
 
@@ -132,7 +155,7 @@ const handleValues = {
     }
 }
 
-app.post('/', (req, res) => {
+app.post('/graphql', (req, res) => {
     graphql({ schema, source:req.body.query, rootValue:handleValues }).then(response => {
         res.send(response)
     })
