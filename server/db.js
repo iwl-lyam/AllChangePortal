@@ -42,7 +42,6 @@ export default class Mongo {
                 const collection = await this.c.collection(col)
                 res(await collection.find(filter).toArray())
             } catch (err) {
-                console.log("MongoDB GET FAILURE:")
                 rej(err)
             }
         })
@@ -55,13 +54,14 @@ export default class Mongo {
      * @param {Array} data - Array of documents as objects
      */
     async post(col,data) {
-        try {
-            const collection = await this.c.collection(col)
-            await collection.insertMany(data)
-        } catch(err) {
-            console.log("MongoDB POST FAILURE:")
-            console.log(err)
-            process.exit(1)
-        }
+        return new Promise(async (res, rej) => {
+            try {
+                const collection = await this.c.collection(col)
+                await collection.insertMany(data)
+                res(data)
+            } catch (err) {
+                rej(err)
+            }
+        })
     }
 }

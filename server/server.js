@@ -7,7 +7,7 @@ import {ObjectId} from 'mongodb'
 const con = new Mongo()
 
 const schema = buildSchema(`
-    type User{
+type User{
 \t_id: String
 \tclearance: Clearance
 \tusername: String
@@ -29,7 +29,7 @@ interface Post{
 \tauthor: User
 \tlikes: Int
 \tdescription: String
-\ttimestamp: Int
+\ttimestamp: String
 }
 
 type BugReport implements Post{
@@ -38,7 +38,7 @@ type BugReport implements Post{
 \tauthor: User
 \tlikes: Int
 \tdescription: String
-\ttimestamp: Int
+\ttimestamp: String
 \tdepartment: Departments
 }
 
@@ -57,44 +57,75 @@ type Suggestion implements Post{
 \tauthor: User
 \tlikes: Int
 \tdescription: String
-\ttimestamp: Int
+\ttimestamp: String
 \tdepartment: Departments
 }
 
 type Query{
-\tSuggestion(
+\tGetSuggestion(
 \t\tid: String
 \t): Suggestion
-\tBugReport(
+\tGetBugReport(
 \t\tid: String
 \t): BugReport
-\tUser(
+\tGetUser(
 \t\tid: String
 \t): User
 }
 
-mutation Mutation {
-\tCreateSuggestion(su: Suggestion) {
-\t\ttitle
-\t\tauthor
-\t\tlikes
-\t\tdescription
-\t\ttimestamp
-\t\tdepartment
-\t}
+schema{
+\tquery: Query
+\tmutation: Mutation
 }
 
+input PostInput{
+\ttitle: String
+\tdescription: String
+\tdepartment: Departments
+\tauthorID: String
+\ttimestamp: String
+}
 
+type Mutation{
+\tCreateSuggestion(
+\t\tsu: PostInput
+\t): Suggestion
+\tCreateBugReport(
+\t\tbr: PostInput
+\t): BugReport
+}
 `)
 
 const app = express()
 app.use(express.json())
 
 const handleValues = {
-    name: async ({_id}) => {
-        console.log("HANDLER")
+    // TODO: Handle authorID validation
+    // TODO: Fill missing input fields in input
+
+    CreateSuggestion: async ({su}) => {
+        await con.post("suggestions", [su])
+    },
+    CreateBugReport: async ({br}) => {
+        await con.post("bugreports", [br])
+    },
+    GetSuggestion: async ({id}) => {
         let res
-        await con.get("portal",{_id: new ObjectId(_id)}).then(r => {
+        await con.get("suggestions",{_id: new ObjectId(id)}).then(r => {
+            res = r[0]
+        })
+        return res
+    },
+    GetBugReport: async ({id}) => {
+        let res
+        await con.get("bugreports",{_id: new ObjectId(id)}).then(r => {
+            res = r[0]
+        })
+        return res
+    },
+    GetUser: async ({id}) => {
+        let res
+        await con.get("users",{_id: new ObjectId(id)}).then(r => {
             res = r[0]
         })
         return res
