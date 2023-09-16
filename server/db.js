@@ -14,34 +14,39 @@ const client = new MongoClient(process.env.MONGO, {
  * @constructor
  */
 export default class Mongo {
-    async constructor() {
-        try {
-            await client.connect()
-            await client.db("ac").command({ping: 1});
-            console.log("MongoDB connection active")
-        } catch(err) {
-            console.log("MongoDB connection FAILURE:")
-            console.log(err)
-            process.exit(1)
+    constructor() {
+        const f = async () => {
+            try {
+                await client.connect()
+                this.c = await client.db("portal")
+                await this.c.command({ping: 1})
+                console.log("MongoDB connection active")
+            } catch (err) {
+                console.log("MongoDB connection FAILURE:")
+                console.log(err)
+                process.exit(1)
+            }
         }
+        f().then(r => {})
     }
 
     /**
      * Get documents from a certain collection
      * @param {string} col - Target collection
      * @param {Object} filter - Only get documents that match this filter
-     * @returns {Array} - Result of the GET request
+     * @returns {Promise} - Results of the GET Request
      */
-    async get(col,filter) {
-        try {
-            await client.collection(col)
-            let res = await client.find(filter)
-            return await res.toArray()
-        } catch(err) {
-            console.log("MongoDB GET FAILURE:")
-            console.log(err)
-            process.exit(1)
-        }
+    get(col,filter) {
+        return new Promise(async (res, rej) => {
+            try {
+                const collection = await this.c.collection(col)
+                res(await collection.find(filter).toArray())
+            } catch (err) {
+                console.log("MongoDB GET FAILURE:")
+                rej(err)
+            }
+        })
+
     }
 
     /**
@@ -51,8 +56,8 @@ export default class Mongo {
      */
     async post(col,data) {
         try {
-            await client.collection(col)
-            await client.insertMany(data)
+            const collection = await this.c.collection(col)
+            await collection.insertMany(data)
         } catch(err) {
             console.log("MongoDB POST FAILURE:")
             console.log(err)
