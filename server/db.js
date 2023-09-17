@@ -52,13 +52,31 @@ export default class Mongo {
      * Post documents to a certain collection
      * @param {string} col - Target collection
      * @param {Array} data - Array of documents as objects
+     * @returns {Promise} Document inserted
      */
     async post(col,data) {
         return new Promise(async (res, rej) => {
             try {
                 const collection = await this.c.collection(col)
-                await collection.insertMany(data)
-                res(data)
+                res(await collection.insertMany(data))
+            } catch (err) {
+                rej(err)
+            }
+        })
+    }
+
+    /**
+     * Edit a document
+     * @param col - Target collection
+     * @param filter - Which document to edit
+     * @param query - PATCH query as per the docs
+     * @returns {Promise} Document after edits
+     */
+    async patch(col, filter, query) {
+        return new Promise(async (res, rej) => {
+            try {
+                const collection = await this.c.collection(col)
+                res(await collection.insertMany(filter, query))
             } catch (err) {
                 rej(err)
             }
