@@ -14,8 +14,7 @@ const app = express()
 app.use(express.json())
 app.use(cors({allow: "*"}))
 
-app.use(async (req, res, next) => {
-    console.log(req.headers)
+function Authorize(req,res,next) {
     if (!req.headers.authorization) {
         res.status(401)
         res.send(JSON.stringify({code: "401-1", msg: "Unauthorized"}))
@@ -29,7 +28,7 @@ app.use(async (req, res, next) => {
             jwt.verify(tokenData, secretkey, (error, decoded) => {
                 if (error) {
                     req.verified = false
-                    res.status(401).json({ code: "401-2", msg: 'Invalid token', error });
+                    res.status(401).json({code: "401-2", msg: 'Invalid token', error});
                 }
 
                 // If the token is valid, you can access its payload in the `decoded` object
@@ -39,15 +38,29 @@ app.use(async (req, res, next) => {
             });
         } catch (error) {
             req.verified = false
-            res.status(500).json({ code: "500-1", msg: 'Internal server error' });
+            res.status(500).json({code: "500-1", msg: 'Internal server error'});
         }
     }
-})
+}
 
-app.post('/api/users', async (req, res) => {
+function AuthorizeApiKey(req,res,next) {
+    if (!req.headers.authorization) {
+        res.status(401)
+        res.send(JSON.stringify({code: "401-1", msg: "Unauthorized"}))
+    } else {
+        if (req.headers.authorization === process.env.MASTERAPIKEY) {
+            req.verified = true
+            next()
+        } else {
+            res.status(401)
+            res.send(JSON.stringify({code: "401-4", msg: "Incorrect Master API Key on protected request"}))
+        }
+    }
+}
+
+app.post('/api/users', AuthorizeApiKey, async (req, res) => {
     if (!req.verified) return
     if ((await con.get("users", {username: req.body.uname}))[0]) {
-        console.log(await con.get("users", {username: req.body.uname}))
         res.status(400)
         res.send({code: "400-1", msg: "User already exists"})
         return
@@ -64,11 +77,9 @@ app.post('/api/users', async (req, res) => {
     res.send()
 })
 
-app.post('/api/users/login', async (req, res) => {
+app.post('/api/users/login', AuthorizeApiKey, async (req, res) => {
     if (!req.verified) return
     const user = await con.get("users", {username: req.body.uname})
-    console.log(req.body.password)
-    console.log(user)
     const isPasswordValid = await bcrypt.compare(req.body.password, user[0].password);
     if (!isPasswordValid) {
         res.code(401)
