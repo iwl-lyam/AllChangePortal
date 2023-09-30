@@ -98,10 +98,25 @@ app.get('/api/suggestions', Authorize, async (req, res) => {
 app.post('/api/suggestions', Authorize, async (req, res) => {
     if (!req.verified) return
     const payload = {
-        authorId: req.user._id,
+        authorId: new ObjectId(req.user._id),
         ...req.body
     }
     await con.post("suggestions", [payload])
+    res.send()
+})
+
+app.get('/api/bugreports', Authorize, async (req, res) => {
+    if (!req.verified) return
+    const data = await con.get("bugreports", {})
+    res.send(data)
+})
+app.post('/api/bugreports', Authorize, async (req, res) => {
+    if (!req.verified) return
+    const payload = {
+        authorId: new ObjectId(req.user._id),
+        ...req.body
+    }
+    await con.post("bugreports", [payload])
     res.send()
 })
 
