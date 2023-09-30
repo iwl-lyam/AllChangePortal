@@ -58,7 +58,8 @@ export default class Mongo {
         return new Promise(async (res, rej) => {
             try {
                 const collection = await this.c.collection(col)
-                res(await collection.insertMany(data))
+                let result = await collection.insertMany(data)
+                res()
             } catch (err) {
                 rej(err)
             }
