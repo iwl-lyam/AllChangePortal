@@ -16,6 +16,7 @@ app.use(cors({allow: "*"}))
 
 function Authorize(req,res,next) {
     if (!req.headers.authorization) {
+        req.verified = false
         res.status(401)
         res.send(JSON.stringify({code: "401-1", msg: "Unauthorized"}))
     } else {
@@ -87,6 +88,21 @@ app.post('/api/users/login', AuthorizeApiKey, async (req, res) => {
     } else {
         res.send({"token": jwt.sign(user[0], secretkey)})
     }
+})
+
+app.get('/api/suggestions', Authorize, async (req, res) => {
+    if (!req.verified) return
+    const data = await con.get("suggestions", {})
+    res.send(data)
+})
+app.post('/api/suggestions', Authorize, async (req, res) => {
+    if (!req.verified) return
+    const payload = {
+        authorId: req.user._id,
+        ...req.body
+    }
+    await con.post("suggestions", [payload])
+    res.send()
 })
 
 app.listen(8080)
