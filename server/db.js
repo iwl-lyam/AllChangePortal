@@ -1,5 +1,7 @@
 import { MongoClient, ServerApiVersion } from 'mongodb'
-import 'dotenv/config'
+import dotenv from 'dotenv'
+
+dotenv.config({path: "../public/.env"})
 
 const client = new MongoClient(process.env.MONGO, {
     serverApi: {

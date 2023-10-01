@@ -4,8 +4,9 @@ import {ObjectId} from 'mongodb'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import 'dotenv/config'
+import dotenv from 'dotenv'
 
+dotenv.config({path: "../public/.env"})
 const secretkey = process.env.JWTSEC
 
 const con = new Mongo()
@@ -49,7 +50,7 @@ function AuthorizeApiKey(req,res,next) {
         res.status(401)
         res.send(JSON.stringify({code: "401-1", msg: "Unauthorized"}))
     } else {
-        if (req.headers.authorization === process.env.MASTERAPIKEY) {
+        if (req.headers.authorization === process.env.VITE_MASTERAPIKEY) {
             req.verified = true
             next()
         } else {
@@ -58,6 +59,11 @@ function AuthorizeApiKey(req,res,next) {
         }
     }
 }
+
+app.use((req, res, next) => {
+    console.log("LOGGING: " + req.baseUrl)
+    next()
+})
 
 app.post('/api/users', AuthorizeApiKey, async (req, res) => {
     if (!req.verified) return
