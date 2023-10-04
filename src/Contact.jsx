@@ -1,40 +1,45 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Login from './Login/MainForm'
 
-export default async function Contact() {
-  const [data,setData] = useState([])
-  const [count, setCount] = useState(0)
+export default function Contact() {
 
-  if (count === 0) {
-    const d = await fetch("http://localhost:8080/graphql", {
-      method: "POST",
-      body: JSON.stringify({
-        query: `
-          GetSuggestionMany(aid:"${localStorage.id || sessionStorage.id}")
-        `
-      })
+  const [posts, setPosts] = useState(null)
+
+  if (posts == null) {
+    console.log("SETTING POSTS")
+    fetch("http://localhost:8080/api/suggestions", {
+      method: "GET",
+      headers: {
+        "Authorization": localStorage.token || sessionStorage.token
+      }
+    }).then(res => res.json()).then(payload => {
+      setPosts(payload)
+      console.log("set")
     })
-    setData(await d.json())
-    console.log(data)
-    setCount(1)
   }
 
   return (
     <div>
-      {!localStorage.token || !sessionStorage.token ? <Login />: (
-      <div>
-        <h1>Contact</h1>
+      {!localStorage.token && !sessionStorage.token ? <Login/> : (
         <div>
-          {data.map((post) => (
-              <div key={post._id}>
-                <h2>Title: {post.title}</h2>
-                <p>Likes: {post.likes}</p>
+          {posts == null ? (<div>loading</div>) : (
+              <div>
+                <h1>contact</h1>
+                <div> {posts.map((p) => (
+                    <div key={p._id}>
+                      <div style={{"borderStyle": "solid", textAlign: "center"}}>
+                        <h1>{p.title}</h1>
+                        <p>{p.description}</p>
+                      </div>
+                      <br/>
+                    </div>
+                ))}
               </div>
-          ))}
+              </div>
+          )}
         </div>
-      </div>
       )}
-      
+
     </div>
   )
 }

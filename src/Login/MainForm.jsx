@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 
-
 export default function MainForm() {
   const [mode, setMode] = useState(0)
   const [email, setEmail] = useState("")
@@ -14,7 +13,7 @@ export default function MainForm() {
 
 
   const signUpHandle = async () => {
-    await fetch("http://localhost:8080/users", {
+    await fetch("http://localhost:8080/api/users", {
       method: "POST",
       body: JSON.stringify({
         password: pword,
@@ -22,13 +21,12 @@ export default function MainForm() {
       }),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": process.env.MASTERAPIKEY
       }
     })
   }
 
   const loginHandle = async () => {
-    const d = await fetch("http://localhost:8080/users/login", {
+    const d = await fetch("http://localhost:8080/api/users/login", {
       method: "POST",
       body: JSON.stringify({
         password: pword,
@@ -36,17 +34,20 @@ export default function MainForm() {
       }),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": process.env.MASTERAPIKEY
       }
     })
-    const data = d.json()
-    sessionStorage.token = data.token
+    if (d.ok) {
+      const data = await d.json()
+      sessionStorage.token = data.token
+      window.location.reload()
+    }
+
   }
 
   return (
     <div>
       {mode === 0 ? (
-      <form>
+          <div>
       <h1>Signup</h1>
       <div className="mb-3">
         <label for="email" className="form-label">Email address</label>
@@ -73,11 +74,11 @@ export default function MainForm() {
         <input onChange={e => setNews(e.target.value)} type="checkbox" className="form-check-input" id="news"/>
         <label className="form-check-label" for="news">Allow us to send news to your email</label>
       </div>
-        <button type="submit" className="btn btn-primary" onClick={signUpHandle}>Submit</button>
+            <button type="button" className="btn btn-primary" onClick={signUpHandle}>Submit</button>
       <button type="button" className="btn btn-secondary ms-2" onClick={login}>Log in</button>
-    </form>
-      ):(
-    <form>
+          </div>
+      ) : (
+          <div>
       <h1>Login</h1>
       <div className="mb-3">
         <label for="username" className="form-label">Username</label>
@@ -95,11 +96,10 @@ export default function MainForm() {
       </div>
       <div className="grid gap-0 column-gap-3">
 
-        <button type="submit" className="btn btn-primary" onClick={loginHandle}>Submit</button>
+        <button type="button" className="btn btn-primary" onClick={loginHandle}>Submit</button>
       <button type="button" className="btn btn-secondary ms-2" onClick={signup}>Sign up</button>
-      </div>        
-    </form>
-      
+      </div>
+          </div>
   )}
     </div>
   )
