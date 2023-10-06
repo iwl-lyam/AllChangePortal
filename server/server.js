@@ -104,31 +104,53 @@ app.post('/api/users/login', async (req, res) => {
 
 app.get('/api/suggestions', Authorize, async (req, res) => {
     if (!req.verified) return
-    const data = await con.get("suggestions", {})
+    let filter = {}
+    if (req.query.user) filter.authorId = new ObjectId(req.query.user)
+    const data = await con.get("suggestions", filter)
     res.send(data)
 })
 app.post('/api/suggestions', Authorize, async (req, res) => {
     if (!req.verified) return
     const payload = {
         authorId: new ObjectId(req.user._id),
+        status: 0,
         ...req.body
     }
     await con.post("suggestions", [payload])
     res.send()
 })
+app.post('/rpc/approve_suggestion', Authorize, async (req, res) => {
+    await con.patch("suggestions", {_id: new ObjectId(req.body.postid)}, {$set: {status: 1, comment: req.body.comment}})
+    res.send()
+})
+app.post('/rpc/deny_suggestion', Authorize, async (req, res) => {
+    await con.patch("suggestions", {_id: new ObjectId(req.body.postid)}, {$set: {status: 2, comment: req.body.comment}})
+    res.send()
+})
 
 app.get('/api/bugreports', Authorize, async (req, res) => {
     if (!req.verified) return
-    const data = await con.get("bugreports", {})
+    let filter = {}
+    if (req.query.user) filter.authorId = new ObjectId(req.query.user)
+    const data = await con.get("bugreports", filter)
     res.send(data)
 })
 app.post('/api/bugreports', Authorize, async (req, res) => {
     if (!req.verified) return
     const payload = {
         authorId: new ObjectId(req.user._id),
+        status: 0,
         ...req.body
     }
     await con.post("bugreports", [payload])
+    res.send()
+})
+app.post('/rpc/approve_bugreport', Authorize, async (req, res) => {
+    await con.patch("bugreports", {_id: new ObjectId(req.body.postid)}, {$set: {status: 1, comment: req.body.comment}})
+    res.send()
+})
+app.post('/rpc/deny_bugreport', Authorize, async (req, res) => {
+    await con.patch("bugreports", {_id: new ObjectId(req.body.postid)}, {$set: {status: 2, comment: req.body.comment}})
     res.send()
 })
 

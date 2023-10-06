@@ -79,7 +79,7 @@ export default class Mongo {
         return new Promise(async (res, rej) => {
             try {
                 const collection = await this.c.collection(col)
-                res(await collection.insertMany(filter, query))
+                res(await collection.updateOne(filter, query))
             } catch (err) {
                 rej(err)
             }
