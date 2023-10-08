@@ -1,80 +1,22 @@
-import React, {useEffect, useState} from 'react'
-import Login from './Login/MainForm'
-import Markdown from 'react-markdown'
+import React from 'react'
 
 export default function Contact() {
-
-  const [title,setTitle] = useState("Example suggestion title")
-  const [desc, setDesc] = useState("Suggestion description. **woo _markdown_**")
-  const [dept, setDept] = useState("Web department")
-
-  // const [posts, setPosts] = useState(null)
-  //
-  // if (posts == null) {
-  //   console.log("SETTING POSTS")
-  //   fetch("http://localhost:8080/api/suggestions", {
-  //     method: "GET",
-  //     headers: {
-  //       "Authorization": localStorage.token || sessionStorage.token
-  //     }
-  //   }).then(res => res.json()).then(payload => {
-  //     setPosts(payload)
-  //     console.log("set")
-  //   })
-  // }
-
   return (
-    <div className="">
-      {!localStorage.token && !sessionStorage.token ? <Login/> : (
-        <div className={"row"}>
-          {/*{posts == null ? (<div>loading</div>) : (*/}
-          {/*    <div>*/}
-          {/*      <h1>contact</h1>*/}
-          {/*      <div> {posts.map((p) => (*/}
-          {/*          <div key={p._id}>*/}
-          {/*            <div style={{"borderStyle": "solid", textAlign: "center"}}>*/}
-          {/*              <h1>{p.title}</h1>*/}
-          {/*              <p>{p.description}</p>*/}
-          {/*            </div>*/}
-          {/*            <br/>*/}
-          {/*          </div>*/}
-          {/*      ))}*/}
-          {/*    </div>*/}
-          {/*    </div>*/}
-          {/*)}*/}
-          <div className={"col"}>
-            <h1>Create suggestion</h1>
-            <div className="form-group my-3">
-              <label htmlFor="formGroupExampleInput">Suggestion title</label>
-              <input type="text" className="form-control" id="formGroupExampleInput" onChange={e => setTitle(e.target.value)} placeholder="Add flying trains..." />
-            </div>
-            <div className="form-group my-3">
-              <label htmlFor="exampleFormControlTextarea1">Description (please give as much detail as possible so that we can fully understand your ideas)</label>
-              <textarea className="form-control"  onChange={e => setDesc(e.target.value)} id="exampleFormControlTextarea1" rows="5"></textarea>
-            </div>
-            <div className="form-group my-3">
-              <label htmlFor="exampleFormControlSelect2">Relevant department</label>
-              <select multiple className="form-control" onChange={e => setDept(e.target.value)} id="exampleFormControlSelect2">
-                <option>Web department</option>
-                <option>Scripting department</option>
-                <option>Modelling department</option>
-                <option>Chassis testing team</option>
-                <option>Piccadilly line team</option>
-                <option>Supervisor/Discord department</option>
-                <option>Miscellaneous</option>
-              </select>
-            </div>
-            <button type="button" className="btn btn-primary">Submit suggestion</button>
-          </div>
-          <div className="col border p-3">
-            <h1>{title}</h1>
-            <p><Markdown>{desc}</Markdown></p>
-            <p>Target department: {dept}</p>
-          </div>
+      <div>
+        <h1>Contact All Change</h1>
+        <div className={"m-3 p-3 border"}>
+          <h2>Send a suggestion</h2>
+          <p>Want something changed or added in game or in the Discord server?
+            Send a suggestion and it'll get added.</p>
+          <button type="button" className="btn btn-primary" onClick={() => document.location.href = "/contact/suggestions"}>Send a suggestion</button>
         </div>
-
-      )}
-
-    </div>
+        <div className={"m-3 p-3 border"}>
+          <h2>Send a bug report</h2>
+          <p>Have you found a bug or problem in the game?
+            Send a bug report and our developers will fix it as soon as possible.</p>
+          <button disabled type="button" className="btn btn-primary" onClick={() => document.location.href = "/contact/bugreports"}>Send a Bug report</button>
+        </div>
+      </div>
   )
+
 }
