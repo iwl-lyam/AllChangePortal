@@ -7,7 +7,7 @@ export default function Contact() {
         <div className={"m-3 p-3 border"}>
           <h2>Send a suggestion</h2>
           <p>Want something changed or added in game or in the Discord server?
-            Send a suggestion and it'll get added.</p>
+            Send a suggestion and it'll be considered.</p>
           <button type="button" className="btn btn-primary" onClick={() => document.location.href = "/contact/suggestions"}>Send a suggestion</button>
         </div>
         <div className={"m-3 p-3 border"}>
