@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import Login from './Login/MainForm'
 import Markdown from 'react-markdown'
 
-export default function Suggestions() {
+export default function BugReports() {
 
   const [title,setTitle] = useState("Example title")
   const [desc, setDesc] = useState("Description. **woo _markdown_**")
@@ -24,7 +24,7 @@ export default function Suggestions() {
   // }
 
   const handleForm = async () => {
-    await fetch("http://localhost:8080/api/suggestions", {
+    await fetch("http://localhost:8080/api/bugreports", {
       method: "POST",
       headers: {
         "Authorization": localStorage.token || sessionStorage.token,
@@ -36,7 +36,7 @@ export default function Suggestions() {
         department: dept
       })
     }).then(() => {
-      alert("Thank you! Your suggestion has been submitted for approval. Please check your dashboard later to find any updates.")
+      alert("Thank you! Your bug report has been submitted for approval. Please check your dashboard later to find any updates.")
       document.location.href = "/contact"
     })
   }
@@ -61,13 +61,13 @@ export default function Suggestions() {
           {/*    </div>*/}
           {/*)}*/}
           <div className={"col"}>
-            <h1>Create suggestion</h1>
+            <h1>Create bug report</h1>
             <div className="form-group my-3">
-              <label htmlFor="formGroupExampleInput">Suggestion title</label>
-              <input type="text" className="form-control" id="formGroupExampleInput" onChange={e => setTitle(e.target.value)} placeholder="Add flying trains..." />
+              <label htmlFor="formGroupExampleInput">Bug report title</label>
+              <input type="text" className="form-control" id="formGroupExampleInput" onChange={e => setTitle(e.target.value)} placeholder="Fix trains derailing at..." />
             </div>
             <div className="form-group my-3">
-              <label htmlFor="exampleFormControlTextarea1">Description (please give as much detail as possible so that we can fully understand your ideas)</label>
+              <label htmlFor="exampleFormControlTextarea1">Description (please give as much detail as possible so that we can fully understand your problem)</label>
               <textarea className="form-control"  onChange={e => setDesc(e.target.value)} id="exampleFormControlTextarea1" rows="5"></textarea>
             </div>
             <div className="form-group my-3">
@@ -82,7 +82,7 @@ export default function Suggestions() {
                 <option>Miscellaneous</option>
               </select>
             </div>
-            <button type="button" className="btn btn-primary" onClick={handleForm}>Submit suggestion</button>
+            <button type="button" className="btn btn-primary" onClick={handleForm}>Submit bug report</button>
           </div>
           <div className="col border p-3">
             <h1>{title}</h1>

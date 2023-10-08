@@ -7,6 +7,7 @@ import Verification from './Verification'
 import Home from './Home'
 import Interactive from './Interactive'
 import Suggestions from "./Suggestions.jsx";
+import BugReports from "./BugReports.jsx";
 
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
               <Route path="/verification" element={<Verification />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/contact/suggestions" element={<Suggestions />} />
+              <Route path="/contact/bugreports" element={<BugReports />} />
               <Route path="/*" element={<NoPage />} />
               <Route path="/interactive" element={<Interactive />} />
           </Routes>

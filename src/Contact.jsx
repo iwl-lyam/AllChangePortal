@@ -14,7 +14,7 @@ export default function Contact() {
           <h2>Send a bug report</h2>
           <p>Have you found a bug or problem in the game?
             Send a bug report and our developers will fix it as soon as possible.</p>
-          <button disabled type="button" className="btn btn-primary" onClick={() => document.location.href = "/contact/bugreports"}>Send a Bug report</button>
+          <button type="button" className="btn btn-primary" onClick={() => document.location.href = "/contact/bugreports"}>Send a Bug report</button>
         </div>
       </div>
   )
