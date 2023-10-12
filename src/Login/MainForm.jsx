@@ -47,9 +47,13 @@ export default function MainForm() {
       }
     })
     if (d.ok) {
+      setMsg("")
       const data = await d.json()
       sessionStorage.token = data.token
       window.location.reload()
+    } else {
+      const data = await d.json()
+      setMsg(data.msg)
     }
 
   }
