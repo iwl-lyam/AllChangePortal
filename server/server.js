@@ -20,7 +20,6 @@ function Authorize(req,res,next) {
         req.verified = false
         res.status(401)
         res.send(JSON.stringify({code: "401-1", msg: "Unauthorized"}))
-        return
     } else {
         const token = req.headers.authorization
         try {
@@ -43,29 +42,26 @@ function Authorize(req,res,next) {
         } catch (error) {
             req.verified = false
             res.status(500).json({code: "500-1", msg: 'Internal server error'});
-            return
         }
     }
 }
 
-function AuthorizeApiKey(req,res,next) {
-    if (!req.headers.authorization) {
-        res.status(401)
-        res.send(JSON.stringify({code: "401-1", msg: "Unauthorized"}))
-        req.verified = false
-        return
-    } else {
-        if (req.headers.authorization === process.env.VITE_REACT_APP_API_KEY) {
-            req.verified = true
-            next()
-        } else {
-            res.status(401)
-            res.send(JSON.stringify({code: "401-4", msg: "Incorrect Master API Key on protected request"}))
-            req.verified = false
-            return
-        }
-    }
-}
+// function AuthorizeApiKey(req,res,next) {
+//     if (!req.headers.authorization) {
+//         res.status(401)
+//         res.send(JSON.stringify({code: "401-1", msg: "Unauthorized"}))
+//         req.verified = false
+//     } else {
+//         if (req.headers.authorization === process.env.VITE_REACT_APP_API_KEY) {
+//             req.verified = true
+//             next()
+//         } else {
+//             res.status(401)
+//             res.send(JSON.stringify({code: "401-4", msg: "Incorrect Master API Key on protected request"}))
+//             req.verified = false
+//         }
+//     }
+// }
 
 app.use((req, res, next) => {
     console.log("LOGGING: " + req.route)
@@ -92,10 +88,15 @@ app.post('/api/users', async (req, res) => {
 
 app.post('/api/users/login', async (req, res) => {
     const user = await con.get("users", {username: req.body.uname})
-    console.log(user)
+    console.log(user[0])
+    if (!user[0]) {
+        res.status(400)
+        res.send({code: "400-2", msg: "Incorrect username"})
+        return
+    }
     const isPasswordValid = await bcrypt.compare(req.body.password, user[0].password);
     if (!isPasswordValid) {
-        res.code(401)
+        res.status(401)
         res.send({code: "401-3", msg: "Password auth failed"})
     } else {
         res.send({"token": jwt.sign(user[0], secretkey)})

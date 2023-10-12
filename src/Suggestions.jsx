@@ -53,7 +53,7 @@ export default function Suggestions() {
             </div>
             <div className="form-group my-3">
               <label htmlFor="exampleFormControlTextarea1">Description (please give as much detail as possible so that we can fully understand your ideas)</label>
-              <textarea className="form-control"  onChange={e => setDesc(e.target.value)} id="exampleFormControlTextarea1" rows="5"></textarea>
+              <textarea className="form-control" placeholder="Description (markdown enabled)" onChange={e => setDesc(e.target.value)} id="exampleFormControlTextarea1" rows="5"></textarea>
             </div>
             <div className="form-group my-3">
               <label htmlFor="exampleFormControlSelect2">Relevant department</label>
