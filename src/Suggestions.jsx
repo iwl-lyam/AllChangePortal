@@ -8,21 +8,6 @@ export default function Suggestions() {
   const [desc, setDesc] = useState("Description. **woo _markdown_**")
   const [dept, setDept] = useState("Web department")
 
-  // const [posts, setPosts] = useState(null)
-  //
-  // if (posts == null) {
-  //   console.log("SETTING POSTS")
-  //   fetch("http://localhost:8080/api/suggestions", {
-  //     method: "GET",
-  //     headers: {
-  //       "Authorization": localStorage.token || sessionStorage.token
-  //     }
-  //   }).then(res => res.json()).then(payload => {
-  //     setPosts(payload)
-  //     console.log("set")
-  //   })
-  // }
-
   const handleForm = async () => {
     await fetch("http://localhost:8080/api/suggestions", {
       method: "POST",

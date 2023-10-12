@@ -5,8 +5,10 @@ export default function Home() {
     <div>
         <div className="bg-primary text-center p-3 text-white">
             <h1>Portal</h1>
-            <h2>Portal subtitle</h2>
+            <h2>All Change's localised hub for resources</h2>
         </div>
+
+
 
     </div>
   )
