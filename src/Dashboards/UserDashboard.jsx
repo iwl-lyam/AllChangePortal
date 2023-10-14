@@ -1,5 +1,6 @@
 import react, {useState, useEffect} from 'react'
 import Login from '../Login/MainForm.jsx'
+import $ from 'jquery';
 
 export default function UserDashboard() {
     const [posts, setPosts] = useState([])
@@ -27,27 +28,35 @@ export default function UserDashboard() {
 
     const listItems = posts.map(post => (
         <div>
-            <button data-toggle="modal" data-target=".description-modal"
-                    className="btn mx-auto border border-dark pt-2 m-2 text-center bg-light w-100">
+            <button onClick={() => {
+                $('#collapseExample').collapse({
+                    toggle: true
+                })
+            }} type="button" className="btn mx-auto border border-dark pt-2 m-2 text-center bg-light w-100">
                 <h3>{post.title}</h3>
                 <p>Status: {post.status}</p>
             </button>
-            <div className="modal fade description-modal" tabIndex="-1" role="dialog"
-                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-lg">
-                    <div className="modal-content">
-                        ...
-                    </div>
+            <div className="collapse" id="collapseExample">
+                <div className="card card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
                 </div>
             </div>
+
+
         </div>
     ));
 
     return (
         <div>
+            <button type="button" className="btn btn-lg btn-danger" data-toggle="popover" title="Popover title"
+                    data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover
+            </button>
+
             {!localStorage.token && !sessionStorage.token ? <Login/> : (
                 <div>
-                    <h1 className="text-center">User dashboard</h1>
+
+                <h1 className="text-center">User dashboard</h1>
                     <div className="mt-4">
                         <div className="container-fluid">
                             <div className="row justify-content-around">
