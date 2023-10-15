@@ -1,6 +1,6 @@
 import react, {useState, useEffect} from 'react'
 import Login from '../Login/MainForm.jsx'
-import $ from 'jquery';
+import Markdown from "react-markdown";
 
 export default function UserDashboard() {
     const [posts, setPosts] = useState([])
@@ -28,35 +28,42 @@ export default function UserDashboard() {
 
     const listItems = posts.map(post => (
         <div>
-            <button onClick={() => {
-                $('#collapseExample').collapse({
-                    toggle: true
-                })
-            }} type="button" className="btn mx-auto border border-dark pt-2 m-2 text-center bg-light w-100">
+            <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
+                    className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
                 <h3>{post.title}</h3>
-                <p>Status: {post.status}</p>
+                <p className="mb-1">Status: {post.status}</p>
             </button>
-            <div className="collapse" id="collapseExample">
-                <div className="card card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+
+            <div className="modal fade" id={`modal-${post._id}`} role="dialog">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">{post.title}</h4>
+                            <button type="button" className="close border-0" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <p><strong>Description</strong></p>
+                            <Markdown>{post.description}</Markdown>
+                            <p><strong>Status: {post.status}</strong></p>
+                            <p><strong>Department: {post.department}</strong></p>
+                            <p><strong>Post ID: {post._id}</strong></p>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-
 
         </div>
     ));
 
     return (
         <div>
-            <button type="button" className="btn btn-lg btn-danger" data-toggle="popover" title="Popover title"
-                    data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover
-            </button>
-
             {!localStorage.token && !sessionStorage.token ? <Login/> : (
                 <div>
-
-                <h1 className="text-center">User dashboard</h1>
+                    <h1 className="text-center pb-3">User dashboard</h1>
                     <div className="mt-4">
                         <div className="container-fluid">
                             <div className="row justify-content-around">
