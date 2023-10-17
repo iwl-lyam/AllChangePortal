@@ -64,6 +64,7 @@ function Authorize(req,res,next) {
 // }
 
 app.use((req, res, next) => {
+    // TODO Fix logging
     console.log("LOGGING: " + req.route)
     next()
 })
@@ -107,6 +108,7 @@ app.get('/api/suggestions', Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
     if (req.query.user === "1") filter.authorId = new ObjectId(req.user._id)
+    else if (req.query.status) filter.status = parseInt(req.query.status)
     const data = await con.get("suggestions", filter)
     res.send(data)
 })
@@ -115,6 +117,7 @@ app.post('/api/suggestions', Authorize, async (req, res) => {
     const payload = {
         authorId: new ObjectId(req.user._id),
         status: 0,
+        assigned: '',
         ...req.body
     }
     await con.post("suggestions", [payload])
@@ -128,11 +131,18 @@ app.post('/rpc/deny_suggestion', Authorize, async (req, res) => {
     await con.patch("suggestions", {_id: new ObjectId(req.body.postid)}, {$set: {status: 2, comment: req.body.comment}})
     res.send()
 })
+app.post('/rpc/assign_suggestion', Authorize, async (req, res) => {
+    await con.patch("suggestions", {_id: new ObjectId(req.body.postid)}, {$set: {assigned: new ObjectId(req.body.asignee)}})
+    res.send()
+})
+
+// TODO Unite bug reports and suggestions
 
 app.get('/api/bugreports', Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
     if (req.query.user === "1") filter.authorId = new ObjectId(req.user._id)
+    else if (req.query.status) filter.status = req.query.status
     const data = await con.get("bugreports", filter)
     res.send(data)
 })
@@ -152,6 +162,10 @@ app.post('/rpc/approve_bugreport', Authorize, async (req, res) => {
 })
 app.post('/rpc/deny_bugreport', Authorize, async (req, res) => {
     await con.patch("bugreports", {_id: new ObjectId(req.body.postid)}, {$set: {status: 2, comment: req.body.comment}})
+    res.send()
+})
+app.post('/rpc/assign_bugreport', Authorize, async (req, res) => {
+    await con.patch("bugreports", {_id: new ObjectId(req.body.postid)}, {$set: {assigned: new ObjectId(req.body.asignee)}})
     res.send()
 })
 
