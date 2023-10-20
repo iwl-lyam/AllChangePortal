@@ -14,6 +14,7 @@ import DevDashboard from "./Dashboards/DeveloperDashboard.jsx";
 import UserDashboard from "./Dashboards/UserDashboard.jsx";
 import SupDashboard from "./Dashboards/SupervisorDashboard.jsx";
 import ManagerDashboard from "./Dashboards/ManagerDashboard.jsx";
+import ProjectLeaderDashboard from "./Dashboards/ProjectLeaderDashboard.jsx";
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
               <Route path="/dashboards/user" element={<UserDashboard />} />
               <Route path="/dashboards/sup" element={<SupDashboard />} />
               <Route path="/dashboards/manager" element={<ManagerDashboard />} />
+              <Route path="/dashboards/pl" element={<ProjectLeaderDashboard/>}/>
           </Routes>
         </BrowserRouter>
       </div>
