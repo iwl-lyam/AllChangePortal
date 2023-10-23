@@ -113,7 +113,7 @@ app.get('/api/suggestions', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
     if (req.query.user) filter.authorId = new ObjectId(req.query.user)
-    if (req.query.status) filter.status = req.query.status
+    if (req.query.status) filter.status = parseInt(req.query.status)
     const data = await con.get("suggestions", filter)
     res.send(data)
 })
@@ -140,7 +140,7 @@ app.get('/api/bugreports', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
     if (req.query.user) filter.authorId = new ObjectId(req.query.user)
-    if (req.query.status) filter.status = req.query.status
+    if (req.query.status) filter.status = parseInt(req.query.status)
     const data = await con.get("bugreports", filter)
     res.send(data)
 })
@@ -160,6 +160,25 @@ app.post('/rpc/approve_bugreport', RateLimitDefault, Authorize, async (req, res)
 })
 app.post('/rpc/deny_bugreport', RateLimitDefault, Authorize, async (req, res) => {
     await con.patch("bugreports", {_id: new ObjectId(req.body.postid)}, {$set: {status: 2, comment: req.body.comment}})
+    res.send()
+})
+
+app.get('/api/tasks', RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+    let filter = {}
+    if (req.query.assignee) filter.assignee = new ObjectId(req.query.assignee)
+    if (req.query.taskid) filter.taskid = new ObjectId(req.query.taskid)
+    if (req.query.status) filter.status = parseInt(req.query.status)
+    const data = await con.get("tasks", filter)
+    res.send(data)
+})
+app.post('/api/tasks', RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+    const payload = {
+        setBy: new ObjectId(req.user._id),
+        ...req.body,
+    }
+    await con.post("tasks", [payload])
     res.send()
 })
 
