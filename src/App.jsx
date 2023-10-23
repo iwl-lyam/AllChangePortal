@@ -1,20 +1,19 @@
 import './App.css'
 import Nav from './Nav'
-import { BrowserRouter, Routes, Route  } from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Contact from './Contact'
 import NoPage from './NoPage'
 import Verification from './Verification'
 import Home from './Home'
 import Interactive from './Interactive'
-import Suggestions from "./Suggestions.jsx";
-import BugReports from "./BugReports.jsx";
-import DashboardEntry from "./Dashboards/DashboardEntry.jsx";
-import AdminDashboard from "./Dashboards/AdminDashboard.jsx";
-import DevDashboard from "./Dashboards/DeveloperDashboard.jsx";
-import UserDashboard from "./Dashboards/UserDashboard.jsx";
-import SupDashboard from "./Dashboards/SupervisorDashboard.jsx";
-import ManagerDashboard from "./Dashboards/ManagerDashboard.jsx";
-import ProjectLeaderDashboard from "./Dashboards/ProjectLeaderDashboard.jsx";
+import Suggestions from "./Suggestions.jsx"
+import BugReports from "./BugReports.jsx"
+import DashboardEntry from "./Dashboards/DashboardEntry.jsx"
+import AdminDashboard from "./Dashboards/AdminDashboard.jsx"
+import DevDashboard from "./Dashboards/DeveloperDashboard.jsx"
+import UserDashboard from "./Dashboards/UserDashboard.jsx"
+import SupDashboard from "./Dashboards/SupervisorDashboard.jsx"
+import ManagerDashboard from "./Dashboards/ManagerDashboard.jsx"
 
 export default function App() {
   return (
@@ -36,7 +35,6 @@ export default function App() {
               <Route path="/dashboards/user" element={<UserDashboard />} />
               <Route path="/dashboards/sup" element={<SupDashboard />} />
               <Route path="/dashboards/manager" element={<ManagerDashboard />} />
-              <Route path="/dashboards/pl" element={<ProjectLeaderDashboard/>}/>
           </Routes>
         </BrowserRouter>
       </div>

@@ -113,6 +113,7 @@ app.get('/api/suggestions', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
     if (req.query.user) filter.authorId = new ObjectId(req.query.user)
+    if (req.query.status) filter.status = req.query.status
     const data = await con.get("suggestions", filter)
     res.send(data)
 })
@@ -139,6 +140,7 @@ app.get('/api/bugreports', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
     if (req.query.user) filter.authorId = new ObjectId(req.query.user)
+    if (req.query.status) filter.status = req.query.status
     const data = await con.get("bugreports", filter)
     res.send(data)
 })

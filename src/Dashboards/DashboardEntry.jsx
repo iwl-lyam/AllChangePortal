@@ -1,6 +1,5 @@
-import react from 'react'
-import Login from "../Login/MainForm.jsx";
-import React from "react";
+import React from 'react'
+import Login from "../Login/MainForm.jsx"
 
 export default function DashboardEntry() {
     return (
@@ -49,17 +48,9 @@ export default function DashboardEntry() {
                 </div>
 
                         <div className="card bg-warning mb-3" style={{width: "18rem"}}>
-                    <div className="card-body">
-                        <h5 className="card-title">Project leader dashboard</h5>
-                        <h6 className="card-subtitle mb-2">Permission level 4</h6>
-                        <a href="/dashboards/pl" className="card-link">Open dashboard</a>
-                    </div>
-                </div>
-
-                        <div className="card bg-warning mb-3" style={{width: "18rem"}}>
                             <div className="card-body">
                                 <h5 className="card-title">Executive dashboard</h5>
-                                <h6 className="card-subtitle mb-2">Permission level 5</h6>
+                                <h6 className="card-subtitle mb-2">Permission level 4</h6>
                                 <a href="/dashboards/admin" className="card-link">Open dashboard</a>
                             </div>
                         </div>
