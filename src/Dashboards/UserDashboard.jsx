@@ -62,6 +62,42 @@ export default function UserDashboard() {
         </div>
     ));
 
+    const notifItems = notifs.map(notif => (
+        <div>
+            <button data-toggle="modal" data-target={`#modal-${notif._id}`} type="button"
+                    className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
+                <h3>{notif.title}</h3>
+                <p className="mb-1">{notif.desc}</p>
+            </button>
+
+            <div className="modal fade" id={`modal-${notif._id}`} role="dialog">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">{notif.title}</h4>
+                            <button type="button" className="close border-0" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <p>{notif.desc}</p>
+                            <p><strong>ID: </strong>{notif._id}</p>
+                            <button className="btn btn-danger" onClick={async () => {
+                                await fetch("http://localhost:8080/rpc/dismissNotif?id="+notif._id, {method: "POST", headers: {
+                                        Authorization: sessionStorage.token || localStorage.token
+                                    }})
+                                location.reload()
+                            }}>Dismiss</button>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    ))
+
     return (
         <div>
             {!localStorage.token && !sessionStorage.token ? <Login/> : (
@@ -79,16 +115,7 @@ export default function UserDashboard() {
                                 <div className="col-5 border border-primary rounded">
                                     <h2 className="text-center p-3">Notifications</h2>
                                     <Stack>
-                                        <h4 id="list-item-1">Item 1</h4>
-                                        <p>...</p>
-                                        <h4 id="list-item-2">Item 2</h4>
-                                        <p>...</p>
-                                        <h4 id="list-item-3">Item 3</h4>
-                                        <p>...</p>
-                                        <h4 id="list-item-4">Item 4</h4>
-                                        <p>...</p>
-                                        <h4 id="list-item-4">Item 6</h4>
-                                        <p>...</p>
+                                        {notifItems}
                                     </Stack>
                                 </div>
                             </div>

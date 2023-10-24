@@ -75,6 +75,13 @@ app.use((req, res, next) => {
     next()
 })
 
+app.get('/rpc/getUserStatus', RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+    const user = await con.get("users", {username: req.user.username})
+    console.log(user[0])
+    res.send({status: parseInt(user[0].status) || 0})
+})
+
 app.post('/api/users', RateLimitDefault, async (req, res) => {
     if ((await con.get("users", {username: req.body.uname}))[0]) {
         res.status(400)
@@ -87,7 +94,8 @@ app.post('/api/users', RateLimitDefault, async (req, res) => {
     const output = {
         username: req.body.uname,
         password: hashedPassword,
-        salt: salt
+        salt: salt,
+        perm: 0
     }
     await con.post("users", [output])
     res.send()
@@ -112,7 +120,8 @@ app.post('/api/users/login', RateLimitDefault, async (req, res) => {
 app.get('/api/suggestions', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
-    if (req.query.user) filter.authorId = new ObjectId(req.query.user)
+    if (req.query.user !== "1" && req.query.user) filter.authorId = new ObjectId(req.query.user)
+    else if (req.query.user === "1") filter.authorId = new ObjectId(req.user._id)
     if (req.query.status) filter.status = parseInt(req.query.status)
     const data = await con.get("suggestions", filter)
     res.send(data)
@@ -129,10 +138,15 @@ app.post('/api/suggestions', RateLimitDefault, Authorize, async (req, res) => {
 })
 app.post('/rpc/approve_suggestion', RateLimitDefault, Authorize, async (req, res) => {
     await con.patch("suggestions", {_id: new ObjectId(req.body.postid)}, {$set: {status: 1, comment: req.body.comment}})
+    const n = await con.get("suggestions", {_id: new ObjectId(req.body.postid)})
+    console.log(n)
+    await con.post("notifs", [{user: n[0].authorId, ack: 0, title: "Suggestions", desc: `Your suggestion ${n[0].title} was approved and sent to developers. The comment was "${req.body.comment}"`}])
     res.send()
 })
 app.post('/rpc/deny_suggestion', RateLimitDefault, Authorize, async (req, res) => {
     await con.patch("suggestions", {_id: new ObjectId(req.body.postid)}, {$set: {status: 2, comment: req.body.comment}})
+    const n = await con.get("suggestions", {_id: new ObjectId(req.body.postid)})
+    await con.post("notifs", [{user: n[0].authorId, ack: 0, title: "Suggestions", desc: `Your suggestion ${n[0].title} was denied. The comment was "${req.body.comment}"`}])
     res.send()
 })
 
@@ -179,6 +193,17 @@ app.post('/api/tasks', RateLimitDefault, Authorize, async (req, res) => {
         ...req.body,
     }
     await con.post("tasks", [payload])
+    res.send()
+})
+
+app.get('/api/notifs', RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+    const notifs = await con.get("notifs", {user: new ObjectId(req.user._id), ack: 0})
+    res.send(notifs)
+})
+app.post('/rpc/dismissNotif', RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+    const notifs = await con.patch("notifs", {_id: new ObjectId(req.query.id)}, {$set: {ack: 1}})
     res.send()
 })
 

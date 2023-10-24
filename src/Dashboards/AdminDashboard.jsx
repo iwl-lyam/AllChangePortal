@@ -44,7 +44,7 @@ export default function ProjectLeaderDashboard() {
     }, [])
 
     const listItems = posts.map(post => (
-        <div>
+        <div key={post._id}>
             <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
                 <h3>{post.title}</h3>
@@ -92,6 +92,7 @@ export default function ProjectLeaderDashboard() {
                                         },
                                     })
                                     alert("Post approved with message: " + msg + "\nAwaiting assignment")
+                                    location.reload()
                                 }}>Approve
                                 </button>
                                 <button className="btn btn-warning" onClick={async () => {
@@ -109,6 +110,7 @@ export default function ProjectLeaderDashboard() {
                                         }
                                     })
                                     alert("Post denied with message: " + msg)
+                                    location.reload()
                                 }}>Deny
                                 </button>
                                 <button className="btn btn-danger" onClick={async () => {
@@ -142,7 +144,7 @@ export default function ProjectLeaderDashboard() {
     ));
 
     const brItems = br.map(post => (
-        <div>
+        <div key={post._id}>
             <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
                 <h3>{post.title}</h3>
@@ -226,7 +228,39 @@ export default function ProjectLeaderDashboard() {
     ))
 
     const notifItems = notifs.map(post => (
-        <div>
+        <div key={post._id}>
+            <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
+                    className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
+                <h3>{post.title}</h3>
+                <p className="mb-1">{post.department}</p>
+            </button>
+
+            <div className="modal fade" id={`modal-${post._id}`} role="dialog">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">{post.title}</h4>
+                            <button type="button" className="close border-0" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div className="modal-body">
+                            <Markdown>{post.description}</Markdown>
+                            <p><strong>Department: {post.department}</strong></p>
+                            <p><strong>Post ID: {post._id}</strong></p>
+                            {/*TODO Add dropdown box for which developer to assign to*/}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    ));
+
+    const taskItems = tasks.map(post => (
+        <div key={post._id}>
             <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
                 <h3>{post.title}</h3>
@@ -289,7 +323,7 @@ export default function ProjectLeaderDashboard() {
                                 <div className="col-5 border border-primary rounded">
                                     <h2 className="text-center p-3">Incomplete tasks</h2>
                                     <Stack className="mb-1">
-                                        {notifItems}
+                                        {taskItems}
                                     </Stack>
                                 </div>
                             </div>
