@@ -203,7 +203,13 @@ app.get('/api/notifs', RateLimitDefault, Authorize, async (req, res) => {
 })
 app.post('/rpc/dismissNotif', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
-    const notifs = await con.patch("notifs", {_id: new ObjectId(req.query.id)}, {$set: {ack: 1}})
+    await con.patch("notifs", {_id: new ObjectId(req.query.id)}, {$set: {ack: 1}})
+    res.send()
+})
+
+app.post('/rpc/assignTask', RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+    await con.patch("tasks", {_id: new ObjectId(req.body.id)}, {$set: {status: 1, info: req.body.info, recipient: req.body.recipient, date: req.body.date}})
     res.send()
 })
 

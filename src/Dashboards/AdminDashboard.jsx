@@ -8,6 +8,27 @@ export default function ProjectLeaderDashboard() {
     const [notifs, setNotifs] = useState([])
     const [tasks, setTasks] = useState([])
     const [br, setBr] = useState([])
+    const [textSetError, setTextSetError] = useState("")
+    const [taskRecip, setTaskRecip] = useState("")
+    const [taskDate, setTaskDate] = useState("")
+    const [taskInfo, setTaskInfo] = useState("")
+
+    const assignTask = async (id) => {
+        await fetch("http://77.68.127.58:8080/rpc/assignTask", {
+            method: "POST",
+            body: {
+                recipient: taskRecip,
+                date: taskDate,
+                info: taskInfo,
+                id: id
+            },
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: sessionStorage.token || localStorage.token
+            }
+        })
+        location.reload()
+    }
 
     useEffect(() => {
         const f = async () => {
@@ -246,11 +267,30 @@ export default function ProjectLeaderDashboard() {
                             <Markdown>{post.description}</Markdown>
                             <p><strong>Department: {post.department}</strong></p>
                             <p><strong>Post ID: {post._id}</strong></p>
-                            <select className="custom-select custom-select-sm">
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                            <div className="border p-2 border border-primary rounded">
+                                <label className="mr-4" htmlFor="devSelect">Recipient</label>
+                                &nbsp;
+                                <select id="devSelect" className="custom-select custom-select-sm form-control">
+                                    <option value="653947bbfbdfe560ae2bb2ab">Jackie (programming)</option>
+                                    <option value="653945aba66e822aa5c9e8b1">Tiger (blender)</option>
+                                    <option value="65392288a66e822aa5c9e8ad">Red (programming)</option>
+                                    <option value="653922eaa66e822aa5c9e8ae">Squid (building)</option>
+                                    <option value="6539234ba66e822aa5c9e8af">Kylian (blender)</option>
+                                    <option value="653923c0a66e822aa5c9e8b0">Tom (building)</option>
+                                    <option value="652866b69e3f09b2723dfd39">Develop (web)</option>
+                                </select>
+                                <br />
+
+                                <label htmlFor="date">Set due date</label>
+                                <input placeholder="Select date" type="date" id="date" className="form-control" />
+                                <p>{textSetError}</p>
+
+                                <label htmlFor="extraText">Any extra info</label>
+                                <input placeholder="No extra info" type="text" id="extraText" className="form-control" />
+
+                                <br />
+                                <button className="btn btn-primary" onClick={() => assignTask(post._id)}>Assign</button>
+                            </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
