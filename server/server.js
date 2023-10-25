@@ -79,7 +79,7 @@ app.get('/rpc/getUserStatus', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     const user = await con.get("users", {username: req.user.username})
     console.log(user[0])
-    res.send({status: parseInt(user[0].status) || 0})
+    res.send({status: parseInt(user[0].perm) || 0})
 })
 
 app.post('/api/users', RateLimitDefault, async (req, res) => {

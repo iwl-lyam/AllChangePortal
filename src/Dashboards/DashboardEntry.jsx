@@ -5,7 +5,7 @@ export default function DashboardEntry() {
     const [perm, setPerm] = useState(0)
     useEffect(() => {
         const f = async () => {
-            const req = await fetch("http://localhost:8080/rpc/getUserStatus", {
+            const req = await fetch("http://77.68.127.58:8080/rpc/getUserStatus", {
                 headers: {
                     Authorization: sessionStorage.token || localStorage.token
                 }

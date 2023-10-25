@@ -11,28 +11,28 @@ export default function ProjectLeaderDashboard() {
 
     useEffect(() => {
         const f = async () => {
-            const req4 = await fetch("http://localhost:8080/api/bugreports?status=0", {
+            const req4 = await fetch("http://77.68.127.58:8080/api/bugreports?status=0", {
                 headers: {
                     Authorization: sessionStorage.token || localStorage.token,
                 }
             })
             setBr(await req4.json())
 
-            const req = await fetch("http://localhost:8080/api/suggestions?status=0", {
+            const req = await fetch("http://77.68.127.58:8080/api/suggestions?status=0", {
                 headers: {
                     Authorization: sessionStorage.token || localStorage.token,
                 },
             })
             setPosts(await req.json())
 
-            const req2 = await fetch("http://localhost:8080/api/tasks?status=0", {
+            const req2 = await fetch("http://77.68.127.58:8080/api/tasks?status=0", {
                 headers: {
                     Authorization: sessionStorage.token || localStorage.token,
                 }
             })
             setNotifs(await req2.json())
 
-            const req3 = await fetch("http://localhost:8080/api/tasks?status=1", {
+            const req3 = await fetch("http://77.68.127.58:8080/api/tasks?status=1", {
                 headers: {
                     Authorization: sessionStorage.token || localStorage.token,
                 },
@@ -66,7 +66,7 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-success" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    await fetch("http://localhost:8080/api/tasks", {
+                                    await fetch("http://77.68.127.58:8080/api/tasks", {
                                         method: "POST",
                                         body: JSON.stringify({
                                             title: post.title,
@@ -80,7 +80,7 @@ export default function ProjectLeaderDashboard() {
                                             "Content-Type": "application/json",
                                         }
                                     })
-                                    await fetch("http://localhost:8080/rpc/approve_suggestion", {
+                                    await fetch("http://77.68.127.58:8080/rpc/approve_suggestion", {
                                         method: "POST",
                                         body: JSON.stringify({
                                             comment: msg,
@@ -98,7 +98,7 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-warning" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    await fetch("http://localhost:8080/rpc/deny_suggestion", {
+                                    await fetch("http://77.68.127.58:8080/rpc/deny_suggestion", {
                                         method: "POST",
                                         body: JSON.stringify({
                                             comment: msg,
@@ -116,7 +116,7 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-danger" onClick={async () => {
                                     const msg = prompt("Give reason:")
                                     if (msg === null) return
-                                    await fetch("http://localhost:8080/rpc/report_suggestion", {
+                                    await fetch("http://77.68.127.58:8080/rpc/report_suggestion", {
                                         method: "POST",
                                         body: JSON.stringify({
                                             comment: msg,
@@ -166,7 +166,7 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-success" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    await fetch("http://localhost:8080/rpc/approve_bugreport", {
+                                    await fetch("http://77.68.127.58:8080/rpc/approve_bugreport", {
                                         method: "POST",
                                         body: JSON.stringify({
                                             comment: msg,
@@ -183,7 +183,7 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-warning" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    await fetch("http://localhost:8080/rpc/deny_bugreport", {
+                                    await fetch("http://77.68.127.58:8080/rpc/deny_bugreport", {
                                         method: "POST",
                                         body: JSON.stringify({
                                             comment: msg,
@@ -200,7 +200,7 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-danger" onClick={async () => {
                                     const msg = prompt("Give reason:")
                                     if (msg === null) return
-                                    await fetch("http://localhost:8080/rpc/report_suggestion", {
+                                    await fetch("http://77.68.127.58:8080/rpc/report_suggestion", {
                                         method: "POST",
                                         body: JSON.stringify({
                                             comment: msg,
@@ -246,7 +246,11 @@ export default function ProjectLeaderDashboard() {
                             <Markdown>{post.description}</Markdown>
                             <p><strong>Department: {post.department}</strong></p>
                             <p><strong>Post ID: {post._id}</strong></p>
-                            {/*TODO Add dropdown box for which developer to assign to*/}
+                            <select className="custom-select custom-select-sm">
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>

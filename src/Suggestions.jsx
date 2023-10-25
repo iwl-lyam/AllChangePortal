@@ -9,7 +9,7 @@ export default function Suggestions() {
   const [dept, setDept] = useState("Web department")
 
   const handleForm = async () => {
-    await fetch("http://localhost:8080/api/suggestions", {
+    await fetch("http://77.68.127.58:8080/api/suggestions", {
       method: "POST",
       headers: {
         "Authorization": localStorage.token || sessionStorage.token,

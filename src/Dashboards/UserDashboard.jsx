@@ -9,14 +9,14 @@ export default function UserDashboard() {
 
     useEffect(() => {
         const f = async () => {
-            const req = await fetch("http://localhost:8080/api/suggestions?user=1", {
+            const req = await fetch("http://77.68.127.58:8080/api/suggestions?user=1", {
                 headers: {
                     Authorization: sessionStorage.token || localStorage.token
                 }
             })
             setPosts(await req.json())
 
-            const req2 = await fetch("http://localhost:8080/api/notifs", {
+            const req2 = await fetch("http://77.68.127.58:8080/api/notifs", {
                 headers: {
                     Authorization: sessionStorage.token || localStorage.token
                 }
@@ -81,7 +81,7 @@ export default function UserDashboard() {
                             <p>{notif.desc}</p>
                             <p><strong>ID: </strong>{notif._id}</p>
                             <button className="btn btn-danger" onClick={async () => {
-                                await fetch("http://localhost:8080/rpc/dismissNotif?id="+notif._id, {method: "POST", headers: {
+                                await fetch("http://77.68.127.58:8080/rpc/dismissNotif?id="+notif._id, {method: "POST", headers: {
                                         Authorization: sessionStorage.token || localStorage.token
                                     }})
                                 location.reload()

@@ -14,7 +14,7 @@ export default function MainForm() {
   const login = () => setMode(1)
 
   const signUpHandle = async () => {
-    let res = await fetch("http://localhost:8080/api/users", {
+    let res = await fetch("http://77.68.127.58:8080/api/users", {
       method: "POST",
       body: JSON.stringify({
         password: pword,
@@ -36,7 +36,7 @@ export default function MainForm() {
   }
 
   const loginHandle = async () => {
-    const d = await fetch("http://localhost:8080/api/users/login", {
+    const d = await fetch("http://77.68.127.58:8080/api/users/login", {
       method: "POST",
       body: JSON.stringify({
         password: pword,

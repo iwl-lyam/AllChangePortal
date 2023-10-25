@@ -12,7 +12,7 @@ export default function BugReports() {
   //
   // if (posts == null) {
   //   console.log("SETTING POSTS")
-  //   fetch("http://localhost:8080/api/suggestions", {
+  //   fetch("http://77.68.127.58:8080/api/suggestions", {
   //     method: "GET",
   //     headers: {
   //       "Authorization": localStorage.token || sessionStorage.token
@@ -24,7 +24,7 @@ export default function BugReports() {
   // }
 
   const handleForm = async () => {
-    await fetch("http://localhost:8080/api/bugreports", {
+    await fetch("http://77.68.127.58:8080/api/bugreports", {
       method: "POST",
       headers: {
         "Authorization": localStorage.token || sessionStorage.token,
