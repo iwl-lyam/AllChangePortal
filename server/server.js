@@ -210,6 +210,8 @@ app.post('/rpc/dismissNotif', RateLimitDefault, Authorize, async (req, res) => {
 app.post('/rpc/assignTask', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     await con.patch("tasks", {_id: new ObjectId(req.body.id)}, {$set: {status: 1, info: req.body.info, recipient: req.body.recipient, date: req.body.date}})
+    const task = await con.get("tasks", {_id : new ObjectId(req.body.id)})
+    await con.post("notifs", [{user: req.body.recipient, ack: 0, title: "Developer Tasks", desc: `You have been set a new developer task with title ${req.body.title}. It is due ${req.body.date}.`}])
     res.send()
 })
 

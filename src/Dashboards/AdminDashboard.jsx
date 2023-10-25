@@ -16,12 +16,12 @@ export default function ProjectLeaderDashboard() {
     const assignTask = async (id) => {
         await fetch("http://77.68.127.58:8080/rpc/assignTask", {
             method: "POST",
-            body: {
+            body: JSON.stringify({
                 recipient: taskRecip,
                 date: taskDate,
                 info: taskInfo,
                 id: id
-            },
+            }),
             headers: {
                 "Content-Type": "application/json",
                 Authorization: sessionStorage.token || localStorage.token
@@ -270,7 +270,7 @@ export default function ProjectLeaderDashboard() {
                             <div className="border p-2 border border-primary rounded">
                                 <label className="mr-4" htmlFor="devSelect">Recipient</label>
                                 &nbsp;
-                                <select id="devSelect" className="custom-select custom-select-sm form-control">
+                                <select id="devSelect" className="custom-select custom-select-sm form-control" onChange={e => setTaskRecip(e.target.value)}>
                                     <option value="653947bbfbdfe560ae2bb2ab">Jackie (programming)</option>
                                     <option value="653945aba66e822aa5c9e8b1">Tiger (blender)</option>
                                     <option value="65392288a66e822aa5c9e8ad">Red (programming)</option>
@@ -282,11 +282,11 @@ export default function ProjectLeaderDashboard() {
                                 <br />
 
                                 <label htmlFor="date">Set due date</label>
-                                <input placeholder="Select date" type="date" id="date" className="form-control" />
+                                <input placeholder="Select date" type="date" id="date" className="form-control" onChange={e => setTaskDate(e.target.value)} />
                                 <p>{textSetError}</p>
 
                                 <label htmlFor="extraText">Any extra info</label>
-                                <input placeholder="No extra info" type="text" id="extraText" className="form-control" />
+                                <input placeholder="No extra info" type="text" id="extraText" className="form-control" onChange={e => setTaskInfo(e.target.value)} />
 
                                 <br />
                                 <button className="btn btn-primary" onClick={() => assignTask(post._id)}>Assign</button>
