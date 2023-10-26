@@ -42,9 +42,8 @@ function Authorize(req,res,next) {
                 }
                 // If the token is valid, you can access its payload in the `decoded` object
                 const user = await con.get("users", {_id: new ObjectId(decoded._id)})
-                if (decoded !== user) {
+                if (decoded !== user[0]) {
                     res.verified = false
-                    const user = await con.get("users", {_id: new ObjectId(req.user._id)})
                     res.status(400)
                     res.send({code: "400-3", msg: "Old token (user modified)", "token": jwt.sign(user[0], secretkey)})
                 } else {
