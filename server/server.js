@@ -34,18 +34,23 @@ function Authorize(req,res,next) {
             const tokenData = token.replace('Bearer ', '');
 
             // Verify the token using your secret key
-            jwt.verify(tokenData, secretkey, (error, decoded) => {
+            jwt.verify(tokenData, secretkey, async (error, decoded) => {
                 if (error) {
                     req.verified = false
                     res.status(401).json({code: "401-2", msg: 'Invalid token', error});
                     return
                 }
-
                 // If the token is valid, you can access its payload in the `decoded` object
-                req.user = decoded;
-                req.verified = true
-                next();
-            });
+                const user = await con.get("users", {_id: new ObjectId(decoded._id)})
+                if (decoded !== user) {
+                    res.verified = false
+                    res.status(400).json({code: "400-3", msg: "Mismatching user payload"})
+                } else {
+                    req.user = decoded;
+                    req.verified = true
+                    next();
+                }
+            })
         } catch (error) {
             req.verified = false
             res.status(500).json({code: "500-1", msg: 'Internal server error'});
@@ -117,6 +122,12 @@ app.post('/api/users/login', RateLimitDefault, async (req, res) => {
     }
 })
 
+app.get('/rpc/newToken', RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+    const user = await con.get("users", {_id: new ObjectId(req.user._id)})
+    res.send({"token": jwt.sign(user[0], secretkey)})
+})
+
 app.get('/api/suggestions', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
@@ -170,10 +181,14 @@ app.post('/api/bugreports', RateLimitDefault, Authorize, async (req, res) => {
 })
 app.post('/rpc/approve_bugreport', RateLimitDefault, Authorize, async (req, res) => {
     await con.patch("bugreports", {_id: new ObjectId(req.body.postid)}, {$set: {status: 1, comment: req.body.comment}})
+    const n = await con.get("bugreports", {_id: new ObjectId(req.body.postid)})
+    await con.post("notifs", [{user: n[0].authorId, ack: 0, title: "Bug reports", desc: `Your bug report ${n[0].title} was approved and sent to developers. The comment was "${req.body.comment}"`}])
     res.send()
 })
 app.post('/rpc/deny_bugreport', RateLimitDefault, Authorize, async (req, res) => {
     await con.patch("bugreports", {_id: new ObjectId(req.body.postid)}, {$set: {status: 2, comment: req.body.comment}})
+    const n = await con.get("bugreports", {_id: new ObjectId(req.body.postid)})
+    await con.post("notifs", [{user: n[0].authorId, ack: 0, title: "Bug reports", desc: `Your bug report ${n[0].title} was denied. The comment was "${req.body.comment}"`}])
     res.send()
 })
 
@@ -211,7 +226,7 @@ app.post('/rpc/assignTask', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     await con.patch("tasks", {_id: new ObjectId(req.body.id)}, {$set: {status: 1, info: req.body.info, recipient: req.body.recipient, date: req.body.date}})
     const task = await con.get("tasks", {_id : new ObjectId(req.body.id)})
-    await con.post("notifs", [{user: new ObjectId(req.body.recipient), ack: 0, title: "Developer Tasks", desc: `You have been set a new developer task with title ${task.title}. It is due ${req.body.date} Go to your developer dashboard for more info.`}])
+    await con.post("notifs", [{user: new ObjectId(req.body.recipient), ack: 0, title: "Developer Tasks", desc: `You have been set a new developer task with title ${task.title}. It is due ${req.body.date}. Go to your developer dashboard for more info.`}])
     res.send()
 })
 

@@ -30,6 +30,35 @@ export default function ProjectLeaderDashboard() {
         location.reload()
     }
 
+    const whoIs = id => {
+        // <option value="653947bbfbdfe560ae2bb2ab">Jackie (programming)</option>
+        // <option value="653945aba66e822aa5c9e8b1">Tiger (blender)</option>
+        // <option value="65392288a66e822aa5c9e8ad">Red (programming)</option>
+        // <option value="653922eaa66e822aa5c9e8ae">Squid (building)</option>
+        // <option value="6539234ba66e822aa5c9e8af">Kylian (blender)</option>
+        // <option value="653923c0a66e822aa5c9e8b0">Tom (building)</option>
+        // <option value="652866b69e3f09b2723dfd39">Develop (web)</option>
+
+        switch (id) {
+            case "653947bbfbdfe560ae2bb2ab":
+                return "Jackie"
+            case "653945aba66e822aa5c9e8b1":
+                return "Tiger"
+            case "65392288a66e822aa5c9e8ad":
+                return "Red"
+            case "653922eaa66e822aa5c9e8ae":
+                return "Squid"
+            case "6539234ba66e822aa5c9e8af":
+                return "Kylian"
+            case "653923c0a66e822aa5c9e8b0":
+                return "Tom"
+            case "652866b69e3f09b2723dfd39":
+                return "Develop"
+            default:
+                return "ID not found"
+        }
+    }
+
     useEffect(() => {
         const f = async () => {
             const req4 = await fetch("http://77.68.127.58:8080/api/bugreports?status=0", {
@@ -216,6 +245,7 @@ export default function ProjectLeaderDashboard() {
                                         },
                                     })
                                     alert("Post denied with message: " + msg)
+                                    location.reload()
                                 }}>CNRP
                                 </button>
                                 <button className="btn btn-danger" onClick={async () => {
@@ -233,6 +263,7 @@ export default function ProjectLeaderDashboard() {
                                         },
                                     })
                                     alert("Post set for review with message: " + msg)
+                                    location.reload()
                                 }}>Report
                                 </button>
                             </div>
@@ -320,9 +351,10 @@ export default function ProjectLeaderDashboard() {
                         </div>
                         <div className="modal-body">
                             <Markdown>{post.description}</Markdown>
-                            <p><strong>Department: {post.department}</strong></p>
-                            <p><strong>Post ID: {post._id}</strong></p>
-                            {/*TODO Add dropdown box for which developer to assign to*/}
+                            <p><strong>Department:</strong> {post.department}</p>
+                            <p><strong>Post ID:</strong> {post._id}</p>
+                            <p><strong>Notes:</strong> {post.info}</p>
+                            <p><strong>Assigned to:</strong> {whoIs(post.recipient)}</p>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
