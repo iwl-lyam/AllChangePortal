@@ -84,7 +84,6 @@ app.use((req, res, next) => {
 app.get('/rpc/getUserStatus', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     const user = await con.get("users", {username: req.user.username})
-    console.log(user[0])
     res.send({status: parseInt(user[0].perm) || 0})
 })
 
@@ -145,7 +144,6 @@ app.post('/api/suggestions', RateLimitDefault, Authorize, async (req, res) => {
 app.post('/rpc/approve_suggestion', RateLimitDefault, Authorize, async (req, res) => {
     await con.patch("suggestions", {_id: new ObjectId(req.body.postid)}, {$set: {status: 1, comment: req.body.comment}})
     const n = await con.get("suggestions", {_id: new ObjectId(req.body.postid)})
-    console.log(n)
     await con.post("notifs", [{user: n[0].authorId, ack: 0, title: "Suggestions", desc: `Your suggestion ${n[0].title} was approved and sent to developers. The comment was "${req.body.comment}"`}])
     res.send()
 })
@@ -190,10 +188,11 @@ app.post('/rpc/deny_bugreport', RateLimitDefault, Authorize, async (req, res) =>
 app.get('/api/tasks', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
-    if (req.query.assignee && req.query.assignee !== "1") filter.assignee = new ObjectId(req.query.assignee)
-    else if (req.query.assignee === "1") filter.assignee = new ObjectId(req.user._id)
+    if (req.query.assignee && req.query.assignee !== "1") filter.recipient = new ObjectId(req.query.assignee)
+    else if (req.query.assignee === "1") filter.recipient = new ObjectId(req.user._id)
     if (req.query.taskid) filter.taskid = new ObjectId(req.query.taskid)
     if (req.query.status) filter.status = parseInt(req.query.status)
+    console.log(filter)
     const data = await con.get("tasks", filter)
     res.send(data)
 })
@@ -218,9 +217,15 @@ app.post('/rpc/dismissNotif', RateLimitDefault, Authorize, async (req, res) => {
     res.send()
 })
 
+app.post('/rpc/completeTask', RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+    await con.patch("tasks", {_id: new ObjectId(req.query.id)}, {$set: {status: 2}})
+    res.send()
+})
+
 app.post('/rpc/assignTask', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
-    await con.patch("tasks", {_id: new ObjectId(req.body.id)}, {$set: {status: 1, info: req.body.info, recipient: req.body.recipient, date: req.body.date}})
+    await con.patch("tasks", {_id: new ObjectId(req.body.id)}, {$set: {status: 1, info: req.body.info, recipient: new ObjectId(req.body.recipient), date: req.body.date}})
     const task = await con.get("tasks", {_id : new ObjectId(req.body.id)})
     await con.post("notifs", [{user: new ObjectId(req.body.recipient), ack: 0, title: "Developer Tasks", desc: `You have been set a new developer task with title ${task.title}. It is due ${req.body.date}. Go to your developer dashboard for more info.`}])
     res.send()

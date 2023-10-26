@@ -242,11 +242,19 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-success" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
+                                    await Request("api/tasks", "POST", {
+                                        title: post.title,
+                                        description: post.description,
+                                        department: post.department,
+                                        comment: msg,
+                                        status: 0,
+                                    })
                                     await Request("rpc/approve_bugreport", "POST", {
                                         comment: msg,
                                         postid: post._id,
                                     })
                                     alert("Post approved with message: " + msg + "\nAwaiting assignment")
+                                    location.reload()
                                 }}>CRP
                                 </button>
                                 <button className="btn btn-warning" onClick={async () => {
