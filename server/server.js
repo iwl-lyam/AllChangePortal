@@ -44,7 +44,9 @@ function Authorize(req,res,next) {
                 const user = await con.get("users", {_id: new ObjectId(decoded._id)})
                 if (decoded !== user) {
                     res.verified = false
-                    res.status(400).json({code: "400-3", msg: "Mismatching user payload"})
+                    const user = await con.get("users", {_id: new ObjectId(req.user._id)})
+                    res.status(400)
+                    res.send({code: "400-3", msg: "Old token (user modified)", "token": jwt.sign(user[0], secretkey)})
                 } else {
                     req.user = decoded;
                     req.verified = true
@@ -124,8 +126,7 @@ app.post('/api/users/login', RateLimitDefault, async (req, res) => {
 
 app.get('/rpc/newToken', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
-    const user = await con.get("users", {_id: new ObjectId(req.user._id)})
-    res.send({"token": jwt.sign(user[0], secretkey)})
+
 })
 
 app.get('/api/suggestions', RateLimitDefault, Authorize, async (req, res) => {
