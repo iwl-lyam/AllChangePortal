@@ -195,7 +195,8 @@ app.post('/rpc/deny_bugreport', RateLimitDefault, Authorize, async (req, res) =>
 app.get('/api/tasks', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     let filter = {}
-    if (req.query.assignee) filter.assignee = new ObjectId(req.query.assignee)
+    if (req.query.assignee && req.query.assignee !== "1") filter.assignee = new ObjectId(req.query.assignee)
+    else if (req.query.assignee === "1") filter.assignee = new ObjectId(req.user._id)
     if (req.query.taskid) filter.taskid = new ObjectId(req.query.taskid)
     if (req.query.status) filter.status = parseInt(req.query.status)
     const data = await con.get("tasks", filter)

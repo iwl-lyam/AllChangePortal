@@ -104,8 +104,7 @@ export default function ProjectLeaderDashboard() {
             const req3 = await Request("api/tasks?status=1")
             setTasks(req3)
         }
-        f().then(r => {
-        })
+        f().then(r => {})
     }, [])
 
     const listItems = posts.map(post => (

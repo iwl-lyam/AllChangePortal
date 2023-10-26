@@ -26,8 +26,7 @@ export default function UserDashboard() {
             req = await Request("api/notifs", "GET", {}, true)
             setNotifs(req)
         }
-        f().then(r => {
-        })
+        f().then(r => {})
     }, [])
 
     const listItems = posts.map(post => (
