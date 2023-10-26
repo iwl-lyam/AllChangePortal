@@ -42,12 +42,12 @@ function Authorize(req,res,next) {
                 }
                 // If the token is valid, you can access its payload in the `decoded` object
                 const user = await con.get("users", {_id: new ObjectId(decoded._id)})
-                if (decoded !== user[0]) {
-                    res.verified = false
+                if (decoded.status !== user[0].status) {
+                    req.verified = false
                     res.status(400)
-                    res.send({code: "400-3", msg: "Old token (user modified)", "token": jwt.sign(user[0], secretkey)})
+                    res.send({code: "400-3", msg: "Old token (user modified)", token: jwt.sign(user[0], secretkey)})
                 } else {
-                    req.user = decoded;
+                    req.user = user[0];
                     req.verified = true
                     next();
                 }
@@ -119,13 +119,8 @@ app.post('/api/users/login', RateLimitDefault, async (req, res) => {
         res.status(401)
         res.send({code: "401-3", msg: "Password auth failed"})
     } else {
-        res.send({"token": jwt.sign(user[0], secretkey)})
+        res.send({"token": jwt.sign({user: user[0]}, secretkey)})
     }
-})
-
-app.get('/rpc/newToken', RateLimitDefault, Authorize, async (req, res) => {
-    if (!req.verified) return
-
 })
 
 app.get('/api/suggestions', RateLimitDefault, Authorize, async (req, res) => {

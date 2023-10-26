@@ -8,21 +8,27 @@
  */
 export const Request = async (endpoint, method="GET", body={}, auth=true) => {
     if (method === "GET") {
-        let req = await fetch("http://77.68.127.58:8080/"+endpoint, {
+        let req = await fetch("http://localhost:8080/"+endpoint, {
             headers: {
-                Authorization: (auth ? sessionStorage.token || localStorage.token : "")
+                Authorization: (auth ? localStorage.token : "")
             }
         })
         try {
             let res = await req.json()
+            try {
+                if (res.code === "400-3") {
+                    localStorage.token = res.token
+                    return await Request(endpoint,method,body,auth)
+                }
+            } catch {}
             return res
         } catch(err) {
             console.log(err)
         }
     } else {
-        let req = await fetch("http://77.68.127.58:8080/"+endpoint, {
+        let req = await fetch("http://localhost:8080/"+endpoint, {
             headers: {
-                Authorization: (auth ? sessionStorage.token || localStorage.token : ""),
+                Authorization: (auth ? localStorage.token : ""),
                 "Content-Type": "application/json"
             },
             method: method,
@@ -30,6 +36,12 @@ export const Request = async (endpoint, method="GET", body={}, auth=true) => {
         })
         try {
             let res = await req.json()
+            try {
+                if (res.code === "400-3") {
+                    localStorage.token = res.token
+                    return await Request(endpoint,method,body,auth)
+                }
+            } catch {}
             return res
         } catch(err) {
             console.log(err)
