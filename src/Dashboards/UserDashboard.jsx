@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import Login from '../Login/MainForm.jsx'
 import Markdown from "react-markdown";
 import Stack from "./Stack.jsx"
+import {Request} from "../Util.js"
 
 export default function UserDashboard() {
     const [posts, setPosts] = useState([])
@@ -9,19 +10,21 @@ export default function UserDashboard() {
 
     useEffect(() => {
         const f = async () => {
-            const req = await fetch("http://77.68.127.58:8080/api/suggestions?user=1", {
-                headers: {
-                    Authorization: sessionStorage.token || localStorage.token
-                }
-            })
-            setPosts(await req.json())
+            // const req = await fetch("http://77.68.127.58:8080/api/suggestions?user=1", {
+            //     headers: {
+            //         Authorization: sessionStorage.token || localStorage.token
+            //     }
+            // })
+            let req = await Request("api/suggestions?user=1", "GET", {}, true)
+            setPosts(req)
 
-            const req2 = await fetch("http://77.68.127.58:8080/api/notifs", {
-                headers: {
-                    Authorization: sessionStorage.token || localStorage.token
-                }
-            })
-            setNotifs(await req2.json())
+            // const req2 = await fetch("http://77.68.127.58:8080/api/notifs", {
+            //     headers: {
+            //         Authorization: sessionStorage.token || localStorage.token
+            //     }
+            // })
+            req = await Request("api/notifs", "GET", {}, true)
+            setNotifs(req)
         }
         f().then(r => {
         })
@@ -81,9 +84,10 @@ export default function UserDashboard() {
                             <p>{notif.desc}</p>
                             <p><strong>ID: </strong>{notif._id}</p>
                             <button className="btn btn-danger" onClick={async () => {
-                                await fetch("http://77.68.127.58:8080/rpc/dismissNotif?id="+notif._id, {method: "POST", headers: {
-                                        Authorization: sessionStorage.token || localStorage.token
-                                    }})
+                                // await fetch("http://77.68.127.58:8080/rpc/dismissNotif?id="+notif._id, {method: "POST", headers: {
+                                //         Authorization: sessionStorage.token || localStorage.token
+                                //     }})
+                                await Request("rpc/dismissNotif?id="+notif._id, "POST")
                                 location.reload()
                             }}>Dismiss</button>
                         </div>

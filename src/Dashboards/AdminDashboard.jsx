@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import Login from '../Login/MainForm.jsx'
 import Markdown from "react-markdown"
 import Stack from "./Stack.jsx"
+import {Request} from "../Util.js"
 
 export default function ProjectLeaderDashboard() {
     const [posts, setPosts] = useState([])
@@ -14,19 +15,25 @@ export default function ProjectLeaderDashboard() {
     const [taskInfo, setTaskInfo] = useState("")
 
     const assignTask = async (id) => {
-        await fetch("http://77.68.127.58:8080/rpc/assignTask", {
-            method: "POST",
-            body: JSON.stringify({
-                recipient: taskRecip,
-                date: taskDate,
-                info: taskInfo,
-                id: id
-            }),
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: sessionStorage.token || localStorage.token
-            }
-        })
+        // await fetch("http://77.68.127.58:8080/rpc/assignTask", {
+        //     method: "POST",
+        //     body: JSON.stringify({
+        //         recipient: taskRecip,
+        //         date: taskDate,
+        //         info: taskInfo,
+        //         id: id
+        //     }),
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         Authorization: sessionStorage.token || localStorage.token
+        //     }
+        // })
+        await Request("rpc/assignTask", "POST", {
+                    recipient: taskRecip,
+                    date: taskDate,
+                    info: taskInfo,
+                    id: id
+                }, true)
         location.reload()
     }
 
@@ -61,33 +68,41 @@ export default function ProjectLeaderDashboard() {
 
     useEffect(() => {
         const f = async () => {
-            const req4 = await fetch("http://77.68.127.58:8080/api/bugreports?status=0", {
-                headers: {
-                    Authorization: sessionStorage.token || localStorage.token,
-                }
-            })
-            setBr(await req4.json())
+            // const req4 = await fetch("http://77.68.127.58:8080/api/bugreports?status=0", {
+            //     headers: {
+            //         Authorization: sessionStorage.token || localStorage.token,
+            //     }
+            // })
+            // setBr(await req4.json())
+            const req4 = await Request("api/bugreports?status=0")
+            setBr(req4)
 
-            const req = await fetch("http://77.68.127.58:8080/api/suggestions?status=0", {
-                headers: {
-                    Authorization: sessionStorage.token || localStorage.token,
-                },
-            })
-            setPosts(await req.json())
+            // const req = await fetch("http://77.68.127.58:8080/api/suggestions?status=0", {
+            //     headers: {
+            //         Authorization: sessionStorage.token || localStorage.token,
+            //     },
+            // })
+            // setPosts(await req.json())
+            const req = await Request("api/suggestions?status=0")
+            setPosts(req)
 
-            const req2 = await fetch("http://77.68.127.58:8080/api/tasks?status=0", {
-                headers: {
-                    Authorization: sessionStorage.token || localStorage.token,
-                }
-            })
-            setNotifs(await req2.json())
+            // const req2 = await fetch("http://77.68.127.58:8080/api/tasks?status=0", {
+            //     headers: {
+            //         Authorization: sessionStorage.token || localStorage.token,
+            //     }
+            // })
+            // setNotifs(await req2.json())
+            const req2 = await Request("api/tasks?status=0")
+            setNotifs(req2)
 
-            const req3 = await fetch("http://77.68.127.58:8080/api/tasks?status=1", {
-                headers: {
-                    Authorization: sessionStorage.token || localStorage.token,
-                },
-            })
-            setTasks(await req3.json())
+            // const req3 = await fetch("http://77.68.127.58:8080/api/tasks?status=1", {
+            //     headers: {
+            //         Authorization: sessionStorage.token || localStorage.token,
+            //     },
+            // })
+            // setTasks(await req3.json())
+            const req3 = await Request("api/tasks?status=1")
+            setTasks(req3)
         }
         f().then(r => {
         })
@@ -116,30 +131,40 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-success" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    await fetch("http://77.68.127.58:8080/api/tasks", {
-                                        method: "POST",
-                                        body: JSON.stringify({
-                                            title: post.title,
-                                            description: post.description,
-                                            department: post.department,
-                                            comment: msg,
-                                            status: 0,
-                                        }),
-                                        headers: {
-                                            Authorization: sessionStorage.token || localStorage.token,
-                                            "Content-Type": "application/json",
-                                        }
+                                    // await fetch("http://77.68.127.58:8080/api/tasks", {
+                                    //     method: "POST",
+                                    //     body: JSON.stringify({
+                                    //         title: post.title,
+                                    //         description: post.description,
+                                    //         department: post.department,
+                                    //         comment: msg,
+                                    //         status: 0,
+                                    //     }),
+                                    //     headers: {
+                                    //         Authorization: sessionStorage.token || localStorage.token,
+                                    //         "Content-Type": "application/json",
+                                    //     }
+                                    await Request("api/tasks", "POST", {
+                                        title: post.title,
+                                        description: post.description,
+                                        department: post.department,
+                                        comment: msg,
+                                        status: 0,
                                     })
-                                    await fetch("http://77.68.127.58:8080/rpc/approve_suggestion", {
-                                        method: "POST",
-                                        body: JSON.stringify({
-                                            comment: msg,
-                                            postid: post._id,
-                                        }),
-                                        headers: {
-                                            Authorization: sessionStorage.token || localStorage.token,
-                                            "Content-Type": "application/json",
-                                        },
+                                    // await fetch("http://77.68.127.58:8080/rpc/approve_suggestion", {
+                                    //     method: "POST",
+                                    //     body: JSON.stringify({
+                                    //         comment: msg,
+                                    //         postid: post._id,
+                                    //     }),
+                                    //     headers: {
+                                    //         Authorization: sessionStorage.token || localStorage.token,
+                                    //         "Content-Type": "application/json",
+                                    //     },
+                                    // })
+                                    await Request("rpc/approve_suggestion", "POST", {
+                                        comment: msg,
+                                        postid: post._id,
                                     })
                                     alert("Post approved with message: " + msg + "\nAwaiting assignment")
                                     location.reload()
