@@ -173,17 +173,18 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-warning" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    await fetch("http://77.68.127.58:8080/rpc/deny_suggestion", {
-                                        method: "POST",
-                                        body: JSON.stringify({
-                                            comment: msg,
-                                            postid: post._id,
-                                        }),
-                                        headers: {
-                                            Authorization: sessionStorage.token || localStorage.token,
-                                            "Content-Type": "application/json",
-                                        }
-                                    })
+                                    // await fetch("http://77.68.127.58:8080/rpc/deny_suggestion", {
+                                    //     method: "POST",
+                                    //     body: JSON.stringify({
+                                    //         comment: msg,
+                                    //         postid: post._id,
+                                    //     }),
+                                    //     headers: {
+                                    //         Authorization: sessionStorage.token || localStorage.token,
+                                    //         "Content-Type": "application/json",
+                                    //     }
+                                    // })
+                                    await Request("rpc/deny_suggestion", "POST", {comment: msg, postid: post._id})
                                     alert("Post denied with message: " + msg)
                                     location.reload()
                                 }}>Deny
@@ -191,17 +192,18 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-danger" onClick={async () => {
                                     const msg = prompt("Give reason:")
                                     if (msg === null) return
-                                    await fetch("http://77.68.127.58:8080/rpc/report_suggestion", {
-                                        method: "POST",
-                                        body: JSON.stringify({
-                                            comment: msg,
-                                            postid: post._id,
-                                        }),
-                                        headers: {
-                                            Authorization: sessionStorage.token || localStorage.token,
-                                            "Content-Type": "application/json",
-                                        }
-                                    })
+                                    // await fetch("http://77.68.127.58:8080/rpc/report_suggestion", {
+                                    //     method: "POST",
+                                    //     body: JSON.stringify({
+                                    //         comment: msg,
+                                    //         postid: post._id,
+                                    //     }),
+                                    //     headers: {
+                                    //         Authorization: sessionStorage.token || localStorage.token,
+                                    //         "Content-Type": "application/json",
+                                    //     }
+                                    // })
+                                    await Request("rpc/report_suggestion", "POST", {comment: msg, postid: post._id})
                                     alert("Post set for review with message: " + msg)
                                 }}>Report
                                 </button>
@@ -241,16 +243,9 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-success" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    await fetch("http://77.68.127.58:8080/rpc/approve_bugreport", {
-                                        method: "POST",
-                                        body: JSON.stringify({
-                                            comment: msg,
-                                            postid: post._id,
-                                        }),
-                                        headers: {
-                                            Authorization: sessionStorage.token || localStorage.token,
-                                            "Content-Type": "application/json",
-                                        },
+                                    await Request("rpc/approve_bugreport", "POST", {
+                                        comment: msg,
+                                        postid: post._id,
                                     })
                                     alert("Post approved with message: " + msg + "\nAwaiting assignment")
                                 }}>CRP
@@ -258,16 +253,9 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-warning" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    await fetch("http://77.68.127.58:8080/rpc/deny_bugreport", {
-                                        method: "POST",
-                                        body: JSON.stringify({
-                                            comment: msg,
-                                            postid: post._id,
-                                        }),
-                                        headers: {
-                                            Authorization: sessionStorage.token || localStorage.token,
-                                            "Content-Type": "application/json",
-                                        },
+                                    await Request("rpc/deny_bugreport", "POST", {
+                                        comment: msg,
+                                        postid: post._id,
                                     })
                                     alert("Post denied with message: " + msg)
                                     location.reload()
@@ -276,16 +264,9 @@ export default function ProjectLeaderDashboard() {
                                 <button className="btn btn-danger" onClick={async () => {
                                     const msg = prompt("Give reason:")
                                     if (msg === null) return
-                                    await fetch("http://77.68.127.58:8080/rpc/report_suggestion", {
-                                        method: "POST",
-                                        body: JSON.stringify({
-                                            comment: msg,
-                                            postid: post._id,
-                                        }),
-                                        headers: {
-                                            Authorization: sessionStorage.token || localStorage.token,
-                                            "Content-Type": "application/json",
-                                        },
+                                    await Request("rpc/report_bugreport", "POST", {
+                                        comment: msg,
+                                        postid: post._id,
                                     })
                                     alert("Post set for review with message: " + msg)
                                     location.reload()

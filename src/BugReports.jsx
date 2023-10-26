@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import Login from './Login/MainForm'
 import Markdown from 'react-markdown'
+import {Request} from './Util.js'
 
 export default function BugReports() {
 
@@ -24,21 +25,24 @@ export default function BugReports() {
   // }
 
   const handleForm = async () => {
-    await fetch("http://77.68.127.58:8080/api/bugreports", {
-      method: "POST",
-      headers: {
-        "Authorization": localStorage.token || sessionStorage.token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        title: title,
-        description: desc,
-        department: dept
-      })
-    }).then(() => {
-      alert("Thank you! Your bug report has been submitted for approval. Please check your dashboard later to find any updates.")
-      document.location.href = "/contact"
-    })
+    // await fetch("http://77.68.127.58:8080/api/bugreports", {
+    //   method: "POST",
+    //   headers: {
+    //     "Authorization": localStorage.token || sessionStorage.token,
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({
+    //     title: title,
+    //     description: desc,
+    //     department: dept
+    //   })
+    // }).then(() => {
+    //   alert("Thank you! Your bug report has been submitted for approval. Please check your dashboard later to find any updates.")
+    //   document.location.href = "/contact"
+    // })
+    await Request("api/bugreports", "POST", {title: title, description: desc, department: dept})
+    alert("Thank you! Your bug report has been submitted for approval. Please check your dashboard later to find any updates.")
+    document.location.href = "/contact"
   }
 
   return (

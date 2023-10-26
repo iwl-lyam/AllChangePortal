@@ -5,12 +5,14 @@ export default function DashboardEntry() {
     const [perm, setPerm] = useState(0)
     useEffect(() => {
         const f = async () => {
-            const req = await fetch("http://77.68.127.58:8080/rpc/getUserStatus", {
-                headers: {
-                    Authorization: sessionStorage.token || localStorage.token
-                }
-            })
-            setPerm(await req.json())
+            // const req = await fetch("http://77.68.127.58:8080/rpc/getUserStatus", {
+            //     headers: {
+            //         Authorization: sessionStorage.token || localStorage.token
+            //     }
+            // })
+            // setPerm(await req.json())
+            const req = await Request("rpc/getUserStatus")
+            setPerm(req)
         }
         f().then(()=>{})
     }, [])
