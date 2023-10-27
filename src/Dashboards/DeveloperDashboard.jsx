@@ -10,9 +10,6 @@ export default function DevDashboard() {
         const f = async () => {
             const req1 = await Request("api/tasks?assignee=1&status=1")
             setTasks(req1)
-
-            const req2 = await Request("api/tasks?assignee=1&status=2")
-            setCompletedTasks(req2)
         }
         f().then(()=>{})
     }, [])
@@ -53,14 +50,6 @@ export default function DevDashboard() {
         )
     })
 
-    const completedTasksList = completedTasks.map(task => {
-        return (
-            <div>
-                <p>{task.title}</p>
-            </div>
-        )
-    })
-
     return (
         <div>
             <h1 className="text-center">Developer dashboard</h1>
@@ -72,12 +61,6 @@ export default function DevDashboard() {
                                 <h1 className="text-center p-3">Assigned tasks</h1>
                                 <Stack>
                                     {tasksList}
-                                </Stack>
-                            </div>
-                            <div className="col-5 border border-primary rounded">
-                                <h1 className="text-center p-3">Completed tasks</h1>
-                                <Stack>
-                                    {completedTasksList}
                                 </Stack>
                             </div>
                         </div>

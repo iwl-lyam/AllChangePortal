@@ -121,6 +121,10 @@ app.post('/api/users/login', RateLimitDefault, async (req, res) => {
         res.send({"token": jwt.sign({user: user[0]}, secretkey)})
     }
 })
+app.get('/rpc/getAllUsers', RateLimitDefault, Authorize, async (req,res) => {
+    const users = await con.get("users", {})
+    res.send(users)
+})
 
 app.get('/api/suggestions', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
@@ -192,7 +196,6 @@ app.get('/api/tasks', RateLimitDefault, Authorize, async (req, res) => {
     else if (req.query.assignee === "1") filter.recipient = new ObjectId(req.user._id)
     if (req.query.taskid) filter.taskid = new ObjectId(req.query.taskid)
     if (req.query.status) filter.status = parseInt(req.query.status)
-    console.log(filter)
     const data = await con.get("tasks", filter)
     res.send(data)
 })
