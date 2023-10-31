@@ -6,7 +6,7 @@ import {Request} from "../Util.js"
 
 export default function UserDashboard() {
     const [posts, setPosts] = useState([])
-    const [notifs, setNotifs] = useState([])
+    const [notifications, setNotifications] = useState([])
 
     useEffect(() => {
         const f = async () => {
@@ -24,7 +24,7 @@ export default function UserDashboard() {
             //     }
             // })
             req = await Request("api/notifs", "GET", {}, true)
-            setNotifs(req)
+            setNotifications(req)
         }
         f().then(r => {})
     }, [])
@@ -64,7 +64,7 @@ export default function UserDashboard() {
         </div>
     ));
 
-    const notifItems = notifs.map(notif => (
+    const notifItems = notifications.map(notif => (
         <div>
             <button data-toggle="modal" data-target={`#modal-${notif._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">

@@ -52,7 +52,7 @@ export default function Database() {
 
     return (
         <div>
-            <h1>Master search</h1>
+            <h1 className="text-center p-4">Master search</h1>
             <div className="container-fluid">
                 <div className="row justify-content-around mb-4">
                     <div className="col-5 border border-primary rounded">

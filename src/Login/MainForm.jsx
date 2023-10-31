@@ -5,7 +5,6 @@ export default function MainForm() {
   const [email, setEmail] = useState("")
   const [uname, setUname] = useState("")
   const [pword, setPword] = useState("")
-  const [stay, setStay] = useState("false")
   const [news, setNews] = useState("false")
 
   const [msg, setMsg] = useState("")
@@ -81,10 +80,6 @@ export default function MainForm() {
                id="exampleInputPassword1"/>
       </div>
       <div className="mb-3 form-check">
-        <input type="checkbox" onChange={e => setStay(e.target.value)} className="form-check-input" id="exampleCheck1"/>
-        <label className="form-check-label" htmlFor="exampleCheck1">Stay logged in</label>
-      </div>
-      <div className="mb-3 form-check">
         <input onChange={e => setNews(e.target.value)} type="checkbox" className="form-check-input" id="news"/>
         <label className="form-check-label" htmlFor="news">Allow us to send news to your email</label>
       </div>
@@ -104,10 +99,6 @@ export default function MainForm() {
         <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
         <input type="password" onChange={e => setPword(e.target.value)} className="form-control"
                id="exampleInputPassword1"/>
-      </div>
-      <div className="mb-3 form-check">
-        <input type="checkbox" onChange={e => setStay(e.target.value)} className="form-check-input" id="exampleCheck1"/>
-        <label className="form-check-label" htmlFor="exampleCheck1">Stay logged in</label>
       </div>
 
       <div className="grid gap-0 column-gap-3">

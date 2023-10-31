@@ -6,8 +6,8 @@ import {Request} from './Util.js'
 export default function BugReports() {
 
   const [title,setTitle] = useState("Example title")
-  const [desc, setDesc] = useState("Description. **woo _markdown_**")
-  const [dept, setDept] = useState("Web department")
+  const [description, setDescription] = useState("Description. **woo _markdown_**")
+  const [department, setDepartment] = useState("Web department")
 
   // const [posts, setPosts] = useState(null)
   //
@@ -33,14 +33,14 @@ export default function BugReports() {
     //   },
     //   body: JSON.stringify({
     //     title: title,
-    //     description: desc,
-    //     department: dept
+    //     description: description,
+    //     department: department
     //   })
     // }).then(() => {
     //   alert("Thank you! Your bug report has been submitted for approval. Please check your dashboard later to find any updates.")
     //   document.location.href = "/contact"
     // })
-    await Request("api/bugreports", "POST", {title: title, description: desc, department: dept})
+    await Request("api/bugreports", "POST", {title: title, description: description, department: department})
     alert("Thank you! Your bug report has been submitted for approval. Please check your dashboard later to find any updates.")
     document.location.href = "/contact"
   }
@@ -72,11 +72,11 @@ export default function BugReports() {
             </div>
             <div className="form-group my-3">
               <label htmlFor="exampleFormControlTextarea1">Description (please give as much detail as possible so that we can fully understand your problem)</label>
-              <textarea className="form-control"  onChange={e => setDesc(e.target.value)} id="exampleFormControlTextarea1" rows="5"></textarea>
+              <textarea className="form-control"  onChange={e => setDescription(e.target.value)} id="exampleFormControlTextarea1" rows="5"></textarea>
             </div>
             <div className="form-group my-3">
               <label htmlFor="exampleFormControlSelect2">Relevant department</label>
-              <select multiple className="form-control" onChange={e => setDept(e.target.value)} id="exampleFormControlSelect2">
+              <select multiple className="form-control" onChange={e => setDepartment(e.target.value)} id="exampleFormControlSelect2">
                 <option>Web department</option>
                 <option>Scripting department</option>
                 <option>Modelling department</option>
@@ -90,8 +90,8 @@ export default function BugReports() {
           </div>
           <div className="col border p-3">
             <h1>{title}</h1>
-            <p><Markdown>{desc}</Markdown></p>
-            <p>Target department: {dept}</p>
+            <p><Markdown>{description}</Markdown></p>
+            <p>Target department: {department}</p>
           </div>
         </div>
 

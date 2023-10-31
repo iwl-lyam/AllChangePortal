@@ -5,11 +5,10 @@ import Stack from "./Stack.jsx"
 import {Request} from "../Util.js"
 
 export default function ProjectLeaderDashboard() {
-    const [posts, setPosts] = useState([])
-    const [notifs, setNotifs] = useState([])
+    const [suggestions, setSuggestions] = useState([])
     const [tasks, setTasks] = useState([])
-    const [br, setBr] = useState([])
-    const [textSetError, setTextSetError] = useState("")
+    const [tasksAssigned, setTasksAssigned] = useState([])
+    const [bugreports, setBugReports] = useState([])
     const [taskRecip, setTaskRecip] = useState("")
     const [taskDate, setTaskDate] = useState("")
     const [taskInfo, setTaskInfo] = useState("")
@@ -68,46 +67,46 @@ export default function ProjectLeaderDashboard() {
 
     useEffect(() => {
         const f = async () => {
-            // const req4 = await fetch("http://77.68.127.58:8080/api/bugreports?status=0", {
+            // const bugReportsStatus0 = await fetch("http://77.68.127.58:8080/api/bugreports?status=0", {
             //     headers: {
             //         Authorization: sessionStorage.token || localStorage.token,
             //     }
             // })
-            // setBr(await req4.json())
-            const req4 = await Request("api/bugreports?status=0")
-            setBr(req4)
+            // setBr(await bugReportsStatus0.json())
+            const bugReportsStatus0 = await Request("api/bugreports?status=0")
+            setBugReports(bugReportsStatus0)
 
-            // const req = await fetch("http://77.68.127.58:8080/api/suggestions?status=0", {
+            // const suggestionsStatus0 = await fetch("http://77.68.127.58:8080/api/suggestions?status=0", {
             //     headers: {
             //         Authorization: sessionStorage.token || localStorage.token,
             //     },
             // })
-            // setPosts(await req.json())
-            const req = await Request("api/suggestions?status=0")
-            setPosts(req)
+            // setPosts(await suggestionsStatus0.json())
+            const suggestionsStatus0 = await Request("api/suggestions?status=0")
+            setSuggestions(suggestionsStatus0)
 
-            // const req2 = await fetch("http://77.68.127.58:8080/api/tasks?status=0", {
+            // const tasksStatus0 = await fetch("http://77.68.127.58:8080/api/tasks?status=0", {
             //     headers: {
             //         Authorization: sessionStorage.token || localStorage.token,
             //     }
             // })
-            // setNotifs(await req2.json())
-            const req2 = await Request("api/tasks?status=0")
-            setNotifs(req2)
+            // setNotifs(await tasksStatus0.json())
+            const tasksStatus0 = await Request("api/tasks?status=0")
+            setTasks(tasksStatus0)
 
-            // const req3 = await fetch("http://77.68.127.58:8080/api/tasks?status=1", {
+            // const tasksStatus1 = await fetch("http://77.68.127.58:8080/api/tasks?status=1", {
             //     headers: {
             //         Authorization: sessionStorage.token || localStorage.token,
             //     },
             // })
-            // setTasks(await req3.json())
-            const req3 = await Request("api/tasks?status=1")
-            setTasks(req3)
+            // setTasksAssigned(await tasksStatus1.json())
+            const tasksStatus1 = await Request("api/tasks?status=1")
+            setTasksAssigned(tasksStatus1)
         }
         f().then(r => {})
     }, [])
 
-    const listItems = posts.map(post => (
+    const listItems = suggestions.map(post => (
         <div key={post._id}>
             <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
@@ -219,7 +218,7 @@ export default function ProjectLeaderDashboard() {
         </div>
     ));
 
-    const brItems = br.map(post => (
+    const brItems = bugreports.map(post => (
         <div key={post._id}>
             <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
@@ -292,7 +291,7 @@ export default function ProjectLeaderDashboard() {
         </div>
     ))
 
-    const notifItems = notifs.map(post => (
+    const notifItems = tasks.map(post => (
         <div key={post._id}>
             <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
@@ -327,7 +326,6 @@ export default function ProjectLeaderDashboard() {
 
                                 <label htmlFor="date">Set due date</label>
                                 <input placeholder="Select date" type="date" id="date" className="form-control" onChange={e => setTaskDate(e.target.value)} />
-                                <p>{textSetError}</p>
 
                                 <label htmlFor="extraText">Any extra info</label>
                                 <input placeholder="No extra info" type="text" id="extraText" className="form-control" onChange={e => setTaskInfo(e.target.value)} />
@@ -347,7 +345,7 @@ export default function ProjectLeaderDashboard() {
         </div>
     ));
 
-    const taskItems = tasks.map(post => (
+    const taskItems = tasksAssigned.map(post => (
         <div key={post._id}>
             <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">

@@ -4,7 +4,6 @@ import Stack from "./Stack.jsx";
 
 export default function DevDashboard() {
     const [tasks, setTasks] = useState([])
-    const [completedTasks, setCompletedTasks] = useState([])
 
     useEffect(() => {
         const f = async () => {
