@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Contact() {
   return (
-      <div>
+      <div className="text-light">
         <h1>Contact All Change</h1>
         <div className={"m-3 p-3 border"}>
           <h2>Send a suggestion</h2>

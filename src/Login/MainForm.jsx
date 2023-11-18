@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import {Request} from '../util.js'
 
 export default function MainForm() {
   const [mode, setMode] = useState(0)
@@ -13,46 +14,35 @@ export default function MainForm() {
   const login = () => setMode(1)
 
   const signUpHandle = async () => {
-    let res = await fetch("http://77.68.127.58:8080/api/users", {
-      method: "POST",
-      body: JSON.stringify({
-        password: pword,
-        email: email,
-        uname: uname,
-        news: news
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-    if (res.status === 200) {
+    let res = await Request("api/users", "POST", {
+      password: pword,
+      email: email,
+      uname: uname,
+      news: news
+    }, true)
+
+    if (res.code) {
+      setMsg(res.msg)
+    } else {
       login()
       setMsg("")
-    } else {
-      const err = await res.json()
-      setMsg(err.msg)
     }
   }
 
   const loginHandle = async () => {
-    const d = await fetch("http://77.68.127.58:8080/api/users/login", {
-      method: "POST",
-      body: JSON.stringify({
-        password: pword,
-        uname: uname
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      }
-    })
-    if (d.ok) {
-      setMsg("")
-      const data = await d.json()
-      localStorage.token = data.token
-      window.location.reload()
+    let res = await Request("api/users/login", "POST", {
+      password: pword,
+      email: email,
+      uname: uname,
+      news: news
+    }, true)
+
+    if (res.code) {
+      setMsg(res.msg)
     } else {
-      const data = await d.json()
-      setMsg(data.msg)
+      setMsg("")
+      localStorage.token = res.token
+      window.location.reload()
     }
 
   }

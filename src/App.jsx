@@ -18,7 +18,7 @@ import Database from "./Database.jsx"
 
 export default function App() {
   return (
-    <div>
+    <div className="bg-dark">
       <Nav />
       <div className="p-3">
         <BrowserRouter>

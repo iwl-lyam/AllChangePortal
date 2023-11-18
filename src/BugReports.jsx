@@ -46,7 +46,7 @@ export default function BugReports() {
   }
 
   return (
-    <div className="">
+    <div className="text-light">
       {!localStorage.token && !sessionStorage.token ? <Login/> : (
         <div className={"row"}>
           {/*{posts == null ? (<div>loading</div>) : (*/}
@@ -88,7 +88,7 @@ export default function BugReports() {
             </div>
             <button type="button" className="btn btn-primary" onClick={handleForm}>Submit bug report</button>
           </div>
-          <div className="col border p-3">
+          <div className="col border p-3 rounded">
             <h1>{title}</h1>
             <p><Markdown>{description}</Markdown></p>
             <p>Target department: {department}</p>

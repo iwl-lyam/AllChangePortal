@@ -31,7 +31,7 @@ export default function Suggestions() {
   }
 
   return (
-    <div className="">
+    <div className="text-light">
       {!localStorage.token && !sessionStorage.token ? <Login/> : (
         <div className={"row"}>
           {/*{posts == null ? (<div>loading</div>) : (*/}
@@ -73,7 +73,7 @@ export default function Suggestions() {
             </div>
             <button type="button" className="btn btn-primary" onClick={handleForm}>Submit suggestion</button>
           </div>
-          <div className="col border p-3">
+          <div className="col border p-3 rounded">
             <h1>{title}</h1>
             <p><Markdown>{description}</Markdown></p>
             <p>Target department: {department}</p>

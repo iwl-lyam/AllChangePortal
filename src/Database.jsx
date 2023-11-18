@@ -40,7 +40,7 @@ export default function Database() {
 
         return sortedArr.map(str => {
             return (
-                <div>
+                <div className="text-light">
                     <button data-toggle="modal" data-target={`#modal-${str._id}`} type="button"
                             className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
                         <h3>{str.title}</h3>
@@ -51,7 +51,7 @@ export default function Database() {
     }
 
     return (
-        <div>
+        <div className="text-light">
             <h1 className="text-center p-4">Master search</h1>
             <div className="container-fluid">
                 <div className="row justify-content-around mb-4">

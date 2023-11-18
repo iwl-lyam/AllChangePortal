@@ -41,16 +41,10 @@ function Authorize(req,res,next) {
                     return
                 }
                 // If the token is valid, you can access its payload in the `decoded` object
-                const user = await con.get("users", {_id: new ObjectId(decoded._id)})
-                if (decoded.status !== user[0].status) {
-                    req.verified = false
-                    res.status(400)
-                    res.send({code: "400-3", msg: "Old token (user modified)", token: jwt.sign(user[0], secretkey)})
-                } else {
-                    req.user = user[0];
-                    req.verified = true
-                    next();
-                }
+                const user = await con.get("users", {_id: new ObjectId(decoded.user._id)})
+                req.user = user[0];
+                req.verified = true
+                next();
             })
         } catch (error) {
             req.verified = false
@@ -235,5 +229,4 @@ app.post('/rpc/assignTask', RateLimitDefault, Authorize, async (req, res) => {
 })
 
 app.listen(8080)
-
 
