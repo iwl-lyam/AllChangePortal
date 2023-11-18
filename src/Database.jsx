@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import Levenshtein from 'levenshtein'
+import Levenshtein from './levenshtein2.js'
 import Stack from "./Dashboards/Stack.jsx";
 import {Request} from "./Util.js"
 
@@ -28,7 +28,7 @@ export default function Database() {
         let strwithval = []
 
         strings.forEach(str => {
-            strwithval.push(new Levenshtein(str[field], teststring).valueOf())
+            strwithval.push(Levenshtein(str[field], teststring))
         })
 
         strwithval.forEach((str, count) => {
