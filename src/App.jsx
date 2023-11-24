@@ -1,6 +1,6 @@
 import './App.css'
 import Nav from './Nav'
-import {HashRouter as BrowserRouter, Route, Routes} from "react-router-dom"
+import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Contact from './Contact'
 import NoPage from './NoPage'
 import Verification from './Verification'
