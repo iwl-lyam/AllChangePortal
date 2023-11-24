@@ -48,7 +48,7 @@ export default function MainForm() {
   }
 
   return (
-    <div>
+    <div className="text-white">
       {mode === 0 ? (
           <div>
       <h1>Signup</h1>
