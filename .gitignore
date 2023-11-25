@@ -7,3 +7,5 @@ dist-ssr
 .idea/
 src/env.js
 ngrok
+*.crt
+*.key
