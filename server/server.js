@@ -3,12 +3,23 @@ import express from 'express'
 import {ObjectId} from 'mongodb'
 import cors from 'cors'
 import bcrypt from 'bcrypt'
+import https from 'node:https'
+import fs from 'node:fs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import rateLimit from 'express-rate-limit'
 
+const port = 8080
+
 dotenv.config({path: "../public/.env"})
 const secretkey = process.env.JWTSEC
+
+const key = fs.readFileSync('./selfsigned.key');
+const cert = fs.readFileSync('./selfsigned.crt');
+const options = {
+    key: key,
+    cert: cert
+};
 
 const con = new Mongo()
 
@@ -228,5 +239,9 @@ app.post('/rpc/assignTask', RateLimitDefault, Authorize, async (req, res) => {
     res.send()
 })
 
-app.listen(8080)
+const server = https.createServer(options, app);
+
+server.listen(port, () => {
+    console.log("server starting on port : " + port)
+});
 
