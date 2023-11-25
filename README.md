@@ -1,17 +1,25 @@
-## Running React on Repl.it
+# Portal
+A resource hub for information about the All Change Roblox development studio, enabling easy suggestion/bug report creation and soon implementing the All Change Intranet to get real-time updates from our game servers.
 
-[React](https://reactjs.org/) is a popular JavaScript library for building user interfaces.
+## Rollout
+All high-level AC staff (managers, devs, execs) currently have access to the Alpha.
 
-[Vite](https://vitejs.dev/) is a blazing fast frontend build tool that includes features like Hot Module Reloading (HMR), optimized builds, and TypeScript support out of the box.
+### Phase 1 - Beta
+- Boosters, veteran members (in AC server for +1 year), supervisors
+- Main idea is to reduce the number of bugs in the system
+- Planned to run from early december to february
 
-Using the two in conjunction is one of the fastest ways to build a web app.
+### Phase 2 - Public beta
+- Everyone gets access
+- Reduces even more bugs before official release
+- From february to april
 
-### Getting Started
-- Hit run
-- Edit [App.jsx](#src/App.jsx) and watch it live update!
+### Phase 3 - Public
+- Late april
 
-By default, Replit runs the `dev` script, but you can configure it by changing the `run` field in the [configuration file](#.replit). Here are the vite docs for [serving production websites](https://vitejs.dev/guide/build.html)
+## Usage
+### Visitors
+Check the Discord community server or our twitter page to see if you are eligible for access.
 
-### Typescript
-
-Just rename any file from `.jsx` to `.tsx`. You can also try our [TypeScript Template](https://replit.com/@replit/React-TypeScript)
+### Programmers
+Feel free to use the code here, as long as you follow all the terms in our license.
