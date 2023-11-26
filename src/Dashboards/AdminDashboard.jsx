@@ -115,7 +115,7 @@ export default function ProjectLeaderDashboard() {
             </button>
 
             <div className="modal fade" id={`modal-${post._id}`} role="dialog">
-                <div className="modal-dialog">
+                <div className="modal-dialog text-black">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h4 className="modal-title">{post.title}</h4>
@@ -227,7 +227,7 @@ export default function ProjectLeaderDashboard() {
             </button>
 
             <div className="modal fade" id={`modal-${post._id}`} role="dialog">
-                <div className="modal-dialog">
+                <div className="modal-dialog text-black">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h4 className="modal-title">{post.title}</h4>
@@ -300,7 +300,7 @@ export default function ProjectLeaderDashboard() {
             </button>
 
             <div className="modal fade" id={`modal-${post._id}`} role="dialog">
-                <div className="modal-dialog">
+                <div className="modal-dialog text-black">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h4 className="modal-title">{post.title}</h4>
@@ -355,7 +355,7 @@ export default function ProjectLeaderDashboard() {
 
             <div className="modal fade" id={`modal-${post._id}`} role="dialog">
                 <div className="modal-dialog">
-                    <div className="modal-content">
+                    <div className="modal-content text-black">
                         <div className="modal-header">
                             <h4 className="modal-title">{post.title}</h4>
                             <button type="button" className="close border-0" data-dismiss="modal">&times;</button>

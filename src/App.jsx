@@ -10,6 +10,7 @@ import Suggestions from "./Suggestions.jsx"
 import BugReports from "./BugReports.jsx"
 import DashboardEntry from "./Dashboards/DashboardEntry.jsx"
 import AdminDashboard from "./Dashboards/AdminDashboard.jsx"
+import DevDashboardOLD from "./Dashboards/DeveloperDashboardOLD.jsx"
 import DevDashboard from "./Dashboards/DeveloperDashboard.jsx"
 import UserDashboard from "./Dashboards/UserDashboard.jsx"
 import SupDashboard from "./Dashboards/SupervisorDashboard.jsx"
@@ -32,6 +33,7 @@ export default function App() {
               <Route path="/interactive" element={<Interactive />} />
               <Route path="/dashboards" element={<DashboardEntry />} />
               <Route path="/dashboards/admin" element={<AdminDashboard />} />
+              <Route path="/dashboards/devold" element={<DevDashboardOLD />} />
               <Route path="/dashboards/dev" element={<DevDashboard />} />
               <Route path="/dashboards/user" element={<UserDashboard />} />
               <Route path="/dashboards/sup" element={<SupDashboard />} />
