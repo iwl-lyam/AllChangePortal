@@ -14,8 +14,8 @@ const port = 8080
 dotenv.config({path: "../public/.env"})
 const secretkey = process.env.JWTSEC
 
-const key = fs.readFileSync('./selfsigned.key');
-const cert = fs.readFileSync('./selfsigned.crt');
+const key = fs.readFileSync("./privkey.pem");
+const cert = fs.readFileSync("./fullchain.pem");
 const options = {
     key: key,
     cert: cert
@@ -239,9 +239,10 @@ app.post('/rpc/assignTask', RateLimitDefault, Authorize, async (req, res) => {
     res.send()
 })
 
-const server = https.createServer(options, app);
+//const server = https.createServer(options, app);
 
-server.listen(port, () => {
+//server.listen(port, () => {
+app.listen(port, () => {
     console.log("server starting on port : " + port)
 });
 

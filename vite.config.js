@@ -7,7 +7,17 @@ export default defineConfig({
   plugins: [react(), mkcert()],
   server: {
     host: '0.0.0.0',
-    port: '443'
+    port: '443',
+proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+	'/rpc': {
+	target: 'http://localhost:8080',
+	changeOrigin: true,
+	}
+  }
   },
   base: '/',
 })
