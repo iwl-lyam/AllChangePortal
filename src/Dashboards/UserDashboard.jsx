@@ -38,7 +38,7 @@ export default function UserDashboard() {
             </button>
 
             <div className="modal fade" id={`modal-${post._id}`} role="dialog">
-                <div className="modal-dialog">
+                <div className="modal-dialog text-dark">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h4 className="modal-title">{post.title}</h4>
@@ -73,7 +73,7 @@ export default function UserDashboard() {
             </button>
 
             <div className="modal fade" id={`modal-${notif._id}`} role="dialog">
-                <div className="modal-dialog">
+                <div className="modal-dialog text-dark">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h4 className="modal-title">{notif.title}</h4>
