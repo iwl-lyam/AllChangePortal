@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {Request} from '../Util.js'
 
 export default function MainForm() {
-  const [mode, setMode] = useState(0)
+  const [mode, setMode] = useState(1)
   const [email, setEmail] = useState("")
   const [uname, setUname] = useState("")
   const [pword, setPword] = useState("")
@@ -10,7 +10,9 @@ export default function MainForm() {
 
   const [msg, setMsg] = useState("")
 
-  const signup = () => setMode(0)
+  // const signup = () => setMode(0) // TEMP DISABLED DUE TO BETA
+
+  const signup = () => alert("Please contact @develop331 to register interest to Portal beta testing, as it is currently closed off to trusted testers only.")
   const login = () => setMode(1)
 
   const signUpHandle = async () => {
