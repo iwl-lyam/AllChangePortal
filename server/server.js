@@ -13,14 +13,14 @@ const port = 8080
 
 dotenv.config({path: "../public/.env"})
 const secretkey = process.env.JWTSEC
-
+/*
 const key = fs.readFileSync("./privkey.pem");
 const cert = fs.readFileSync("./fullchain.pem");
 const options = {
     key: key,
     cert: cert
 };
-
+*/
 const con = new Mongo()
 
 const app = express()
