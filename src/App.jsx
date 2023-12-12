@@ -16,10 +16,13 @@ import UserDashboard from "./Dashboards/UserDashboard.jsx"
 import SupDashboard from "./Dashboards/SupervisorDashboard.jsx"
 import ManagerDashboard from "./Dashboards/ManagerDashboard.jsx"
 import Database from "./Database.jsx"
+import Login from "./Login/MainForm.jsx";
+import React from "react";
 
 export default function App() {
   return (
     <div className="bg-dark text-white">
+        {!localStorage.token && !sessionStorage.token ? <Login/> : (<div>
       <Nav />
       <div className="p-3">
         <BrowserRouter>
@@ -42,6 +45,8 @@ export default function App() {
           </Routes>
         </BrowserRouter>
       </div>
+        </div>)}
     </div>
+
   )
 }
