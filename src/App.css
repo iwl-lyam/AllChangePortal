@@ -1,5 +1,8 @@
-main {
-  text-align: center;
-  vertical-align: center;
-  line-height: 100vh
+
+body {
+  font-family: 'Figtree', sans-serif;
+}
+
+h1 {
+  font-weight: bolder;
 }
