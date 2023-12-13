@@ -8,6 +8,11 @@ export default function UserDashboard() {
     const [posts, setPosts] = useState([])
     const [notifications, setNotifications] = useState([])
 
+    {/* Reset password hooks */}
+    const [RPOldPass, setRPOldPass] = useState("")
+    const [RPNewPass, setRPNewPass] = useState("")
+    const [RPNewPass2, setRPNewPass2] = useState("")
+
     useEffect(() => {
         const f = async () => {
             // const req = await fetch("http://77.68.127.58:8080/api/suggestions?user=1", {
@@ -28,6 +33,20 @@ export default function UserDashboard() {
         }
         f().then(r => {})
     }, [])
+
+    const RPHandle = () => {
+        const RPSuccess = ((RPOldPass !== RPNewPass) && (RPNewPass===RPNewPass2))
+
+        alert("Old: "+RPOldPass)
+        alert("New: "+RPNewPass)
+        alert("New2: "+RPNewPass2)
+
+        alert("Match: "+(RPNewPass===RPNewPass2))
+        alert("Success: "+RPSuccess)
+
+        {/* TODO: Implement reset password */}
+    }
+
 
     const listItems = posts.map(post => (
         <div>
@@ -121,6 +140,77 @@ export default function UserDashboard() {
                                         {notifItems}
                                     </Stack>
                                 </div>
+                            </div>
+                            <div className="text-center">
+                                {/* Reset password modal */}
+                                <div className="modal fade text-left" id={`modal-rp`} role="dialog">
+                                    <div className="modal-dialog text-dark">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h4 className="modal-title">Reset password</h4>
+                                                <button type="button" className="close border-0" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div className="modal-body text-left container">
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <p>Existing password</p>
+                                                    </div>
+                                                    <div className={"col"}>
+                                                        <input type="password" id="reset-pass-old-pass" onChange={e => setRPOldPass(e.target.value)} />
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <p className="text-right">New password</p>
+                                                    </div>
+                                                    <div className={"col"}>
+                                                        <input type="password" id="reset-pass-new-pass" onChange={e => setRPNewPass(e.target.value)} />
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col">
+                                                        <p className="text-right">Confirm new password</p>
+                                                    </div>
+                                                    <div className={"col"}>
+                                                        <input type="password" id="reset-pass-new-pass2" onChange={e => setRPNewPass2(e.target.value)} />
+                                                    </div>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col" />
+                                                    <div className="col text-center">
+                                                        <button className="btn bg-primary text-white" onClick={RPHandle}>Reset password</button>
+                                                    </div>
+                                                    <div className="col" />
+                                                </div>
+
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {/* Delete account modal */}
+                                <div className="modal fade text-left" id={`modal-del`} role="dialog">
+                                    <div className="modal-dialog text-dark">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h4 className="modal-title">Delete account</h4>
+                                                <button type="button" className="close border-0" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div className="modal-body">
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <button className="btn bg-primary m-4 text-white" data-toggle="modal" data-target={`#modal-rp`} type="button">Reset password</button>
+                                <button className="btn bg-danger m-4 text-white" data-toggle="modal" data-target={`#modal-del`} type="button">Delete account</button>
+                                <button className="btn bg-warning m-4">Sign out</button>
                             </div>
                         </div>
 
