@@ -239,6 +239,23 @@ app.post('/rpc/assignTask', RateLimitDefault, Authorize, async (req, res) => {
     res.send()
 })
 
+app.post('/rpc/resetPassword', RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+
+    // TODO verify user password
+
+    const salt = await bcrypt.genSalt(5);
+    const hashedPassword = await bcrypt.hash(req.body.new_password, salt);
+    const output = {
+        password: hashedPassword,
+        salt: salt
+    }
+
+    await con.patch("users", {username: req.user.username}, {$set: output})
+
+    res.send({error: false})
+})
+
 //const server = https.createServer(options, app);
 
 //server.listen(port, () => {

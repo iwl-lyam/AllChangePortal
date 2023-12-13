@@ -12,6 +12,7 @@ export default function UserDashboard() {
     const [RPOldPass, setRPOldPass] = useState("")
     const [RPNewPass, setRPNewPass] = useState("")
     const [RPNewPass2, setRPNewPass2] = useState("")
+    const [RPError, setRPError] = useState("")
 
     useEffect(() => {
         const f = async () => {
@@ -34,17 +35,35 @@ export default function UserDashboard() {
         f().then(r => {})
     }, [])
 
-    const RPHandle = () => {
-        const RPSuccess = ((RPOldPass !== RPNewPass) && (RPNewPass===RPNewPass2))
+    const RPHandle = async () => {
+        const RPDifferent = (RPOldPass !== RPNewPass)
+        const RPMatch = (RPNewPass===RPNewPass2)
+        const RPSuccess = (RPMatch && RPDifferent)
 
-        alert("Old: "+RPOldPass)
-        alert("New: "+RPNewPass)
-        alert("New2: "+RPNewPass2)
+        // alert("Old: "+RPOldPass)
+        // alert("New: "+RPNewPass)
+        // alert("New2: "+RPNewPass2)
+        //
+        // alert("Match: "+(RPNewPass===RPNewPass2))
+        // alert("Success: "+RPSuccess)
 
-        alert("Match: "+(RPNewPass===RPNewPass2))
-        alert("Success: "+RPSuccess)
+        if (RPSuccess) {
+            let res = await Request('rpc/resetPassword', "POST", {new_password: RPNewPass, old_password: RPOldPass})
+            if (res.error === false) {
+                setRPError("Please wait...")
+                delete localStorage.token
+                location.reload()
+            } else {
+                setRPError(res.error)
+            }
+        } else {
+            if (!RPDifferent) {
+                setRPError("Cannot reset password to existing password")
+            } else {
+                setRPError("New password fields don't match")
+            }
+        }
 
-        {/* TODO: Implement reset password */}
     }
 
 
@@ -178,6 +197,7 @@ export default function UserDashboard() {
                                                 <div className="row">
                                                     <div className="col" />
                                                     <div className="col text-center">
+                                                        <p>{RPError}</p>
                                                         <button className="btn bg-primary text-white" onClick={RPHandle}>Reset password</button>
                                                     </div>
                                                     <div className="col" />
