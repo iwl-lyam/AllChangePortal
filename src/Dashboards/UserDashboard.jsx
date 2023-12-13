@@ -54,7 +54,7 @@ export default function UserDashboard() {
                 delete localStorage.token
                 location.reload()
             } else {
-                setRPError(res.error)
+                setRPError(res.msg)
             }
         } else {
             if (!RPDifferent) {
