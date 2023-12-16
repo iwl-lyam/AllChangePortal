@@ -16,7 +16,7 @@ export default function Home() {
             <div className="p-4 bg-primary justify-content-center align-items-center">
                 <div className={"text-center"}>
                     <h3>Upcoming:</h3>
-                    <h1>Project Deep Level: Jubilee</h1>
+                    <h1>Project Deep Level: Piccadilly</h1>
                 </div>
             </div>
         </div>
