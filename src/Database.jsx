@@ -57,33 +57,33 @@ export default function Database() {
         <div className="text-light">
             <h1 className="text-center pt-2">Master search</h1>
             <h3 className="text-center pb-4 text-danger">Sensitive data</h3>
-            <div className="container-fluid">
+            <div className="container">
                 <div className="row justify-content-around mb-4">
-                    <div className="col-5 border border-primary rounded">
+                    <div className="border border-primary rounded col-md-5 mb-4">
                         <h2 className="text-center pt-4">Unread suggestions</h2>
                         <input placeholder="Filter title by" type="text" id="titleFilter" className="form-control mb-3" onChange={e => setFilter1(e.target.value)} />
                         <Stack>{sortData(filter1, data, "title", "description")}</Stack>
                     </div>
-                    <div className="col-5 border border-primary rounded">
+                    <div className="border border-primary rounded col-md-5">
                         <h2 className="text-center pt-4">Unread bug reports</h2>
                         <input placeholder="Filter title by" type="text" id="titleFilter" className="form-control mb-3" onChange={e => setFilter2(e.target.value)} />
                         <Stack>{sortData(filter2, data1, "title", "description")}</Stack>
                     </div>
                 </div>
                 <div className="row justify-content-around mb-4">
-                    <div className="col-5 border border-primary rounded">
+                    <div className="border border-primary rounded col-md-5 mb-4">
                         <h2 className="text-center pt-4">Ongoing tasks</h2>
                         <input placeholder="Filter title by" type="text" id="titleFilter" className="form-control mb-3" onChange={e => setFilter3(e.target.value)} />
                         <Stack>{sortData(filter3, data2, "title", "description")}</Stack>
                     </div>
-                    <div className="col-5 border border-primary rounded">
+                    <div className="border border-primary rounded col-md-5">
                         <h2 className="text-center pt-4">Completed tasks</h2>
                         <input placeholder="Filter title by" type="text" id="titleFilter" className="form-control mb-3" onChange={e => setFilter4(e.target.value)} />
                         <Stack>{sortData(filter4, data4, "title", "description")}</Stack>
                     </div>
                 </div>
                 <div className="row justify-content-around mb-4">
-                    <div className="col-5 border border-primary rounded">
+                    <div className="border border-primary rounded col-md-5 mb-4">
                         <h2 className="text-center pt-4">Users</h2>
                         <input placeholder="Filter title by" type="text" id="titleFilter" className="form-control mb-3" onChange={e => setFilter5(e.target.value)} />
                         <Stack>{sortData(filter5, data3, "username", "_id")}</Stack>

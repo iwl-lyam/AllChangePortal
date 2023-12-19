@@ -147,13 +147,13 @@ export default function UserDashboard() {
                     <div className="mt-4">
                         <div className="container-fluid">
                             <div className="row justify-content-around">
-                                <div className="col-5 border border-primary rounded">
+                                <div className="border border-primary rounded col-md-5 mb-4">
                                     <h2 className="text-center p-3">My posts</h2>
                                     <Stack>
                                         {listItems}
                                     </Stack>
                                 </div>
-                                <div className="col-5 border border-primary rounded">
+                                <div className="border border-primary rounded col-md-5 mb-4">
                                     <h2 className="text-center p-3">Notifications</h2>
                                     <Stack>
                                         {notifItems}

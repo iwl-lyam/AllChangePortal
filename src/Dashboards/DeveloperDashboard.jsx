@@ -366,13 +366,13 @@ export default function DeveloperDashboard() {
                     <div className="mt-4">
                         <div className="container-fluid">
                             <div className="row justify-content-around mb-4">
-                                <div className="col-5 border border-primary rounded">
+                                <div className="border border-primary rounded col-md-5 mb-4">
                                     <h2 className="text-center p-3">Suggestions awaiting approval</h2>
                                     <Stack>
                                         {listItems}
                                     </Stack>
                                 </div>
-                                <div className="col-5 border border-primary rounded">
+                                <div className="border border-primary rounded col-md-5">
                                     <h2 className="text-center p-3">Bug reports awaiting check</h2>
                                     <Stack>
                                         {brItems}
@@ -380,14 +380,14 @@ export default function DeveloperDashboard() {
                                 </div>
                             </div>
                             <br/>
-                            <div className="row justify-content-around mt-4 mb-4">
-                                <div className="col-5 border border-primary rounded">
+                            <div className="row justify-content-around mt-4 mb-4 col-md-5 mb-4">
+                                <div className="border border-primary rounded col-md-5 mb-4">
                                     <h2 className="text-center p-3">Tasks</h2>
                                     <Stack className="mb-1">
                                         {notifItems}
                                     </Stack>
                                 </div>
-                                <div className="col-5 border border-primary rounded">
+                                <div className="border border-primary rounded col-md-5">
                                     <h2 className="text-center p-3">Completed tasks</h2>
                                     <Stack className="mb-1">
                                         {taskItems}

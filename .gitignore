@@ -9,3 +9,4 @@ src/env.js
 ngrok
 *.crt
 *.key
+vite.config.js
