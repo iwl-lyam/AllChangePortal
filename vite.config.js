@@ -8,10 +8,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
-	https: {
-	key: fs.readFileSync('/etc/letsencrypt/live/allchange.itwithlyam.co.uk/privkey.pem'),
-	cert: fs.readFileSync('/etc/letsencrypt/live/allchange.itwithlyam.co.uk/fullchain.pem')
-},
+	// https: {
+	// key: fs.readFileSync('/etc/letsencrypt/live/allchange.itwithlyam.co.uk/privkey.pem'),
+	// cert: fs.readFileSync('/etc/letsencrypt/live/allchange.itwithlyam.co.uk/fullchain.pem')
+// },
 port: 443,
 proxy: {
       '/api': {

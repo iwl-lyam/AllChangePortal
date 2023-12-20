@@ -261,6 +261,25 @@ app.post('/rpc/resetPassword', RateLimitDefault, Authorize, async (req, res) => 
     res.send({error: false})
 })
 
+app.get("/api/staff", RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+
+    const staff = await con.get("staff", {})
+    res.send(staff)
+})
+app.post("/api/staff", RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+
+    await con.post("staff", req.body)
+    res.send()
+})
+app.patch("/api/staff/:rbxl", RateLimitDefault, Authorize, async (req, res) => {
+    if (!req.verified) return
+
+    await con.patch("staff", {rbxl: req.params.rblx}, req.body)
+    res.send()
+})
+
 //const server = https.createServer(options, app);
 
 //server.listen(port, () => {

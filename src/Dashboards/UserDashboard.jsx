@@ -32,7 +32,7 @@ export default function UserDashboard() {
             req = await Request("api/notifs", "GET", {}, true)
             setNotifications(req)
         }
-        f().then(r => {})
+        f().then(() => {})
     }, [])
 
     const RPHandle = async () => {
