@@ -273,10 +273,10 @@ app.post("/api/staff", RateLimitDefault, Authorize, async (req, res) => {
     await con.post("staff", req.body)
     res.send()
 })
-app.patch("/api/staff/:rbxl", RateLimitDefault, Authorize, async (req, res) => {
+app.patch("/api/staff/:rblx", RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
 
-    await con.patch("staff", {rbxl: req.params.rblx}, req.body)
+    await con.patch("staff", {rblx: req.params.rblx}, req.body)
     res.send()
 })
 

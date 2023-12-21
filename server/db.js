@@ -1,3 +1,5 @@
+// A file I'm actually proud of. Wow.
+
 import { MongoClient, ServerApiVersion } from 'mongodb'
 import dotenv from 'dotenv'
 
