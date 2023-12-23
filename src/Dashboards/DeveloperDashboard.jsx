@@ -12,6 +12,7 @@ export default function DeveloperDashboard() {
     const [taskRecip, setTaskRecip] = useState("")
     const [taskDate, setTaskDate] = useState("")
     const [taskInfo, setTaskInfo] = useState("")
+    const [perm, setPerm] = useState(0)
 
     const assignTask = async (id) => {
         // await fetch("http://77.68.127.58:8080/rpc/assignTask", {
@@ -102,6 +103,8 @@ export default function DeveloperDashboard() {
             // setTasksAssigned(await tasksStatus1.json())
             const tasksStatus1 = await Request("api/tasks?status=1")
             setTasksAssigned(tasksStatus1)
+
+            setPerm((await Request("rpc/getUserStatus")).status)
         }
         f().then(r => {})
     }, [])
@@ -358,6 +361,7 @@ export default function DeveloperDashboard() {
         </div>
     ));
 
+    if (perm > 1)
     return (
         <div>
             {!localStorage.token && !sessionStorage.token ? <Login/> : (
@@ -399,5 +403,8 @@ export default function DeveloperDashboard() {
                     </div>
                 </div>)}
         </div>
+    )
+    else return (
+        <h1>403. How did you get here?</h1>
     )
 }

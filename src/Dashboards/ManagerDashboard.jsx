@@ -10,11 +10,13 @@ export default function ManagerDashboard() {
     const [email, setEmail] = useState("")
     const [comments, setComments] = useState("")
     const [pronouns, setPronouns] = useState("")
+    const [perm, setPerm] = useState(0)
 
 
     useEffect(() => {
         const f = async () => {
             setStaff(await Request("api/staff"))
+            setPerm((await Request("rpc/getUserStatus")).status)
         }
         f().then(() => {})
     }, [])
@@ -121,6 +123,7 @@ export default function ManagerDashboard() {
         ))
     })
 
+    if (perm > 2)
     return (
         <div>
             <h1>Manager dashboard</h1>
@@ -134,6 +137,11 @@ export default function ManagerDashboard() {
                     </div>
                 </div>
             </div>
+        </div>
+    )
+    else return (
+        <div>
+            <h1>403. How did you get here?</h1>
         </div>
     )
 }

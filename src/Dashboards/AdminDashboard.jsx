@@ -13,6 +13,8 @@ export default function ProjectLeaderDashboard() {
     const [taskDate, setTaskDate] = useState("")
     const [taskInfo, setTaskInfo] = useState("")
 
+    const [perm, setPerm] = useState(0)
+
     const assignTask = async (id) => {
         // await fetch("http://77.68.127.58:8080/rpc/assignTask", {
         //     method: "POST",
@@ -102,6 +104,8 @@ export default function ProjectLeaderDashboard() {
             // setTasksAssigned(await tasksStatus1.json())
             const tasksStatus1 = await Request("api/tasks?status=1")
             setTasksAssigned(tasksStatus1)
+
+            setPerm(await Request("rpc/getUserStatus"))
         }
         f().then(r => {})
     }, [])
@@ -378,6 +382,7 @@ export default function ProjectLeaderDashboard() {
         </div>
     ));
 
+    if (perm === 3) {
     return (
         <div>
             {!localStorage.token && !sessionStorage.token ? <Login/> : (
@@ -418,6 +423,11 @@ export default function ProjectLeaderDashboard() {
                         <br/>
                     </div>
                 </div>)}
+        </div>
+    )}
+    else return (
+        <div>
+            <h1>How did you get here? (403)</h1>
         </div>
     )
 }
