@@ -25,7 +25,9 @@ const con = new Mongo()
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: 'https://allchange.xyz'
+}))
 
 const RateLimitDefault = rateLimit({
     windowMs: 60 * 1000,  // 1-minute window
