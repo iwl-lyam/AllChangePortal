@@ -26,10 +26,6 @@ export default function ManagerDashboard() {
         f().then(() => {})
     }, [])
 
-    if (staff === []) return (
-        <p className="text-center">Loading...</p>
-    )
-
     const removeAbsence = async () => {
         await Request("api/staff/"+rblxUser, "PATCH", {$set: {absent: false}})
         location.reload()
