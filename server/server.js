@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt'
 import https from 'node:https'
 import fs from 'node:fs'
 import jwt from 'jsonwebtoken'
+import fetch from 'node-fetch'
 import dotenv from 'dotenv'
 import rateLimit from 'express-rate-limit'
 
@@ -26,7 +27,7 @@ const con = new Mongo()
 const app = express()
 app.use(express.json())
 app.use(cors({
-    origin: 'https://allchange.xyz'
+    // origin: 'https://allchange.xyz'
 }))
 
 const RateLimitDefault = rateLimit({
@@ -92,6 +93,14 @@ app.get('/rpc/getUserStatus', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     const user = await con.get("users", {username: req.user.username})
     res.send({status: parseInt(user[0].perm) || 0})
+})
+
+app.get('/rpc/:id/thumbnail', Authorize, async (req, res) => {
+    if (!req.verified) return
+    let r = await fetch("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=1907775212&size=75x75&format=Png&isCircular=true")
+    let re = await r.json()
+    console.log(re)
+    res.send({url: re.data[0].imageUrl})
 })
 
 app.post('/api/users', RateLimitDefault, async (req, res) => {

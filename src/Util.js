@@ -8,8 +8,8 @@
  */
 export const Request = async (endpoint, method="GET", body={}, auth=true) => {
     if (method === "GET") {
-        let req = await fetch("https://allchange.xyz/"+endpoint, {
-        // let req = await fetch("http://localhost:8080/"+endpoint, {
+        // let req = await fetch("https://allchange.xyz/"+endpoint, {
+        let req = await fetch("http://localhost:8080/"+endpoint, {
         headers: {
                 Authorization: (auth ? localStorage.token : "")
             }
@@ -27,8 +27,8 @@ export const Request = async (endpoint, method="GET", body={}, auth=true) => {
             console.log(err)
         }
     } else {
-        let req = await fetch("https://allchange.xyz/"+endpoint, {
-        // let req = await fetch("http://localhost:8080/"+endpoint, {
+        // let req = await fetch("https://allchange.xyz/"+endpoint, {
+        let req = await fetch("http://localhost:8080/"+endpoint, {
             headers: {
                 Authorization: (auth ? localStorage.token : ""),
                 "Content-Type": "application/json"
@@ -48,5 +48,40 @@ export const Request = async (endpoint, method="GET", body={}, auth=true) => {
         } catch(err) {
             console.log(err)
         }
+    }
+}
+
+export const ExternalRequest = async (endpoint, method, body) => {
+    let req = await fetch(endpoint, {
+        method: method,
+        body: JSON.stringify(body),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    try {
+        return req.json()
+    } catch(err) {
+        console.log(err)
+    }
+}
+export const ExternalGet = async (endpoint, headers) => {
+    let req = await fetch(endpoint, {
+        mode: "no-cors",
+        headers: headers,
+        credentials: "include"
+    })
+
+    let res = await req.json()
+    console.log(res)
+    return res
+
+    try {
+        let res = await req.json()
+        console.log(res)
+        return res
+    } catch(err) {
+        console.log(err)
     }
 }
