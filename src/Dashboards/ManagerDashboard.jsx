@@ -95,7 +95,7 @@ export default function ManagerDashboard() {
         const date = new Date()
         staffBlock.push({
             staff: s, block: (
-                <div className="border border-white p-4 mb-4 bg-secondary rounded" key={s._id}>
+                <div className="border border-white p-4 pl-0 mb-4 bg-secondary rounded" key={s._id}>
                     <div className="modal fade" id="editModal" tabIndex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div className="modal-dialog" role="document">
@@ -254,9 +254,9 @@ export default function ManagerDashboard() {
                     </div>
 
                     <div className="container">
-                        <div className="row">
 
-                            <div className="col-2 align-self-center">
+                        <div className="row">
+                            <div className="col-2 m-0 p-0 text-left align-self-center border-black">
                                 <img src={s.thumbnail} alt={s.thumbnail}/>
                             </div>
                             <div className="col">
