@@ -255,6 +255,10 @@ export default function ManagerDashboard() {
 
                     <div className="container">
                         <div className="row">
+
+                            <div className="col-2 align-self-center">
+                                <img src={s.thumbnail} alt={s.thumbnail}/>
+                            </div>
                             <div className="col">
 
                                 <h2>@{s.rblx} (@{s.disc}) - {s.rank}</h2>
@@ -268,26 +272,25 @@ export default function ManagerDashboard() {
                                     <strong>{s.absentType}: </strong> Until {s.absentUntil} ({s.absentReason})
                                 </span> : <div></div>}
                                 </p>
-                            </div>
-                            <div className="col align-self-center">
-                                <img src={s.thumbnail} alt={s.thumbnail}/>
-                            </div>
-                            <div className="container justify-content-center align-self-center">
-                                <div className="row">
-                                    <button className="m-1 col-1 btn border border-black text-black" data-toggle="modal"
-                                            data-target="#editModal" id="editButton"
-                                            onClick={() => setRblxUser(s.rblx)}>Edit
-                                    </button>
-                                    <button className="m-1 col-2 btn border border-black text-black" data-toggle="modal"
-                                            data-target="#absenceModal" id="absenceButton"
-                                            onClick={() => setRblxUser(s.rblx)}>Apply absence
-                                    </button>
-                                    <button className="m-1 col-2 btn border border-black text-black" data-toggle="modal"
-                                            data-target="#removeModal" id="absenceButton"
-                                            onClick={() => setRblxUser(s.rblx)}>Remove absence
-                                    </button>
+
+                                <div className="container justify-content-center align-self-center">
+                                    <div className="row">
+                                        <button className="m-1 col-1 btn border border-black text-black" data-toggle="modal"
+                                                data-target="#editModal" id="editButton"
+                                                onClick={() => setRblxUser(s.rblx)}>Edit
+                                        </button>
+                                        <button className="m-1 col-2 btn border border-black text-black" data-toggle="modal"
+                                                data-target="#absenceModal" id="absenceButton"
+                                                onClick={() => setRblxUser(s.rblx)}>Apply absence
+                                        </button>
+                                        <button className="m-1 col-2 btn border border-black text-black" data-toggle="modal"
+                                                data-target="#removeModal" id="absenceButton"
+                                                onClick={() => setRblxUser(s.rblx)}>Remove absence
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
