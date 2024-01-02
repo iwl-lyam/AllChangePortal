@@ -97,7 +97,7 @@ app.get('/rpc/getUserStatus', RateLimitDefault, Authorize, async (req, res) => {
 
 app.get('/rpc/:id/thumbnail', Authorize, async (req, res) => {
     if (!req.verified) return
-    let r = await fetch("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=1907775212&size=75x75&format=Png&isCircular=true")
+    let r = await fetch("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="+req.params.id+"&size=75x75&format=Png&isCircular=false")
     let re = await r.json()
     console.log(re)
     res.send({url: re.data[0].imageUrl})

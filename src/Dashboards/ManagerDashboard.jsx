@@ -16,6 +16,7 @@ export default function ManagerDashboard() {
     const [leaveType, setLeaveType] = useState("")
     const [untilDate, setUntilDate] = useState("")
     const [reason, setReason] = useState("")
+    const [done, setDone] = useState(false)
 
 
     useEffect(() => {
@@ -26,11 +27,22 @@ export default function ManagerDashboard() {
         f().then(() => {
         })
     }, [])
+    useEffect(() => {
+        const f = async () => {
+            for (const s of staff) {
+                const c = staff.indexOf(s);
+                staff[c].thumbnail = (await getThumbnail(s.rblxid)).url
+                console.log(staff[c])
+            }
+        }
+        f().then(() => {
+        })
 
-    const getThumbnail = id => {
-        let res = Request(`rpc/${id}/thumbnail`)
-        console.log(res)
-        return <img src={res.url} alt="thumbnail img"/>
+        setDone(true)
+    }, staff)
+
+    const getThumbnail = async id => {
+        return (await Request(`rpc/${id}/thumbnail`))
     }
 
     const removeAbsence = async () => {
@@ -243,7 +255,8 @@ export default function ManagerDashboard() {
 
                     <div className="container">
                         <div className="row">
-                            <div className="col-10">
+                            <div className="col">
+
                                 <h2>@{s.rblx} (@{s.disc}) - {s.rank}</h2>
                                 <p>Joined {s.joindate} - {datediff(parseDate(s.joindate), parseDate(`${date.getDate() + 1}/${date.getMonth() + 1}/${date.getFullYear()}`))} days
                                     ago - {s.pronouns}<br/>
@@ -255,7 +268,9 @@ export default function ManagerDashboard() {
                                     <strong>{s.absentType}: </strong> Until {s.absentUntil} ({s.absentReason})
                                 </span> : <div></div>}
                                 </p>
-                                {getThumbnail(s.rblxid)}
+                            </div>
+                            <div className="col align-self-center">
+                                <img src={s.thumbnail} alt={s.thumbnail}/>
                             </div>
                             <div className="container justify-content-center align-self-center">
                                 <div className="row">
@@ -306,7 +321,7 @@ export default function ManagerDashboard() {
                 </div>
             </div>
         )
-    else if (!staff[0]) return (
+    else if (!staff[0] || !done) return (
         <div>
             <h1>Loading...</h1>
         </div>
