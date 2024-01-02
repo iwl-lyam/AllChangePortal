@@ -27,7 +27,7 @@ const con = new Mongo()
 const app = express()
 app.use(express.json())
 app.use(cors({
-    // origin: 'https://allchange.xyz'
+    origin: 'https://allchange.xyz'
 }))
 
 const RateLimitDefault = rateLimit({
@@ -97,7 +97,7 @@ app.get('/rpc/getUserStatus', RateLimitDefault, Authorize, async (req, res) => {
 
 app.get('/rpc/:id/thumbnail', Authorize, async (req, res) => {
     if (!req.verified) return
-    let r = await fetch("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="+req.params.id+"&size=75x75&format=Png&isCircular=false")
+    let r = await fetch("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="+req.params.id+"&size=180x180&format=Png&isCircular=true")
     let re = await r.json()
     console.log(re)
     res.send({url: re.data[0].imageUrl})
