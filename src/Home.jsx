@@ -13,13 +13,14 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="p-4 bg-primary justify-content-center align-items-center">
-                <div className={"text-center"}>
-                    <h3>Upcoming:</h3>
-                    <h1>Project Deep Level: Piccadilly</h1>
-                </div>
-            </div>
+        {/*    <div className="p-4 bg-primary justify-content-center align-items-center">*/}
+        {/*        <div className={"text-center"}>*/}
+        {/*            <h3>Upcoming:</h3>*/}
+        {/*            <h1>Project Deep Level: Piccadilly</h1>*/}
+        {/*        </div>*/}
+        {/*    </div>*/}
         </div>
+
         {/*<div className="bg-secondary text-center p-3 text-white mh-100">*/}
         {/*    <p>Featured Game</p>*/}
         {/*    <h2>Picadilly Line</h2>*/}

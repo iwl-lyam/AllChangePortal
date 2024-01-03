@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import {Request} from '../Util.js'
+import {useOAuth2} from "@tasoskakour/react-use-oauth2";
 
 export default function MainForm() {
-  const [mode, setMode] = useState(1)
+  const [mode, setMode] = useState(0) //todo reset
   const [email, setEmail] = useState("")
   const [uname, setUname] = useState("")
   const [pword, setPword] = useState("")
@@ -10,9 +11,38 @@ export default function MainForm() {
 
   const [msg, setMsg] = useState("")
 
-  // const signup = () => setMode(0) // TEMP DISABLED DUE TO BETA
+  const {data, loading, error, getAuth, logout} = useOAuth2({
+    authorizeUrl: "https://authorize.roblox.com",
+    clientId: "3309736173071815916",
+    redirectUri: `${document.location.origin}/callback`,
+    scope: "openid profile",
+    responseType: "code",
+    exchangeCodeForTokenServerURL: "http://localhost:8080/oauth/token",
+    exchangeCodeForTokenMethod: "POST",
+    onSuccess: (payload) => console.log("Success", payload),
+    onError: (error_) => console.log("Error", error_)
+  });
 
-  const signup = () => alert("Please contact @develop331 to register interest to Portal beta testing, as it is currently closed off to trusted testers only.")
+  if (loading) return (
+    <h1>Loading OAuth2 for Roblox...</h1>
+  )
+
+
+  const isLoggedIn = Boolean(data?.access_token)
+  if (isLoggedIn) {
+    // localStorage.token = data.access_token
+    // window.location.reload()
+    return (
+      <div>
+        <pre>{JSON.stringify(data)}</pre>
+        <button onClick={logout}>Logout</button>
+      </div>
+    )
+  }
+
+  const signup = () => setMode(0) // TEMP DISABLED DUE TO BETA //todo redisable
+
+  // const signup = () => alert("Please contact @develop331 to register interest to Portal beta testing, as it is currently closed off to trusted testers only.")
   const login = () => setMode(1)
 
   const signUpHandle = async () => {
@@ -78,6 +108,10 @@ export default function MainForm() {
             <button type="button" className="btn btn-primary" onClick={signUpHandle}>Submit</button>
       <button type="button" className="btn btn-secondary ms-2" onClick={login}>Log in</button>
             <p>{msg}</p>
+
+            <button type="button" className="btn btn-danger ms-2" onClick={() => getAuth()}>Sign in with Roblox</button>
+
+
           </div>
       ) : (
           <div>
@@ -97,6 +131,8 @@ export default function MainForm() {
 
         <button type="button" className="btn btn-primary" onClick={loginHandle}>Submit</button>
       <button type="button" className="btn btn-secondary ms-2" onClick={signup}>Sign up</button>
+        <button type="button" className="btn btn-danger ms-2" onClick={getAuth}>Sign up with Roblox</button>
+
       </div>
             <p>{msg}</p>
 

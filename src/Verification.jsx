@@ -1,5 +1,5 @@
 import React from 'react'
-import Login from './Login/MainForm'
+import Login from './Login/MainForm.jsx'
 
 export default function Verification() {
   return (

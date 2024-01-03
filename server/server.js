@@ -27,7 +27,7 @@ const con = new Mongo()
 const app = express()
 app.use(express.json())
 app.use(cors({
-    origin: 'https://allchange.xyz'
+    // origin: 'https://allchange.xyz'
 }))
 
 const RateLimitDefault = rateLimit({
@@ -289,6 +289,12 @@ app.patch("/api/staff/:rblx", RateLimitDefault, Authorize, async (req, res) => {
 
     await con.patch("staff", {rblx: req.params.rblx}, req.body)
     res.send()
+})
+
+// no ratelimit or auth
+app.post('/oauth/token', async (req, res) => {
+    console.log(req.query)
+    res.send({access_token: "it works!", ...req.query})
 })
 
 //const server = https.createServer(options, app);
