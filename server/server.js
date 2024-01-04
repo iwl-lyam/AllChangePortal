@@ -55,7 +55,7 @@ function Authorize(req,res,next) {
                     return
                 }
                 // If the token is valid, you can access its payload in the `decoded` object
-                // const user = await con.get("users", {username: decoded.user.username})
+                const user = await con.get("users", {username: decoded.user.username})
                 req.user = user[0];
                 req.verified = true
                 next();
