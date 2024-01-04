@@ -3,7 +3,7 @@ import {Request} from '../Util.js'
 import {useOAuth2} from "@tasoskakour/react-use-oauth2";
 
 export default function MainForm() {
-  const [mode, setMode] = useState(0) //todo reset
+  const [mode, setMode] = useState(1)
   const [email, setEmail] = useState("")
   const [uname, setUname] = useState("")
   const [pword, setPword] = useState("")
@@ -44,9 +44,9 @@ export default function MainForm() {
     )
   }
 
-  const signup = () => setMode(0) // TEMP DISABLED DUE TO BETA //todo redisable
+  // const signup = () => setMode(0) // TEMP DISABLED DUE TO BETA
 
-  // const signup = () => alert("Please contact @develop331 to register interest to Portal beta testing, as it is currently closed off to trusted testers only.")
+  const signup = () => alert("Please contact @develop331 to register interest to Portal beta testing, as it is currently closed off to trusted testers only.")
   const login = () => setMode(1)
 
   const signUpHandle = async () => {
