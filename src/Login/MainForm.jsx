@@ -23,19 +23,23 @@ export default function MainForm() {
     onError: (error_) => console.log("Error", error_)
   });
 
-  if (loading) return (
-    <h1>Loading OAuth2 for Roblox...</h1>
-  )
-
+  if (loading) {
+    return (
+        <h1>Please continue authentication in separate OAuth window...</h1>
+    )
+  }
 
   const isLoggedIn = Boolean(data?.access_token)
   if (isLoggedIn) {
-    // localStorage.token = data.access_token
-    // window.location.reload()
+    if (data.token) {
+      localStorage.token = data.token
+      window.location.reload()
+    }
+
     return (
       <div>
         <pre>{JSON.stringify(data)}</pre>
-        <button onClick={logout}>Logout</button>
+        <h1>Setting up your account, please wait...</h1>
       </div>
     )
   }
@@ -108,8 +112,9 @@ export default function MainForm() {
             <button type="button" className="btn btn-primary" onClick={signUpHandle}>Submit</button>
       <button type="button" className="btn btn-secondary ms-2" onClick={login}>Log in</button>
             <p>{msg}</p>
+            <br />
 
-            <button type="button" className="btn btn-danger ms-2" onClick={() => getAuth()}>Sign in with Roblox</button>
+            <button type="button" className="btn btn-danger" onClick={() => getAuth()}>Sign in with Roblox</button>
 
 
           </div>
@@ -131,11 +136,12 @@ export default function MainForm() {
 
         <button type="button" className="btn btn-primary" onClick={loginHandle}>Submit</button>
       <button type="button" className="btn btn-secondary ms-2" onClick={signup}>Sign up</button>
-        <button type="button" className="btn btn-danger ms-2" onClick={getAuth}>Sign up with Roblox</button>
 
       </div>
             <p>{msg}</p>
+            <br />
 
+            <button type="button" className="btn btn-danger" onClick={() => getAuth()}>Sign up with Roblox</button>
           </div>
   )}
     </div>

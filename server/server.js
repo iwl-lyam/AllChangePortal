@@ -55,7 +55,7 @@ function Authorize(req,res,next) {
                     return
                 }
                 // If the token is valid, you can access its payload in the `decoded` object
-                const user = await con.get("users", {_id: new ObjectId(decoded.user._id)})
+                // const user = await con.get("users", {username: decoded.user.username})
                 req.user = user[0];
                 req.verified = true
                 next();
@@ -294,7 +294,53 @@ app.patch("/api/staff/:rblx", RateLimitDefault, Authorize, async (req, res) => {
 // no ratelimit or auth
 app.post('/oauth/token', async (req, res) => {
     console.log(req.query)
-    res.send({access_token: "it works!", ...req.query})
+
+    let getToken = await fetch("https://apis.roblox.com/oauth/v1/token", {method: "POST", headers: {
+        'content-type': "application/x-www-form-urlencoded",
+        }, body: new URLSearchParams({
+            "client_id": "3309736173071815916",
+            "client_secret": process.env.CLIENT_SECRET,
+            "code": req.query.code,
+            "grant_type": "authorization_code"
+        })})
+    let access = await getToken.json()
+    console.log(access)
+
+    const uinfo = await fetch("https://apis.roblox.com/oauth/v1/userinfo", {headers: {
+            Authorization: 'Bearer '+access.access_token
+    }})
+
+    const data = await uinfo.json()
+
+    if (data.error) {
+        res.status(400)
+        res.send(data)
+        return
+    }
+
+    const uname = data.preferred_username
+    console.log(data)
+    console.log("code: "+'Bearer '+req.query.code)
+
+    let user = (await con.get("users", {username: uname}))[0]
+    console.log(uname)
+
+    if (user?.oauth) {
+        res.send({token: jwt.sign({user: user[0]}, secretkey), access_token: req.query.code})
+        return
+    }
+
+    const output = {
+        username: uname,
+        oauth: true,
+        access_token: access.access_token,
+        refresh_token: access.refresh_token,
+        perm: 0,
+        "_id": req.query.sub
+    }
+
+    await con.post("users", [output])
+    res.send({access_token: req.query.code, token: jwt.sign({user: output}, secretkey)})
 })
 
 //const server = https.createServer(options, app);
