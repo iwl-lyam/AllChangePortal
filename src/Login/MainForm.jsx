@@ -18,6 +18,7 @@ export default function MainForm() {
     scope: "openid profile",
     responseType: "code",
     exchangeCodeForTokenServerURL: "https://allchange.xyz/oauth/token",
+    // exchangeCodeForTokenServerURL: "http://localhost:8080/oauth/token",
     exchangeCodeForTokenMethod: "POST",
     onSuccess: (payload) => console.log("Success", payload),
     onError: (error_) => console.log("Error", error_)

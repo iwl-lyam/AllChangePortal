@@ -230,7 +230,11 @@ export default function UserDashboard() {
                                 </div>
                                 <button className="btn bg-primary m-4 text-white" data-toggle="modal" data-target={`#modal-rp`} type="button">Reset password</button>
                                 <button className="btn bg-danger m-4 text-white" data-toggle="modal" data-target={`#modal-del`} type="button">Delete account</button>
-                                <button className="btn bg-warning m-4">Sign out</button>
+                                <button className="btn bg-warning m-4" type="button" onClick={() => {
+                                    delete localStorage.token
+                                    delete localStorage["code-https://authorize.roblox.com-3309736173071815916-openid profile"]
+                                    window.location.reload()
+                                }}>Sign out</button>
                             </div>
                         </div>
 

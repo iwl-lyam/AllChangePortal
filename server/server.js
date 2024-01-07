@@ -27,7 +27,7 @@ const con = new Mongo()
 const app = express()
 app.use(express.json())
 app.use(cors({
-    // origin: 'https://allchange.xyz'
+    origin: 'https://allchange.xyz'
 }))
 
 const RateLimitDefault = rateLimit({
@@ -54,9 +54,12 @@ function Authorize(req,res,next) {
                     res.status(401).json({code: "401-2", msg: 'Invalid token', error});
                     return
                 }
-                // If the token is valid, you can access its payload in the `decoded` object
-                const user = await con.get("users", {username: decoded.user.username})
-                req.user = user[0];
+
+                try {
+                    // If the token is valid, you can access its payload in the `decoded` object
+                    const user = await con.get("users", {username: decoded.user.username})
+                    req.user = user[0];
+                } catch(err) { console.log("Could not decode user object\nUser object is:",decoded.user) }
                 req.verified = true
                 next();
             })
@@ -323,10 +326,10 @@ app.post('/oauth/token', async (req, res) => {
     console.log("code: "+'Bearer '+req.query.code)
 
     let user = (await con.get("users", {username: uname}))[0]
-    console.log(uname)
+    console.log(user)
 
-    if (user?.oauth) {
-        res.send({token: jwt.sign({user: user[0]}, secretkey), access_token: req.query.code})
+    if (user && user.oauth) {
+        res.send({token: jwt.sign({user: user}, secretkey), access_token: req.query.code})
         return
     }
 
@@ -339,8 +342,11 @@ app.post('/oauth/token', async (req, res) => {
         "_id": req.query.sub
     }
 
+
     await con.post("users", [output])
-    res.send({access_token: req.query.code, token: jwt.sign({user: output}, secretkey)})
+    user = (await con.get("users", {username: output.username}))[0]
+
+    res.send({access_token: req.query.code, token: jwt.sign({user: user}, secretkey)})
 })
 
 //const server = https.createServer(options, app);
