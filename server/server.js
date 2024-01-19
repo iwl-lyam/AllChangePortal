@@ -241,7 +241,7 @@ app.post('/rpc/dismissNotif', RateLimitDefault, Authorize, async (req, res) => {
 
 app.post('/rpc/completeTask', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
-    await con.patch("tasks", {_id: new ObjectId(req.query.id)}, {$set: {status: 2}})
+    await con.patch("tasks", {_id: new ObjectId(req.query.id)}, {$set: {status: 1}})
     res.send()
 })
 
