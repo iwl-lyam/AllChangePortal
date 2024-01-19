@@ -8,11 +8,12 @@
  */
 export const Request = async (endpoint, method="GET", body={}, auth=true) => {
     if (method === "GET") {
-        let req = await fetch("https://allchange.xyz/"+endpoint, {
-        // let req = await fetch("http://localhost:8080/"+endpoint, {
+        // let req = await fetch("https://allchange.xyz/"+endpoint, {
+        let req = await fetch("http://localhost:8080/"+endpoint, {
         headers: {
                 Authorization: (auth ? localStorage.token : "")
-            }
+            },
+            type: "no-cors"
         })
         try {
             let res = await req.json()
@@ -27,14 +28,15 @@ export const Request = async (endpoint, method="GET", body={}, auth=true) => {
             console.log(err)
         }
     } else {
-        let req = await fetch("https://allchange.xyz/"+endpoint, {
-        // let req = await fetch("http://localhost:8080/"+endpoint, {
+        // let req = await fetch("https://allchange.xyz/"+endpoint, {
+        let req = await fetch("http://localhost:8080/"+endpoint, {
             headers: {
                 Authorization: (auth ? localStorage.token : ""),
                 "Content-Type": "application/json"
             },
             method: method,
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            type: "no-cors"
         })
         try {
             let res = await req.json()
