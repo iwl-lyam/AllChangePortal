@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {Request} from "../../Util.js";
+import {removeAbsence, parseDate, applyAbsence, datediff, editStaffProperties} from "./WidgetUtil.jsx"
+import {StaffListModals} from "./StaffListModals.jsx";
 
 export default function StaffList({staff}) {
     const [rblxUser, setRblxUser] = useState("")
@@ -13,213 +15,18 @@ export default function StaffList({staff}) {
     const [untilDate, setUntilDate] = useState("")
     const [reason, setReason] = useState("")
 
-    const removeAbsence = async () => {
-        await Request("api/staff/" + rblxUser, "PATCH", {$set: {absent: false}})
-        location.reload()
-    }
-
-    const applyAbsence = async () => {
-        const data = {
-            absent: true,
-            absentType: leaveType,
-            absentUntil: untilDate,
-            absentReason: reason
-        }
-
-        await Request("api/staff/" + rblxUser, "PATCH", {$set: data})
-        location.reload()
-    }
-
-    const editStaffProperties = async () => {
-        const data = {
-            disc: dscUser,
-            email: email,
-            comments: comments,
-            pronouns: pronouns,
-            rblxid: id
-        }
-
-        if (dscUser === "") delete data.disc
-        if (email === "") delete data.email
-        if (comments === "") delete data.comments
-        if (pronouns === "") delete data.pronouns
-        if (id === "") delete data.rblxid
-
-        await Request("api/staff/" + rblxUser, "PATCH", {$set: data})
-        location.reload()
-    }
-
-    function datediff(first, second) {
-        return Math.round((second - first) / (1000 * 60 * 60 * 24));
-    }
-
-    function parseDate(str) {
-        var mdy = str.split('/');
-        return new Date(mdy[2], mdy[1] - 1, mdy[0]);
-    }
-
     let staffBlock = []
     for (const s of staff) {
         const date = new Date()
         staffBlock.push({
             staff: s, block: (
                 <div className="border border-white p-4 pl-0 mb-4 bg-secondary rounded" key={s._id}>
-                    <div className="modal fade" id="editModal" tabIndex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title text-black" id="exampleModalLabel">Edit staff member
-                                        properties</h5>
-                                    <button type="button" className="btn bg-white text-black" data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div className="modal-body text-black text-right">
-                                    <p>Only enter data into the fields you want to change. Ensure that the fields are
-                                        blank if you want to not change them.</p>
-                                    <div className="row">
-                                        <div className="col">
-                                            <p className="text-right">Discord Username</p>
-                                        </div>
-                                        <div className={"col"}>
-                                            <input type="text" id="edit-staff-disc"
-                                                   onChange={e => setDscUser(e.target.value)}/>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
-                                            <p className="text-right">Email</p>
-                                        </div>
-                                        <div className={"col"}>
-                                            <input type="text" id="edit-staff-email"
-                                                   onChange={e => setEmail(e.target.value)}/>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
-                                            <p className="text-right">Comments</p>
-                                        </div>
-                                        <div className={"col"}>
-                                            <input type="text" id="edit-staff-comments"
-                                                   onChange={e => setComments(e.target.value)}/>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
-                                            <p className="text-right">Pronouns</p>
-                                        </div>
-                                        <div className={"col"}>
-                                            <input type="text" id="edit-staff-pronouns"
-                                                   onChange={e => setPronouns(e.target.value)}/>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
-                                            <p className="text-right">IDs</p>
-                                        </div>
-                                        <div className={"col"}>
-                                            <input type="text" id="edit-staff-pronouns"
-                                                   onChange={e => setID(e.target.value)}/>
-                                        </div>
-                                    </div>
-                                    <hr/>
-                                    <p className="text-center"><strong>Contact @develop331 to edit other
-                                        fields.</strong></p>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close
-                                    </button>
-                                    <button type="button" className="btn btn-danger" onClick={editStaffProperties}>Save
-                                        changes
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="modal fade" id="absenceModal" tabIndex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title text-black" id="exampleModalLabel">Apply absence</h5>
-                                    <button type="button" className="btn bg-white text-black" data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div className="modal-body text-black text-right">
-                                    <p>All data fields are required</p>
-                                    <div className="row">
-                                        <div className="col">
-                                            <p className="text-right">Type</p>
-                                        </div>
-                                        <div className={"col"}>
-                                            {/*<input type="text" id="edit-staff-disc" onChange={e => setDscUser(e.target.value)} />*/}
-                                            <select className="w-75 custom-select"
-                                                    onChange={e => setLeaveType(e.target.value)}>
-                                                <option selected>Select type...</option>
-                                                <option value="loa">Leave of Absence</option>
-                                                <option value="exl">Exam Leave</option>
-                                                <option value="ra">Reduced Activity</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
-                                            <p className="text-right">Until</p>
-                                        </div>
-                                        <div className={"col"}>
-                                            <input type="date" id="edit-staff-comments" className="w-75"
-                                                   onChange={e => setUntilDate(e.target.value)}/>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">
-                                            <p className="text-right">Reason</p>
-                                        </div>
-                                        <div className={"col"}>
-                                            <input type="text" id="edit-staff-email"
-                                                   onChange={e => setReason(e.target.value)}/>
-                                        </div>
-                                    </div>
-                                    <hr/>
-                                    <p className="text-center"><strong>Contact @develop331 to edit other
-                                        fields.</strong></p>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close
-                                    </button>
-                                    <button type="button" className="btn btn-danger" onClick={applyAbsence}>Save
-                                        changes
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="modal fade" id="removeModal" tabIndex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title text-black" id="exampleModalLabel">Cancel absence: Are
-                                        you sure?</h5>
-                                    <button type="button" className="btn bg-white text-black" data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">No</button>
-                                    <button type="button" className="btn btn-danger" onClick={removeAbsence}>Yes
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <StaffListModals setLeaveType={setLeaveType} setUntilDate={setUntilDate} setReason={setReason}
+                                     setRblxUser={setRblxUser} setDscUser={setDscUser}
+                                    setEmail={setEmail} setComments={setComments} setPronouns={setPronouns}
+                                    setID={setID} rblxUser={rblxUser} dscUser={dscUser} email={email}
+                                    comments={comments} pronouns={pronouns} id={id} leaveType={leaveType}
+                                    untilDate={untilDate} reason={reason}/>
 
                     <div className="container">
 
