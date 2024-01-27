@@ -1,8 +1,10 @@
 import Stack from "../Stack.jsx";
-import Markdown from "react-markdown";
+import {marked} from "marked";
 import {Request} from "../../Util.js";
+import xss from "xss";
 
 export default function SuggestionsAwaitingApproval({ listItems }) {
+    let desc = ""
     const suggestions = listItems.map(post => (
         <div key={post._id}>
             <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
@@ -19,26 +21,14 @@ export default function SuggestionsAwaitingApproval({ listItems }) {
                             <button type="button" className="close border-0" data-dismiss="modal">&times;</button>
                         </div>
                         <div className="modal-body">
-                            <Markdown>{post.description}</Markdown>
+                            <div id="sgDesc" dangerouslySetInnerHTML={{ __html: xss(marked.parse(post.description)) }}></div>
                             <p><strong>Department: {post.department}</strong></p>
                             <p><strong>Post ID: {post._id}</strong></p>
                             <div className="btn-group">
                                 <button className="btn btn-success" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    // await fetch("http://77.68.127.58:8080/api/tasks", {
-                                    //     method: "POST",
-                                    //     body: JSON.stringify({
-                                    //         title: post.title,
-                                    //         description: post.description,
-                                    //         department: post.department,
-                                    //         comment: msg,
-                                    //         status: 0,
-                                    //     }),
-                                    //     headers: {
-                                    //         Authorization: sessionStorage.token || localStorage.token,
-                                    //         "Content-Type": "application/json",
-                                    //     }
+
                                     await Request("api/tasks", "POST", {
                                         title: post.title,
                                         description: post.description,
@@ -46,17 +36,6 @@ export default function SuggestionsAwaitingApproval({ listItems }) {
                                         comment: msg,
                                         status: 0,
                                     })
-                                    // await fetch("http://77.68.127.58:8080/rpc/approve_suggestion", {
-                                    //     method: "POST",
-                                    //     body: JSON.stringify({
-                                    //         comment: msg,
-                                    //         postid: post._id,
-                                    //     }),
-                                    //     headers: {
-                                    //         Authorization: sessionStorage.token || localStorage.token,
-                                    //         "Content-Type": "application/json",
-                                    //     },
-                                    // })
                                     await Request("rpc/approve_suggestion", "POST", {
                                         comment: msg,
                                         postid: post._id,
@@ -68,17 +47,6 @@ export default function SuggestionsAwaitingApproval({ listItems }) {
                                 <button className="btn btn-warning" onClick={async () => {
                                     const msg = prompt("Give feedback for user:")
                                     if (msg === null) return
-                                    // await fetch("http://77.68.127.58:8080/rpc/deny_suggestion", {
-                                    //     method: "POST",
-                                    //     body: JSON.stringify({
-                                    //         comment: msg,
-                                    //         postid: post._id,
-                                    //     }),
-                                    //     headers: {
-                                    //         Authorization: sessionStorage.token || localStorage.token,
-                                    //         "Content-Type": "application/json",
-                                    //     }
-                                    // })
                                     await Request("rpc/deny_suggestion", "POST", {comment: msg, postid: post._id})
                                     alert("Post denied with message: " + msg)
                                     location.reload()
@@ -87,17 +55,6 @@ export default function SuggestionsAwaitingApproval({ listItems }) {
                                 <button className="btn btn-danger" onClick={async () => {
                                     const msg = prompt("Give reason:")
                                     if (msg === null) return
-                                    // await fetch("http://77.68.127.58:8080/rpc/report_suggestion", {
-                                    //     method: "POST",
-                                    //     body: JSON.stringify({
-                                    //         comment: msg,
-                                    //         postid: post._id,
-                                    //     }),
-                                    //     headers: {
-                                    //         Authorization: sessionStorage.token || localStorage.token,
-                                    //         "Content-Type": "application/json",
-                                    //     }
-                                    // })
                                     await Request("rpc/report_suggestion", "POST", {comment: msg, postid: post._id})
                                     alert("Post set for review with message: " + msg)
                                 }}>Report

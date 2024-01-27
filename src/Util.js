@@ -8,7 +8,7 @@
  */
 export const Request = async (endpoint, method="GET", body={}, auth=true) => {
     if (method === "GET") {
-        // let req = await fetch("https://allchange.xyz/"+endpoint, {
+        // let req = await fetch("https://allchange.xyz/"+endpoint, { // TODO reset
         let req = await fetch("http://localhost:8080/"+endpoint, {
         headers: {
                 Authorization: (auth ? localStorage.token : "")
@@ -28,7 +28,7 @@ export const Request = async (endpoint, method="GET", body={}, auth=true) => {
             console.log(err)
         }
     } else {
-        // let req = await fetch("https://allchange.xyz/"+endpoint, {
+        // let req = await fetch("https://allchange.xyz/"+endpoint, { // TODO reset
         let req = await fetch("http://localhost:8080/"+endpoint, {
             headers: {
                 Authorization: (auth ? localStorage.token : ""),

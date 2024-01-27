@@ -1,5 +1,7 @@
 import Stack from "../Stack.jsx";
 import Markdown from "react-markdown";
+import {marked} from "marked";
+import xss from "xss";
 
 export default function CompletedTasks({taskItems}) {
     const tasks = taskItems.map(post => (
@@ -18,7 +20,7 @@ export default function CompletedTasks({taskItems}) {
                             <button type="button" className="close border-0" data-dismiss="modal">&times;</button>
                         </div>
                         <div className="modal-body">
-                            <Markdown>{post.description}</Markdown>
+                            <div id="sgDesc" dangerouslySetInnerHTML={{ __html: xss(marked.parse(post.description)) }}></div>
                             <p><strong>Department:</strong> {post.department}</p>
                             <p><strong>Post ID:</strong> {post._id}</p>
                             <p><strong>Notes:</strong> {post.info}</p>

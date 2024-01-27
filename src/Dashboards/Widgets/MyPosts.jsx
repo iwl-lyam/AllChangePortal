@@ -1,5 +1,7 @@
 import Stack from "../Stack.jsx";
 import Markdown from "react-markdown";
+import {marked} from "marked";
+import xss from "xss";
 
 export default function MyPosts({posts}) {
     const listItems = posts.map(post => (
@@ -18,7 +20,8 @@ export default function MyPosts({posts}) {
                             <button type="button" className="close border-0" data-dismiss="modal">&times;</button>
                         </div>
                         <div className="modal-body">
-                            <Markdown>{post.description}</Markdown>
+                            <div id="sgDesc" dangerouslySetInnerHTML={{ __html: xss(marked.parse(post.description)) }}></div>
+                            {console.log(xss(marked.parse(post.description)))}
                             <p>
                                 <strong>Status:</strong> {post.status === 0 ? "Awaiting approval" : (post.status === 1 ? "Approved" : "Denied")}
                             </p>

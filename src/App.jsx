@@ -19,6 +19,7 @@ import { OAuthPopup } from "@tasoskakour/react-use-oauth2";
 import Database from "./Database.jsx"
 import Login from "./Login/MainForm.jsx";
 import React from "react";
+import Dashboard from "./Dashboards/Dashboard.jsx";
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/dashboards/user" element={<UserDashboard />} />
             <Route path="/dashboards/sup" element={<SupDashboard />} />
             <Route path="/dashboards/manager" element={<ManagerDashboard />} />
+            <Route path="/dashboards/main" element={<Dashboard />} />
             <Route path="/database" element={<Database />} />
             <Route element={<OAuthPopup />} path="/callback" />
           </Routes>

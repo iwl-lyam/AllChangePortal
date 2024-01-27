@@ -1,13 +1,18 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import Login from './Login/MainForm.jsx'
-import Markdown from 'react-markdown'
+// import Markdown from 'react-markdown'
 import {Request} from './Util.js'
+import {marked} from 'marked'
 
 export default function Suggestions() {
 
   const [title,setTitle] = useState("Example title")
   const [description, setDescription] = useState("Description. **woo _markdown_**")
   const [department, setDepartment] = useState("Web department")
+
+  useEffect(() => {
+    document.getElementById("mk").innerHTML = marked.parse(description)
+  }, [description])
 
   const handleForm = async () => {
     // await fetch("http://77.68.127.58:8080/api/suggestions", {
@@ -29,6 +34,7 @@ export default function Suggestions() {
     alert("Thank you! Your suggestion has been submitted for approval. Please check your dashboard later to find any updates.")
     document.location.href = "/contact"
   }
+
 
   return (
     <div className="text-light">
@@ -75,7 +81,7 @@ export default function Suggestions() {
           </div>
           <div className="col border p-3 rounded">
             <h1>{title}</h1>
-            <p><Markdown>{description}</Markdown></p>
+            <div id="mk"></div>
             <p>Target department: {department}</p>
           </div>
         </div>

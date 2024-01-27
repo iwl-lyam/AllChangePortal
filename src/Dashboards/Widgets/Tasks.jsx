@@ -1,6 +1,8 @@
 import Stack from "../Stack.jsx";
 import Markdown from "react-markdown";
 import {Request} from "../../Util.js";
+import {marked} from "marked";
+import xss from "xss";
 
 export default function Tasks({notifItems}) {
     const tasks = notifItems.map(post => (
@@ -19,7 +21,7 @@ export default function Tasks({notifItems}) {
                             <button type="button" className="close border-0" data-dismiss="modal">&times;</button>
                         </div>
                         <div className="modal-body">
-                            <Markdown>{post.description}</Markdown>
+                            <div id="sgDesc" dangerouslySetInnerHTML={{ __html: xss(marked.parse(post.description)) }}></div>
                             <p><strong>Department: {post.department}</strong></p>
                             <p><strong>Post ID: {post._id}</strong></p>
                             <button className="btn btn-default text-white bg-danger" onClick={async ()=>{
