@@ -10,3 +10,5 @@ ngrok
 *.crt
 *.key
 vite.config.js
+scss/main.css
+scss/main.css.map
