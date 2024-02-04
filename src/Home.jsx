@@ -8,8 +8,8 @@ export default function Home() {
         <div className="">
             <div className="p-3 text-white d-flex justify-content-center align-items-center" style={{height:"100vh"}}>
                 <div className={"text-center"}>
-                    <h1 style={{fontSize: 60}}>All Change</h1>
-                    <h3>Development studio making a realistic London Underground simulator on Roblox</h3>
+                    <h1 style={{fontSize: 60}} className={"fw-bolder"}>All Change</h1>
+                    <h3 className={"fw-lighter"}>Development studio making a realistic London Underground simulator on Roblox</h3>
                 </div>
             </div>
 

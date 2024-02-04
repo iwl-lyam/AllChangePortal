@@ -6,7 +6,7 @@ import xss from "xss";
 export default function MyPosts({posts}) {
     const listItems = posts.map(post => (
         <div>
-            <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
+            <button data-bs-toggle="modal" data-bs-target={`#modal-${post._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
                 <h3>{post.title}</h3>
                 <p className="mb-1">Status: {post.status === 0 ? "Awaiting approval" : (post.status === 1 ? "Approved" : "Denied")}</p>
@@ -21,7 +21,6 @@ export default function MyPosts({posts}) {
                         </div>
                         <div className="modal-body">
                             <div id="sgDesc" dangerouslySetInnerHTML={{ __html: xss(marked.parse(post.description)) }}></div>
-                            {console.log(xss(marked.parse(post.description)))}
                             <p>
                                 <strong>Status:</strong> {post.status === 0 ? "Awaiting approval" : (post.status === 1 ? "Approved" : "Denied")}
                             </p>

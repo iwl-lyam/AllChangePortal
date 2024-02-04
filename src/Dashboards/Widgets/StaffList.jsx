@@ -20,7 +20,7 @@ export default function StaffList({staff}) {
         const date = new Date()
         staffBlock.push({
             staff: s, block: (
-                <div className="border border-white p-4 pl-0 mb-4 bg-secondary rounded" key={s._id}>
+                <div className="border border-white p-4 pl-0 mb-4 bg-accent-light rounded" key={s._id}>
                     <StaffListModals setLeaveType={setLeaveType} setUntilDate={setUntilDate} setReason={setReason}
                                      setRblxUser={setRblxUser} setDscUser={setDscUser}
                                     setEmail={setEmail} setComments={setComments} setPronouns={setPronouns}
@@ -50,16 +50,19 @@ export default function StaffList({staff}) {
 
                                 <div className="container justify-content-center align-self-center">
                                     <div className="row">
-                                        <button className="m-1 col-1 btn border border-black text-black" data-toggle="modal"
-                                                data-target="#editModal" id="editButton"
-                                                onClick={() => setRblxUser(s.rblx)}>Edit
+                                        <button className="m-1 col-1 btn border border-black text-black" data-bs-toggle="modal"
+                                                data-bs-target="#editModal" id="editButton"
+                                                onClick={() => {
+                                                    setRblxUser(s.rblx)
+
+                                                }}>Edit
                                         </button>
-                                        <button className="m-1 col-2 btn border border-black text-black" data-toggle="modal"
-                                                data-target="#absenceModal" id="absenceButton"
+                                        <button className="m-1 col-2 btn border border-black text-black" data-bs-toggle="modal"
+                                                data-bs-target="#absenceModal" id="absenceButton"
                                                 onClick={() => setRblxUser(s.rblx)}>Apply absence
                                         </button>
-                                        <button className="m-1 col-2 btn border border-black text-black" data-toggle="modal"
-                                                data-target="#removeModal" id="absenceButton"
+                                        <button className="m-1 col-2 btn border border-black text-black" data-bs-toggle="modal"
+                                                data-bs-target="#removeModal" id="absenceButton"
                                                 onClick={() => setRblxUser(s.rblx)}>Remove absence
                                         </button>
                                     </div>

@@ -7,7 +7,7 @@ import xss from "xss";
 export default function BugReportsAwaitingCheck({ brItems }) {
     const br = brItems.map(post => (
         <div key={post._id}>
-            <button data-toggle="modal" data-target={`#modal-${post._id}`} type="button"
+            <button data-bs-toggle="modal" data-bs-target={`#modal-${post._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
                 <h3>{post.title}</h3>
                 <p className="mb-1">{post.department}</p>

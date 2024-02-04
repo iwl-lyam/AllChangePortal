@@ -24,7 +24,7 @@ import "../scss/main.css"
 
 export default function App() {
   return (
-    <div className="bg-dark text-white">
+    <div className="bg-background-dark fw-light text-standard-light text-light">
         {/*{!localStorage.token && !sessionStorage.token ? <Login/> : (<div>*/}
       <Nav />
       <div className="p-3">

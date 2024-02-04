@@ -4,7 +4,7 @@ import {Request} from "../../Util.js";
 export default function Notifications({notifications}) {
     const notifItems = notifications.map(notif => (
         <div>
-            <button data-toggle="modal" data-target={`#modal-${notif._id}`} type="button"
+            <button data-bs-toggle="modal" data-bs-target={`#modal-${notif._id}`} type="button"
                     className="btn btn-light mx-auto border border-dark pt-2 m-2 text-center w-100">
                 <h3>{notif.title}</h3>
                 <p className="mb-1">{notif.desc}</p>
