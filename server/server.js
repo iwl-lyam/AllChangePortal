@@ -92,6 +92,24 @@ app.use((req, res, next) => {
     next()
 })
 
+app.get('/api/dash', RateLimitDefault, Authorize, async (req,res) => {
+    if (!req.verified) return
+    const dash = (await con.get("dashboards", {username: req.user.username}))[0]
+    res.send(dash)
+})
+
+app.post('/api/dash', RateLimitDefault, Authorize, async (req,res) => {
+    if (!req.verified) return
+    await con.post("dashboards", [{username: req.user.username, configuration: req.body.config}])
+    res.send()
+})
+
+app.put('/api/dash', RateLimitDefault, Authorize, async (req,res) => {
+    if (!req.verified) return
+    await con.patch("dashboards",  {username: req.user.username}, {$set: {configuration: req.body.config}} )
+    res.send()
+})
+
 app.get('/rpc/getUserStatus', RateLimitDefault, Authorize, async (req, res) => {
     if (!req.verified) return
     const user = await con.get("users", {username: req.user.username})
