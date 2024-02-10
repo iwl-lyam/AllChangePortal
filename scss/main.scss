@@ -1,0 +1,39 @@
+
+//We have to import the functions first to use map.merge()
+
+@import '../node_modules/bootstrap/scss/functions';
+
+// We have to import the variables beforehand to
+//use the variable $grid-breakpoints.
+// Otherwise, compiler will show error - '$grid-breakpoints
+//undefined.'
+
+@import '../node_modules/bootstrap/scss/variables';
+
+$custom-colors: (
+        "primary-dark": #1B1B1B,
+        "background-dark": #2D2D2D,
+        "accent-dark": #F8F8F8,
+        "primary-light": #EAEAEA,
+        "background-light": #F9F9F9,
+        "accent-light": #3F3F3F,
+        "grey": $gray-600
+);
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+//
+//
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+// 8. Add additional custom code here
+
+body {
+  font-family: Figtree, sans-serif;
+}
+
+//h1 {
+//  font-weight: 500;
+//}

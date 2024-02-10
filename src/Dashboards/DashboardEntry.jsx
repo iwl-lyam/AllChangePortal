@@ -22,7 +22,14 @@ export default function DashboardEntry() {
                 <h1>Dashboard entry</h1>
 
                 <div className="">
-                    <br/>
+                    <br />
+                    <div className="card bg-info mb-3" style={{width: "18rem"}}>
+                        <div className="card-body">
+                            <h5 className="card-title">Try out the new <strong><em>Unified dashboard</em></strong></h5>
+                            <h6 className="card-subtitle mb-2">If it's working, you've probably messed up</h6>
+                            <a href="/dashboards/main" className="card-link text-dark">Open dashboard</a>
+                        </div>
+                    </div>
                     <h2>Standard</h2>
                     <br/>
                     <div className="card bg-primary text-light mb-3" style={{width: "18rem"}}>
