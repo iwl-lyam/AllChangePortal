@@ -20,7 +20,6 @@ import Database from "./Database.jsx"
 import Login from "./Login/MainForm.jsx";
 import React from "react";
 import Dashboard from "./Dashboards/Dashboard.jsx";
-import "../scss/main.css"
 
 export default function App() {
   return (
