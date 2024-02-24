@@ -34,7 +34,7 @@ export default function DashboardEntry() {
                     <br/>
                     {perm.status > 0 ? (<div>
                         <h2>Elevated permissions</h2>
-                        <pre>All dashboards under manager dashboard are deprecated. Please use the unified dashboard if possible.</pre>
+                        <pre>Developer and Supervisor dashboards are deprecated. Please use the unified dashboard if possible.</pre>
                         <br/>
                         <div className="card bg-info mb-3" style={{width: "18rem"}}>
                             <div className="card-body">
