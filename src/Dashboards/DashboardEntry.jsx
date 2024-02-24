@@ -25,24 +25,16 @@ export default function DashboardEntry() {
                     <br />
                     <div className="card bg-info mb-3" style={{width: "18rem"}}>
                         <div className="card-body">
-                            <h5 className="card-title">Try out the new <strong><em>Unified dashboard</em></strong></h5>
-                            <h6 className="card-subtitle mb-2">If it's working, you've probably messed up</h6>
-                            <a href="/dashboards/main" className="card-link text-dark">Open dashboard</a>
-                        </div>
-                    </div>
-                    <h2>Standard</h2>
-                    <br/>
-                    <div className="card bg-primary text-light mb-3" style={{width: "18rem"}}>
-                        <div className="card-body">
-                            <h5 className="card-title">User dashboard</h5>
+                            <h5 className="card-title">Standard Dashboard</h5>
                             <h6 className="card-subtitle mb-2">Permission level 0</h6>
-                            <a href="/dashboards/user" className="card-link text-light">Open dashboard</a>
+                            <a href="/dashboards/main" className="card-link text-dark">Open dashboard</a>
                         </div>
                     </div>
 
                     <br/>
                     {perm.status > 0 ? (<div>
                         <h2>Elevated permissions</h2>
+                        <pre>All dashboards under manager dashboard are deprecated. Please use the unified dashboard if possible.</pre>
                         <br/>
                         <div className="card bg-info mb-3" style={{width: "18rem"}}>
                             <div className="card-body">

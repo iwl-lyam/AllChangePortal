@@ -116,6 +116,7 @@ export default function Dashboard() {
     return (
         <div>
             <h1 className="text-center mt-2">Your dashboard</h1>
+            <pre className="text-center mt-2">Permissions aren't setup yet, so everyone can see the developer widgets! Widget permissions will come in the next update.</pre>
             <br />
             {cont}
             <div className="dropdown">
