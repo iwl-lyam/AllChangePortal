@@ -39,7 +39,6 @@ export default function MainForm() {
 
     return (
       <div>
-        <pre>{JSON.stringify(data)}</pre>
         <h1>Setting up your account, please wait...</h1>
       </div>
     )
@@ -47,7 +46,7 @@ export default function MainForm() {
 
   // const signup = () => setMode(0) // TEMP DISABLED DUE TO BETA
 
-  const signup = () => alert("Please contact @develop331 to register interest to Portal beta testing, as it is currently closed off to trusted testers only.")
+  const signup = () => alert("Text based account registration is currently closed off in lieu of the Roblox signup system.")
   const login = () => setMode(1)
 
   const signUpHandle = async () => {
@@ -122,6 +121,7 @@ export default function MainForm() {
       ) : (
           <div>
       <h1>Login</h1>
+      <pre>TEXT BASED LOGINS ARE CURRENTLY DEPRECATED, PLEASE USE OAUTH LOGIN</pre>
       <div className="mb-3">
         <label htmlFor="username" className="form-label">Username</label>
         <input type="text" onChange={e => setUname(e.target.value)} className="form-control" id="username"
