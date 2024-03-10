@@ -6,6 +6,7 @@ import MyPosts from "./Widgets/MyPosts.jsx";
 import Tasks from "./Widgets/Tasks.jsx";
 import Notifications from "./Widgets/Notifications.jsx";
 import CompletedTasks from "./Widgets/CompletedTasks.jsx";
+import StaffList from "./Widgets/StaffList.jsx"
 
 export default function Dashboard() {
     const [config, setConfig] = useState(null)
@@ -15,6 +16,8 @@ export default function Dashboard() {
     const [tasks, setTasks] = useState([])
     const [notifs, setNotifs] = useState([])
     const [ctasks, setCTasks] = useState([])
+    const [perm, setPerm] = useState(0)
+    const [staff, setStaff] = useState([])
 
     useEffect(() => {
         const f = async () => {
@@ -39,6 +42,8 @@ export default function Dashboard() {
             setNotifs(req)
             const tasksStatus1 = await Request("api/tasks?status=1")
             setCTasks(tasksStatus1)
+            setPerm((await Request("rpc/getUserStatus")).status)
+            setStaff(await Request("api/staff"))
         }
         f().then(r => {})
     }, [])
@@ -51,22 +56,31 @@ export default function Dashboard() {
         config.configuration.forEach(e => {
             switch (e) {
                 case 'BugReportsAwaitingCheck':
-                    d.push(<BugReportsAwaitingCheck brItems={bugReports}/>)
+                    if (perm > 0)d.push(<BugReportsAwaitingCheck brItems={bugReports}/>)
                     break
                 case 'SuggestionsAwaitingApproval':
-                    d.push(<SuggestionsAwaitingApproval listItems={suggestions}/>)
+                    if (perm > 0)d.push(<SuggestionsAwaitingApproval listItems={suggestions}/>)
                     break
                 case 'CompletedTasks':
-                    d.push(<CompletedTasks taskItems={ctasks} />)
+                    if (perm > 0)d.push(<CompletedTasks taskItems={ctasks} />)
                     break
                 case 'Tasks':
-                    d.push(<Tasks notifItems={tasks}/>)
+                    if (perm > 0)d.push(<Tasks notifItems={tasks}/>)
                     break
                 case 'MyPosts':
                     d.push(<MyPosts posts={posts}/>)
                     break
                 case 'Notifications':
                     d.push(<Notifications notifications={notifs}/>)
+                    break
+                case 'StaffList':
+                    if (perm > 2) {
+                        dash.push(d)
+                        d = []
+                        d.push(<StaffList staff={staff}/>)
+                        dash.push(d)
+                        d = []
+                    }
                     break
             }
             if (d.length === 2) {
@@ -124,13 +138,19 @@ export default function Dashboard() {
                     Manage widgets
                 </button>
                 <ul className="dropdown-menu">
-                    <li><button className={`dropdown-item ${isActive("BugReportsAwaitingCheck")}`} onClick={() => addConfig('BugReportsAwaitingCheck')}>Bug reports awaiting review</button></li>
-                    <li><button className={`dropdown-item ${isActive("SuggestionsAwaitingApproval")}`} onClick={() => addConfig('SuggestionsAwaitingApproval')}>Suggestions awaiting review</button></li>
-                    <li><button className={`dropdown-item ${isActive("Tasks")}`} onClick={() => addConfig('Tasks')}>Tasks in progress</button></li>
-                    <li><button className={`dropdown-item ${isActive("CompletedTasks")}`} onClick={() => addConfig('CompletedTasks')}>Tasks completed</button></li>
                     <li><button className={`dropdown-item ${isActive("MyPosts")}`} onClick={() => addConfig('MyPosts')}>Your posts</button></li>
                     <li><button className={`dropdown-item ${isActive("Notifications")}`} onClick={() => addConfig('Notifications')}>Your notifications</button></li>
-                </ul>
+                    { perm > 0 ? (
+                        <div>
+                            <li><button className={`dropdown-item ${isActive("BugReportsAwaitingCheck")}`} onClick={() => addConfig('BugReportsAwaitingCheck')}>Bug reports awaiting review</button></li>
+                            <li><button className={`dropdown-item ${isActive("SuggestionsAwaitingApproval")}`} onClick={() => addConfig('SuggestionsAwaitingApproval')}>Suggestions awaiting review</button></li>
+                            <li><button className={`dropdown-item ${isActive("Tasks")}`} onClick={() => addConfig('Tasks')}>Tasks in progress</button></li>
+                            <li><button className={`dropdown-item ${isActive("CompletedTasks")}`} onClick={() => addConfig('CompletedTasks')}>Tasks completed</button></li>
+                            { perm > 2 ? (
+                                <li><button className={`dropdown-item ${isActive("StaffList")}`} onClick={() => addConfig('StaffList')}>Staff database</button></li>
+                            ) : <div></div>}
+                        </div>) : <div></div>}
+                    </ul>
             </div>
         </div>
     )
