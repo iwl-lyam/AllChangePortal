@@ -26,7 +26,7 @@ export default function Nav() {
                 <a className="nav-link disabled" aria-disabled="true" href="/interactive">Interactive Features</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/dashboards">Dashboards</a>
+                <a className="nav-link" href="/dashboards/main">Dashboards</a>
               </li>
             </ul>
           </div>

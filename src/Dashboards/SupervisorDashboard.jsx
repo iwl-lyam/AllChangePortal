@@ -1,4 +1,4 @@
-import react from 'react'
+import react, {useState, useEffect} from 'react'
 import '../'
 
 export default function SupDashboard() {
@@ -6,6 +6,7 @@ export default function SupDashboard() {
         <div>
             <h1>Supervisor dashboard</h1>
             <div>
+                <h1>Yes</h1>
             </div>
         </div>
     )
