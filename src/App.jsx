@@ -20,12 +20,24 @@ import Database from "./Database.jsx"
 import Login from "./Login/MainForm.jsx";
 import React from "react";
 import Dashboard from "./Dashboards/Dashboard.jsx";
-
+import UserSettings from "./UserSettings.jsx";
+import {Offcanvas} from 'bootstrap'
+import CookiesConsentBanner from "./Cookies.jsx";
 export default function App() {
   return (
     <div className="bg-background-dark fw-light text-standard-light text-light">
         {/*{!localStorage.token && !sessionStorage.token ? <Login/> : (<div>*/}
       <Nav />
+      <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasRightLabel">User settings</h5>
+          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div className="offcanvas-body">
+          <UserSettings />
+        </div>
+      </div>
+      <CookiesConsentBanner />
       <div className="p-3">
         <BrowserRouter>
           <Routes>

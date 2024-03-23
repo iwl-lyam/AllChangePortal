@@ -30,6 +30,11 @@ export default function Nav() {
               </li>
             </ul>
           </div>
+          <div className="d-flex">
+            <button className="btn btn-accent-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+              User settings
+            </button>
+          </div>
         </div>
       </nav>
     </div>
