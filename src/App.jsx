@@ -37,7 +37,7 @@ export default function App() {
           <UserSettings />
         </div>
       </div>
-      <CookiesConsentBanner />
+      {/*<CookiesConsentBanner />*/}
       <div className="p-3">
         <BrowserRouter>
           <Routes>
