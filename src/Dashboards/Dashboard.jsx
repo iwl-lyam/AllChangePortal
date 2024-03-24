@@ -8,6 +8,7 @@ import Notifications from "./Widgets/Notifications.jsx";
 import CompletedTasks from "./Widgets/CompletedTasks.jsx";
 import StaffList from "./Widgets/StaffList.jsx"
 import Warnings from "./Widgets/Warnings.jsx"
+import MainForm from "../Login/MainForm.jsx";
 
 export default function Dashboard() {
     const [config, setConfig] = useState(null)
@@ -20,38 +21,43 @@ export default function Dashboard() {
     const [perm, setPerm] = useState(0)
     const [staff, setStaff] = useState([])
     const [warnings, setWarnings] = useState([])
+    const [loggedIn, setLI] = useState(true)
 
     useEffect(() => {
         const f = async () => {
-            let con = await Request("api/dash")
-            setConfig(con)
-            console.log("hook "+con)
+            if (localStorage.token) {
 
-            try {
-                let a = con.configuration
-            } catch {
-                await Request("api/dash", "POST", {config: []})
-            }
+                let con = await Request("api/dash")
+                setConfig(con)
+                console.log("hook "+con)
 
+                try {
+                    let a = con.configuration
+                } catch {
+                    await Request("api/dash", "POST", {config: []})
+                }
 
-            setBugReports(await Request("api/bugreports?status=0"))
-            setSuggestions(await Request("api/suggestions?status=0"))
-            let req = await Request("api/suggestions?user=1")
-            setPosts(req)
-            const tasksStatus0 = await Request("api/tasks?status=0")
-            setTasks(tasksStatus0)
-            req = await Request("api/notifs", "GET", {}, true)
-            setNotifs(req)
-            const tasksStatus1 = await Request("api/tasks?status=1")
-            setCTasks(tasksStatus1)
-            setPerm((await Request("rpc/getUserStatus")).status)
-            setStaff(await Request("api/staff"))
-            setWarnings(await Request("api/warnings"))
+                setBugReports(await Request("api/bugreports?status=0"))
+                setSuggestions(await Request("api/suggestions?status=0"))
+                let req = await Request("api/suggestions?user=1")
+                setPosts(req)
+                const tasksStatus0 = await Request("api/tasks?status=0")
+                setTasks(tasksStatus0)
+                req = await Request("api/notifs", "GET", {}, true)
+                setNotifs(req)
+                const tasksStatus1 = await Request("api/tasks?status=1")
+                setCTasks(tasksStatus1)
+                setPerm((await Request("rpc/getUserStatus")).status)
+                setStaff(await Request("api/staff"))
+                setWarnings(await Request("api/warnings"))
+            } else setLI(false)
         }
         f().then(r => {})
     }, [])
 
-
+    if (!loggedIn) return (
+        <MainForm />
+    )
 
     let dash = []
     try {
@@ -136,7 +142,6 @@ export default function Dashboard() {
     return (
         <div>
             <h1 className="text-center mt-2">Your dashboard</h1>
-            <pre className="text-center mt-2">Permissions aren't setup yet, so everyone can see the developer widgets! Widget permissions will come in the next update.</pre>
             <br />
             {cont}
             <div className="dropdown">

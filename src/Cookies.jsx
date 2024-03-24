@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactGA from 'react-ga'
 
 const CookiePopup = () => {
     const [accepted, setAccepted] = useState(false);
@@ -6,6 +7,11 @@ const CookiePopup = () => {
     const handleAccept = () => {
         localStorage.setItem('cookiesAccepted', 'true');
         setAccepted(true);
+        ReactGA.initialize('G-P7M064VNV1'); // Initialize after cookie acceptance
+        ReactGA.event({
+            category: 'Cookie',
+            action: 'Accepted',
+        });
     };
 
     const handleClose = () => {
