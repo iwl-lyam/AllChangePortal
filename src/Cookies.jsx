@@ -7,11 +7,11 @@ const CookiePopup = () => {
     const handleAccept = () => {
         localStorage.setItem('cookiesAccepted', 'true');
         setAccepted(true);
-        ReactGA.initialize('G-P7M064VNV1'); // Initialize after cookie acceptance
-        ReactGA.event({
-            category: 'Cookie',
-            action: 'Accepted',
-        });
+        window.dataLayer = window.dataLayer || []
+        function gtag(){dataLayer.push(arguments)}
+        gtag('js', new Date())
+
+        gtag('config', 'G-P7M064VNV1')
     };
 
     const handleClose = () => {
