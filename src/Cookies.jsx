@@ -1,39 +1,34 @@
-import React, { useEffect, useRef } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Offcanvas, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
 
-function CookiesConsentBanner() {
-    const offcanvasRef = useRef(null);
-
-    useEffect(() => {
-        if (offcanvasRef.current) {
-            const offcanvas = new window.bootstrap.Offcanvas(offcanvasRef.current);
-            offcanvas.show();
-        }
-    }, []);
+const CookiePopup = () => {
+    const [accepted, setAccepted] = useState(false);
 
     const handleAccept = () => {
-        // Add your accept logic here
-        offcanvasRef.current.hide();
+        localStorage.setItem('cookiesAccepted', 'true');
+        setAccepted(true);
     };
 
-    const handleDecline = () => {
-        // Add your decline logic here
-        offcanvasRef.current.hide();
+    const handleClose = () => {
+        setAccepted(true);
     };
+
+    const isAccepted = localStorage.getItem('cookiesAccepted');
+
+    if (isAccepted || accepted) {
+        return null; // If cookies are already accepted, don't render the popup
+    }
 
     return (
-        <Offcanvas placement="bottom" id="cookiesBanner" data-bs-backdrop="static" ref={offcanvasRef}>
-            <Offcanvas.Header closeButton>
-                <Offcanvas.Title>Cookies Consent</Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-                <p>This website uses cookies to ensure you get the best experience on our website.</p>
-                <Button variant="primary" onClick={handleAccept}>Accept</Button>
-                <Button variant="outline-secondary" className="ms-2" onClick={handleDecline}>Decline</Button>
-            </Offcanvas.Body>
-        </Offcanvas>
+        <div className="cookie-popup bg-dark fixed-bottom p-2 text-white">
+            <div className="container d-flex align-items-center justify-content-between">
+                <p className="m-0">This website uses cookies for analytical purposes. No data is sold to advertisers.</p>
+                <div className="d-flex align-items-center">
+                    <button className="btn btn-primary me-2" onClick={handleAccept}>Accept</button>
+                    <button type="button" className="btn-close btn-close-white align-middle me-2" aria-label="Close" onClick={handleClose}></button>
+                </div>
+            </div>
+        </div>
     );
-}
+};
 
-export default CookiesConsentBanner;
+export default CookiePopup;
