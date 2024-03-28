@@ -99,8 +99,9 @@ export function StaffListModals({setLeaveType, leaveType, setUntilDate, untilDat
                         <div className={"col"}>
                             {/*<input type="text" id="edit-staff-disc" onChange={e => setDscUser(e.target.value)} />*/}
                             <select className="w-75 custom-select"
-                                    onChange={e => setLeaveType(e.target.value)}>
-                                <option selected>Select type...</option>
+                                    onChange={e => setLeaveType(e.target.value)}
+                                    defaultValue="n/a">
+                                <option value="n/a">Select type...</option>
                                 <option value="loa">Leave of Absence</option>
                                 <option value="exl">Exam Leave</option>
                                 <option value="ra">Reduced Activity</option>

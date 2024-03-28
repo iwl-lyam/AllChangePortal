@@ -4,6 +4,18 @@ import ReactGA from 'react-ga'
 const CookiePopup = () => {
     const [accepted, setAccepted] = useState(false);
 
+    useEffect(() => {
+        if (localStorage.getItem('cookiesAccepted') === "true") {
+            window.dataLayer = window.dataLayer || []
+            function gtag(){dataLayer.push(arguments)}
+            gtag('js', new Date())
+
+            gtag('config', 'G-P7M064VNV1')
+
+            setAccepted(true)
+        }
+    })
+
     const handleAccept = () => {
         localStorage.setItem('cookiesAccepted', 'true');
         setAccepted(true);
@@ -17,20 +29,13 @@ const CookiePopup = () => {
     const handleClose = () => {
         localStorage.setItem('cookiesAccepted', 'false')
         setAccepted(true);
-        let cookies = document.cookie.split("; ");
-        for (let c = 0; c < cookies.length; c++) {
-            let d = window.location.hostname.split(".");
-            while (d.length > 0) {
-                let cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
-                let p = location.pathname.split('/');
-                document.cookie = cookieBase + '/';
-                while (p.length > 0) {
-                    document.cookie = cookieBase + p.join('/');
-                    p.pop();
-                }
-                d.shift();
-            }
-        }
+        document.cookie.replace(
+            /(?<=^|;).+?(?=\=|;|$)/g,
+            name => location.hostname
+                .split(/\.(?=[^\.]+\.)/)
+                .reduceRight((acc, val, i, arr) => i ? arr[i]='.'+val+acc : (arr[i]='', arr), '')
+                .map(domain => document.cookie=`${name}=;max-age=0;path=/;domain=${domain}`)
+        );
     };
 
     const isAccepted = localStorage.getItem('cookiesAccepted');

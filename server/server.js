@@ -27,7 +27,7 @@ const con = new Mongo()
 const app = express()
 app.use(express.json())
 app.use(cors({
-    // origin: 'https://allchange.xyz' // TODO reset
+    origin: 'https://allchange.xyz' // TODO reset
 }))
 
 const RateLimitDefault = rateLimit({
